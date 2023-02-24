@@ -1,0 +1,16 @@
+.DS_Store
+.vscode/
+node_modules/
+
+dist/
+build/
+release/
+coverage/
+
+credentials/
+logs/
+test_screenshots/
+autotest_output/
+
+yarn-error.log
+thumbs.db

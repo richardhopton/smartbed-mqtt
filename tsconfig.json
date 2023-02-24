@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "outDir": "./dist/tsc/",
+    "types": ["node", "jest"],
+    "lib": ["ES2021"],
+    "baseUrl": "./src",
+    "paths": {
+      "@ha/*": ["HomeAssistant/*"],
+      "@sleeptracker/*": ["Sleeptracker/*"],
+      "@mqtt/*": ["MQTT/*"],
+      "@utils/*": ["Utils/*"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"],
+
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
+}

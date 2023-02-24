@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  // Exclude tests files from being built, but keep them in the main project for linting
+  "exclude": ["**/*.test.ts", "**/__mock__"]
+}

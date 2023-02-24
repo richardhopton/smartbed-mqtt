@@ -1,0 +1,39 @@
+{
+  "name": "Smartbed MQTT",
+  "version": "1.0.0",
+  "slug": "smartbed-mqtt",
+  "description": "A Home Assistant add-on to enable controlling beds smart beds.",
+  "url": "https://github.com/richardhopton/smartbed-mqtt",
+  "startup": "application",
+  "arch": ["aarch64", "amd64", "armhf", "armv7", "i386"],
+  "boot": "auto",
+  "services": ["mqtt:need"],
+  "options": {
+    "mqtt_host": "<auto_detect>",
+    "mqtt_port": "<auto_detect>",
+    "mqtt_user": "<auto_detect>",
+    "mqtt_password": "<auto_detect>",
+    "type": "sleeptracker",
+    "sleeptrackerRefreshFrequency": 1,
+    "sleeptrackerCredentials": [
+      {
+        "email": "me@example.org",
+        "password": "some strong password"
+      }
+    ]
+  },
+  "schema": {
+    "mqtt_host": "str",
+    "mqtt_port": "str",
+    "mqtt_user": "str",
+    "mqtt_password": "password",
+    "type": "match(sleeptracker)",
+    "sleeptrackerRefreshFrequency": "int",
+    "sleeptrackerCredentials": [
+      {
+        "email": "email",
+        "password": "password"
+      }
+    ]
+  }
+}
