@@ -8,6 +8,8 @@ interface PresetButtonEntities {
   flatPreset?: CommandButton;
   zeroGPreset?: CommandButton;
   zeroGProgram?: CommandButton;
+  tvPreset?: CommandButton;
+  tvProgram?: CommandButton;
   userFavoritePreset?: CommandButton;
   userFavoriteProgram?: CommandButton;
   antiSnorePreset?: CommandButton;
@@ -55,6 +57,23 @@ export const setupPresetButtons = async (
     );
   }
   zeroGProgram.setOnline();
+
+  let { tvPreset, tvProgram } = cache;
+  if (!tvPreset) {
+    tvPreset = cache.tvPreset = new CommandButton(mqtt, deviceData, `Preset: TV${sideName}`, Commands.PresetTV, user);
+  }
+  tvPreset.setOnline();
+  if (!tvProgram) {
+    tvProgram = cache.tvProgram = new CommandButton(
+      mqtt,
+      deviceData,
+      `Program: TV${sideName}`,
+      Commands.ProgramTV,
+      user,
+      true
+    );
+  }
+  tvProgram.setOnline();
 
   let { userFavoritePreset, userFavoriteProgram } = cache;
   if (!userFavoritePreset) {

@@ -4,13 +4,13 @@ export enum Commands {
   // Preset
   PresetZeroG = 0,
   PresetFlat = 2,
-  PresetTVPosition = 3,
+  PresetTV = 3,
   PresetAntiSnore = 4,
   PresetUserFavorite = 6,
   PresetSnore1 = 7,
   PresetSnore2 = 8,
 
-  ProgramTVPosition = 300,
+  ProgramTV = 300,
   ProgramUserFavorite = 304,
   ProgramAntiSnore = 302,
   ProgramZeroG = 303,
