@@ -1,3 +1,9 @@
+## v1.0.5
+
+**Bugs Fixed**
+
+- (Sleeptracker) Fix naming for split base bed entities
+
 ## v1.0.4
 
 **Bugs Fixed**
