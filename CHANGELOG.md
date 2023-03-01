@@ -1,3 +1,9 @@
+## v1.0.4
+
+**Bugs Fixed**
+
+- (Sleeptracker) Stop logging expected errors on status request
+
 ## v1.0.3
 
 **Bugs Fixed**
