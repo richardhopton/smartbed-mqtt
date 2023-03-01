@@ -9,13 +9,20 @@ import { buildDefaultPayload } from './defaultPayload';
 import { getAuthHeader } from './getAuthHeader';
 import { appHost, processorBaseUrl } from './urls';
 
-type Response = { body: { statusCode: number; snapshots: Snapshot[] } };
+type Response = { statusCode: number; statusMessage: string; body: { snapshots: Snapshot[] } };
 
 export const sendAdjustableBaseCommand = async (
   bedControlCommand: Commands,
   credentials: Credentials,
   additionalPayload: Dictionary<any> = {}
 ) => {
+  const shouldLogError = (statusCode: number, statusMessage: string) => {
+    if (bedControlCommand === Commands.Status && statusCode === 28 && statusMessage.includes('INVALID_PRESET'))
+      return false;
+
+    return statusCode !== 0;
+  };
+
   const authHeader = await getAuthHeader(credentials);
   if (!authHeader) return [];
 
@@ -34,11 +41,11 @@ export const sendAdjustableBaseCommand = async (
         ...additionalPayload,
       },
     });
-    const { statusCode, snapshots } = response.data.body;
-    if (statusCode !== 0) {
+    const { statusCode, statusMessage, body } = response.data;
+    if (shouldLogError(statusCode, statusMessage)) {
       logError(JSON.stringify(response.data));
     }
-    return snapshots;
+    return body.snapshots || [];
   } catch (err) {
     logError(err);
     return [];
