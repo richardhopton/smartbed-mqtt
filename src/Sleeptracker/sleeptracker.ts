@@ -56,7 +56,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
           processorId,
           deviceData,
           primaryUser: user,
-          sides: [],
+          controllers: [],
           sensors: [],
           supportedFeatures: {
             smartBedControls: isSmartBed,
@@ -94,9 +94,15 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
           const capability =
             capabilities.length === 1 ? capabilities[0] : capabilities.find((c) => c.side === sleepSensor.unitNumber);
           const sideNameFunc = getSideNameFunc(capabilities, (c) => c.side);
-          if (!capability || bed.sides.find((s) => s.side === capability.side)) continue;
+          if (!capability || bed.controllers.find((s) => s.side === capability.side)) continue;
 
-          bed.sides.push({ user, side: capability.side, sideName: sideNameFunc(capability), capability, entities: {} });
+          bed.controllers.push({
+            user,
+            side: capability.side,
+            sideName: sideNameFunc(capability),
+            capability,
+            entities: {},
+          });
         }
       }
     }
@@ -107,20 +113,20 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
       logInfo('Fetching data for bed', bed.deviceId);
       const { smartBedControls, environmentSensors } = bed.supportedFeatures;
       if (smartBedControls) {
-        for (const side of bed.sides) {
-          await setupPresetButtons(mqtt, bed, side);
-          await setupMassageButtons(mqtt, bed, side);
+        for (const controller of bed.controllers) {
+          await setupPresetButtons(mqtt, bed, controller);
+          await setupMassageButtons(mqtt, bed, controller);
 
-          await processSnoreReliefSwitches(mqtt, bed, side);
+          await processSnoreReliefSwitches(mqtt, bed, controller);
 
-          const snapshots = await sendAdjustableBaseCommand(Commands.Status, side.user);
-          const snapshot = snapshots.find((s) => s.side === side.side);
+          const snapshots = await sendAdjustableBaseCommand(Commands.Status, controller.user);
+          const snapshot = snapshots.find((s) => s.side === controller.side);
           if (!snapshot) continue;
 
-          await processBedPositionSensors(mqtt, bed, side, snapshot);
-          await processMassageSensors(mqtt, bed, side, snapshot);
+          await processBedPositionSensors(mqtt, bed, controller, snapshot);
+          await processMassageSensors(mqtt, bed, controller, snapshot);
 
-          await processSafetyLightSwitches(mqtt, bed, side, snapshot);
+          await processSafetyLightSwitches(mqtt, bed, controller, snapshot);
         }
       }
       if (environmentSensors) {

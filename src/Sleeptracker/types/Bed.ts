@@ -4,7 +4,7 @@ import { DeviceInfoSensor } from '@sleeptracker/entities/DeviceInfoSensor';
 import { HelloDataSensor } from '@sleeptracker/entities/InfoSensor';
 import { Dictionary } from '@utils/Dictionary';
 import { Credentials } from '@utils/Options';
-import { BedSide } from './BedSide';
+import { Controller } from './Controller';
 import { SleepSensor } from './SleepSensor';
 
 type Entities = {
@@ -17,7 +17,7 @@ export type Bed = {
   processorId: number;
   deviceData: IDeviceData;
   primaryUser: Credentials;
-  sides: BedSide[];
+  controllers: Controller[];
   sensors: SleepSensor[];
   supportedFeatures: {
     smartBedControls: boolean;

@@ -1,6 +1,6 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Bed } from '@sleeptracker/types/Bed';
-import { BedSide } from '@sleeptracker/types/BedSide';
+import { Controller } from '@sleeptracker/types/Controller';
 import { Credentials } from '@utils/Options';
 import { SnoreReliefSwitchSet } from '../entities/SnoreReliefSwitchSet';
 import { getSnoreRelief } from '../requests/getSnoreRelief';
@@ -22,7 +22,7 @@ const handleSnoreReliefChange = (credentials: Credentials) => async (newSnoreRel
 export const processSnoreReliefSwitches = async (
   mqtt: IMQTTConnection,
   { deviceData }: Bed,
-  { user, sideName, entities }: BedSide
+  { user, sideName, entities }: Controller
 ) => {
   const cache = entities as { snoreReliefSwitchSet?: SnoreReliefSwitchSet };
   snoreRelief = await getSnoreRelief(user);

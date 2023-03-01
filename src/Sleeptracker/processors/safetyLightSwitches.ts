@@ -2,15 +2,15 @@ import { Switch } from '@ha/Switch';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { sendAdjustableBaseCommand } from '@sleeptracker/requests/sendAdjustableBaseCommand';
 import { Bed } from '@sleeptracker/types/Bed';
-import { BedSide } from '@sleeptracker/types/BedSide';
 import { Commands } from '@sleeptracker/types/Commands';
+import { Controller } from '@sleeptracker/types/Controller';
 import { Snapshot } from '@sleeptracker/types/Snapshot';
 import { buildEntityName } from '@utils/buildEntityName';
 
 export const processSafetyLightSwitches = async (
   mqtt: IMQTTConnection,
   { deviceData }: Bed,
-  { sideName, entities, user }: BedSide,
+  { sideName, entities, user }: Controller,
   { side, safetyLightOn }: Snapshot
 ) => {
   const cache = entities as { safetyLightSwitch?: Switch };

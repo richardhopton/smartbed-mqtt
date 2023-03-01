@@ -1,7 +1,7 @@
 import { JsonSensor } from '@ha/JsonSensor';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Bed } from '@sleeptracker/types/Bed';
-import { BedSide } from '@sleeptracker/types/BedSide';
+import { Controller } from '@sleeptracker/types/Controller';
 import { MassagePattern, MassageStatus, Snapshot } from '@sleeptracker/types/Snapshot';
 import { buildEntityName } from '@utils/buildEntityName';
 
@@ -19,7 +19,7 @@ interface MassageSensorEntities {
 export const processMassageSensors = async (
   mqtt: IMQTTConnection,
   { deviceData }: Bed,
-  { sideName, entities, capability: { massageRoster } }: BedSide,
+  { sideName, entities, capability: { massageRoster } }: Controller,
   { head: { massage: headMassage }, foot: { massage: footMassage }, massagePattern }: Snapshot
 ) => {
   const cache = entities as MassageSensorEntities;

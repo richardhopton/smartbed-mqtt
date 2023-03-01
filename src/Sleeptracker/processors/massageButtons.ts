@@ -1,8 +1,8 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { CommandButton } from '@sleeptracker/entities/CommandButton';
 import { Bed } from '@sleeptracker/types/Bed';
-import { BedSide } from '@sleeptracker/types/BedSide';
 import { Commands } from '@sleeptracker/types/Commands';
+import { Controller } from '@sleeptracker/types/Controller';
 import { buildEntityName } from '@utils/buildEntityName';
 
 interface MassageButtonEntities {
@@ -16,7 +16,7 @@ interface MassageButtonEntities {
 export const setupMassageButtons = async (
   mqtt: IMQTTConnection,
   { deviceData }: Bed,
-  { sideName, user, entities, capability: { massageRoster } }: BedSide
+  { sideName, user, entities, capability: { massageRoster } }: Controller
 ) => {
   const cache = entities as MassageButtonEntities;
   if (massageRoster.head) {

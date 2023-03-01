@@ -3,7 +3,7 @@ import { Dictionary } from '@utils/Dictionary';
 import { Credentials } from '@utils/Options';
 import { Capability } from './HelloData';
 
-export type BedSide = {
+export type Controller = {
   user: Credentials;
   side: 0 | 1;
   sideName: string;

@@ -1,7 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { BedPositionSensor } from '@sleeptracker/entities/BedPositionSensor';
 import { Bed } from '@sleeptracker/types/Bed';
-import { BedSide } from '@sleeptracker/types/BedSide';
+import { Controller } from '@sleeptracker/types/Controller';
 import { Snapshot } from '@sleeptracker/types/Snapshot';
 import { buildEntityName } from '@utils/buildEntityName';
 
@@ -13,7 +13,7 @@ interface BedPositionEntities {
 export const processBedPositionSensors = async (
   mqtt: IMQTTConnection,
   { deviceData, data: { headAngleTicksPerDegree, footAngleTicksPerDegree } }: Bed,
-  { sideName, entities }: BedSide,
+  { sideName, entities }: Controller,
   snapshot: Snapshot
 ) => {
   const cache = entities as BedPositionEntities;

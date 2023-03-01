@@ -1,8 +1,8 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { CommandButton } from '@sleeptracker/entities/CommandButton';
 import { Bed } from '@sleeptracker/types/Bed';
-import { BedSide } from '@sleeptracker/types/BedSide';
 import { Commands } from '@sleeptracker/types/Commands';
+import { Controller } from '@sleeptracker/types/Controller';
 
 interface PresetButtonEntities {
   flatPreset?: CommandButton;
@@ -19,7 +19,7 @@ interface PresetButtonEntities {
 export const setupPresetButtons = async (
   mqtt: IMQTTConnection,
   { deviceData, supportedFeatures }: Bed,
-  { user, sideName, entities }: BedSide
+  { user, sideName, entities }: Controller
 ) => {
   const cache = entities as PresetButtonEntities;
 
