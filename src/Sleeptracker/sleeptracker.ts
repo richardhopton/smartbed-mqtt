@@ -90,6 +90,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
             .setOnline();
         }
         if (sleepSensor.self) {
+          bed.sensors[side] = { ...sleepSensor, user };
           sleepSensorInfo.setState(sleepSensor);
           const capability =
             capabilities.length === 1 ? capabilities[0] : capabilities.find((c) => c.side === sleepSensor.unitNumber);

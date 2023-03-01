@@ -18,7 +18,7 @@ export type Bed = {
   deviceData: IDeviceData;
   primaryUser: Credentials;
   controllers: Controller[];
-  sensors: SleepSensor[];
+  sensors: (SleepSensor & { user?: Credentials })[];
   supportedFeatures: {
     smartBedControls: boolean;
     antiSnorePreset: boolean;
