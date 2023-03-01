@@ -1,6 +1,6 @@
 {
   "name": "smartbed-mqtt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Smartbed MQTT integration",
   "main": "./dist/tsc/index.js",
   "types": "./dist/tsc/index.d.ts",

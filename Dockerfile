@@ -40,5 +40,5 @@ LABEL \
     io.hass.name="Smartbed Integration via MQTT" \
     io.hass.description="Home Assistant Community Add-on for Smartbeds" \
     io.hass.type="addon" \
-    io.hass.version="1.0.2" \
+    io.hass.version="1.0.3" \
     maintainer="Richard Hopton <richard@thehoptons.com>"

@@ -53,7 +53,7 @@ export const setupPresetButtons = async (
       `Program: Zero G${sideName}`,
       Commands.ProgramZeroG,
       user,
-      true
+      { isConfig: true }
     );
   }
   zeroGProgram.setOnline();
@@ -70,7 +70,7 @@ export const setupPresetButtons = async (
       `Program: TV${sideName}`,
       Commands.ProgramTV,
       user,
-      true
+      { isConfig: true }
     );
   }
   tvProgram.setOnline();
@@ -93,7 +93,7 @@ export const setupPresetButtons = async (
       `Program: User Favorite${sideName}`,
       Commands.ProgramUserFavorite,
       user,
-      true
+      { isConfig: true }
     );
   }
   userFavoriteProgram.setOnline();
@@ -118,7 +118,7 @@ export const setupPresetButtons = async (
       `Program: Anti Snore${sideName}`,
       Commands.ProgramAntiSnore,
       user,
-      true
+      { isConfig: true }
     );
   }
   antiSnoreProgram.setOnline();

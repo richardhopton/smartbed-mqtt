@@ -1,5 +1,6 @@
 import { Commands } from '@sleeptracker/types/Commands';
 import { Snapshot } from '@sleeptracker/types/Snapshot';
+import { Dictionary } from '@utils/Dictionary';
 import { logError } from '@utils/logger';
 import { Credentials } from '@utils/Options';
 import axios from 'axios';
@@ -8,9 +9,13 @@ import { buildDefaultPayload } from './defaultPayload';
 import { getAuthHeader } from './getAuthHeader';
 import { appHost, processorBaseUrl } from './urls';
 
-type Response = { body: { snapshots: Snapshot[] } };
+type Response = { body: { statusCode: number; snapshots: Snapshot[] } };
 
-export const sendAdjustableBaseCommand = async (bedControlCommand: Commands, credentials: Credentials) => {
+export const sendAdjustableBaseCommand = async (
+  bedControlCommand: Commands,
+  credentials: Credentials,
+  additionalPayload: Dictionary<any> = {}
+) => {
   const authHeader = await getAuthHeader(credentials);
   if (!authHeader) return [];
 
@@ -26,9 +31,14 @@ export const sendAdjustableBaseCommand = async (bedControlCommand: Commands, cre
       data: {
         ...buildDefaultPayload('adjustableBaseControls'),
         bedControlCommand,
+        ...additionalPayload,
       },
     });
-    return response.data.body.snapshots;
+    const { statusCode, snapshots } = response.data.body;
+    if (statusCode !== 0) {
+      logError(JSON.stringify(response.data));
+    }
+    return snapshots;
   } catch (err) {
     logError(err);
     return [];

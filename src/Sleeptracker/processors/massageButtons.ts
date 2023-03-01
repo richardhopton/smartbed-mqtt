@@ -26,7 +26,8 @@ export const setupMassageButtons = async (
         deviceData,
         buildEntityName('Massage Head Step', sideName),
         Commands.MassageHeadStep,
-        user
+        user,
+        { massageAdjustment: 1, requestStatus: true }
       );
     }
     cache.massageHeadStep.setOnline();
@@ -41,7 +42,8 @@ export const setupMassageButtons = async (
         deviceData,
         buildEntityName('Massage Foot Step', sideName),
         Commands.MassageFootStep,
-        user
+        user,
+        { massageAdjustment: 1, requestStatus: true }
       );
     }
     cache.massageFootStep.setOnline();

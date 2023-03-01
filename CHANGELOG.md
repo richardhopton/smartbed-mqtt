@@ -1,3 +1,9 @@
+## v1.0.3
+
+**Bugs Fixed**
+
+- (Sleeptracker) Massage Head & Foot Step weren't working
+
 ## v1.0.2
 
 **New Features**
@@ -6,6 +12,6 @@
 
 ## v1.0.1
 
-**Fixed Bugs**
+**Bugs Fixed**
 
 - Sleeptracker API not returning manufacturer details, which caused HA to fail to add the devices

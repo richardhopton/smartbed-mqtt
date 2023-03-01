@@ -3,7 +3,12 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { sendAdjustableBaseCommand } from '@sleeptracker/requests/sendAdjustableBaseCommand';
 import { Commands } from '@sleeptracker/types/Commands';
+import { Dictionary } from '@utils/Dictionary';
 import { Credentials } from '@utils/Options';
+
+type options = {
+  isConfig?: boolean;
+} & Dictionary<any>;
 
 export class CommandButton extends Button {
   constructor(
@@ -12,8 +17,14 @@ export class CommandButton extends Button {
     entityDesc: string,
     command: Commands,
     credentials: Credentials,
-    isConfig = false
+    { isConfig, ...additionalPayload }: options = { isConfig: false }
   ) {
-    super(mqtt, deviceData, entityDesc, () => sendAdjustableBaseCommand(command, credentials), isConfig);
+    super(
+      mqtt,
+      deviceData,
+      entityDesc,
+      () => sendAdjustableBaseCommand(command, credentials, additionalPayload),
+      isConfig
+    );
   }
 }
