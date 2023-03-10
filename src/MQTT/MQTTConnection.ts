@@ -27,7 +27,7 @@ export class MQTTConnection extends EventEmitter implements IMQTTConnection {
     client.on('message', (topic, message) => {
       this.emit(topic, message.toString());
     });
-    this.setMaxListeners(50);
+    this.setMaxListeners(0);
   }
 
   publish(topic: string, message: any) {
