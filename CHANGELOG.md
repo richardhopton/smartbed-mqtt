@@ -1,3 +1,9 @@
+## v1.0.6
+
+**Bugs Fixed**
+
+- State updates stop after HomeAssistant reboot
+
 ## v1.0.5
 
 **Bugs Fixed**
