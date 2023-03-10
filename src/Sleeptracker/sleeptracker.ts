@@ -8,6 +8,7 @@ import { buildMQTTDeviceData } from './buildMQTTDeviceData';
 import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
 import { HelloDataSensor } from './entities/InfoSensor';
 import { SleepSensorInfoSensor } from './entities/SensorMapInfoSensor';
+import { minutes } from '../Utils/minutes';
 import { processBedPositionSensors } from './processors/bedPositionSensors';
 import { processEnvironmentSensors } from './processors/environmentSensors';
 import { setupMassageButtons } from './processors/massageButtons';
@@ -21,9 +22,6 @@ import { getSleepSensors } from './requests/getSleepSensors';
 import { sendAdjustableBaseCommand } from './requests/sendAdjustableBaseCommand';
 import { Bed } from './types/Bed';
 import { Commands } from './types/Commands';
-
-const minutes = (numMinutes: number) => numMinutes * seconds(60);
-const seconds = (numSeconds: number) => numSeconds * 1000;
 
 const beds: Dictionary<Bed> = {};
 

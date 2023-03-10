@@ -1,6 +1,6 @@
 import { BinarySensor } from '@ha/BinarySensor';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { testDevice } from '@utils/testHelpers';
+import { mocked, testDevice } from '@utils/testHelpers';
 import { mock } from 'jest-mock-extended';
 import { JsonSensor } from './JsonSensor';
 
@@ -12,19 +12,51 @@ describe(BinarySensor.name, () => {
 
   beforeEach(jest.resetAllMocks);
 
-  it('publishes discovery on construction', () => {
-    buildSubject();
-    jest.runAllTimers();
-    expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
-      availability_topic: 'device_topic/json_sensor/status',
-      device: { ...testDevice.device },
-      name: 'Test Name Json Sensor',
-      payload_available: 'online',
-      payload_not_available: 'offline',
-      state_topic: 'device_topic/json_sensor/state',
-      unique_id: 'test_name_json_sensor',
-      json_attributes_topic: 'device_topic/json_sensor/state',
-      value_template: "{{ value_json.value | default('') }}",
+  describe('publishes discovery', () => {
+    let onFunc: ((state: string) => Promise<void>) | null = null;
+
+    beforeEach(() => {
+      onFunc = null;
+      mocked(mqtt.on).mockImplementation((topic, func) => {
+        if (topic === 'homeassistant/status') onFunc = func;
+      });
+
+      buildSubject();
+      jest.runAllTimers();
+    });
+
+    it('on construction', () => {
+      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
+        availability_topic: 'device_topic/json_sensor/status',
+        device: { ...testDevice.device },
+        name: 'Test Name Json Sensor',
+        payload_available: 'online',
+        payload_not_available: 'offline',
+        state_topic: 'device_topic/json_sensor/state',
+        unique_id: 'test_name_json_sensor',
+        json_attributes_topic: 'device_topic/json_sensor/state',
+        value_template: "{{ value_json.value | default('') }}",
+      });
+    });
+
+    it('when status online is receieved', () => {
+      expect(onFunc).not.toBeNull();
+      if (!onFunc) return;
+
+      jest.resetAllMocks();
+      onFunc('online');
+      jest.runAllTimers();
+      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
+        availability_topic: 'device_topic/json_sensor/status',
+        device: { ...testDevice.device },
+        name: 'Test Name Json Sensor',
+        payload_available: 'online',
+        payload_not_available: 'offline',
+        state_topic: 'device_topic/json_sensor/state',
+        unique_id: 'test_name_json_sensor',
+        json_attributes_topic: 'device_topic/json_sensor/state',
+        value_template: "{{ value_json.value | default('') }}",
+      });
     });
   });
 

@@ -23,36 +23,69 @@ describe(Select.name, () => {
 
   beforeEach(jest.resetAllMocks);
 
-  it('publishes discovery on construction', () => {
-    buildSubject();
-    jest.runAllTimers();
-    expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
-      availability_topic: 'device_topic/select/status',
-      device: { ...testDevice.device },
-      name: 'Test Name Select',
-      options,
-      payload_available: 'online',
-      payload_not_available: 'offline',
-      state_topic: 'device_topic/select/state',
-      unique_id: 'test_name_select',
-      command_topic: 'device_topic/select/command',
-    });
-  });
+  describe('publishes discovery', () => {
+    let onFunc: ((state: string) => Promise<void>) | null = null;
 
-  it('publishes discovery on construction with entity category', () => {
-    buildSubject(true);
-    jest.runAllTimers();
-    expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
-      availability_topic: 'device_topic/select/status',
-      device: { ...testDevice.device },
-      name: 'Test Name Select',
-      options,
-      payload_available: 'online',
-      payload_not_available: 'offline',
-      state_topic: 'device_topic/select/state',
-      unique_id: 'test_name_select',
-      command_topic: 'device_topic/select/command',
-      entity_category: 'config',
+    beforeEach(() => {
+      onFunc = null;
+      mocked(mqtt.on).mockImplementation((topic, func) => {
+        if (topic === 'homeassistant/status') onFunc = func;
+      });
+    });
+
+    it('on construction', () => {
+      buildSubject();
+      jest.runAllTimers();
+      expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
+        availability_topic: 'device_topic/select/status',
+        device: { ...testDevice.device },
+        name: 'Test Name Select',
+        options,
+        payload_available: 'online',
+        payload_not_available: 'offline',
+        state_topic: 'device_topic/select/state',
+        unique_id: 'test_name_select',
+        command_topic: 'device_topic/select/command',
+      });
+    });
+
+    it('publishes discovery on construction with entity category', () => {
+      buildSubject(true);
+      jest.runAllTimers();
+      expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
+        availability_topic: 'device_topic/select/status',
+        device: { ...testDevice.device },
+        name: 'Test Name Select',
+        options,
+        payload_available: 'online',
+        payload_not_available: 'offline',
+        state_topic: 'device_topic/select/state',
+        unique_id: 'test_name_select',
+        command_topic: 'device_topic/select/command',
+        entity_category: 'config',
+      });
+    });
+
+    it('when status online is receieved', () => {
+      buildSubject();
+      jest.runAllTimers();
+      expect(onFunc).not.toBeNull();
+      if (!onFunc) return;
+
+      jest.resetAllMocks();
+      onFunc('online');
+      jest.runAllTimers();
+      expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
+        availability_topic: 'device_topic/select/status',
+        device: { ...testDevice.device },
+        name: 'Test Name Select',
+        options,
+        payload_available: 'online',
+        payload_not_available: 'offline',
+        state_topic: 'device_topic/select/state',
+        unique_id: 'test_name_select',
+        command_topic: 'device_topic/select/command',
+      });
     });
   });
 
@@ -74,8 +107,8 @@ describe(Select.name, () => {
 
     beforeEach(() => {
       onFunc = null;
-      mocked(mqtt.on).mockImplementationOnce((_, func) => {
-        onFunc = func;
+      mocked(mqtt.on).mockImplementation((topic, func) => {
+        if (topic !== 'homeassistant/status') onFunc = func;
       });
     });
 

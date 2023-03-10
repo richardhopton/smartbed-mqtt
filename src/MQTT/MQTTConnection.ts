@@ -4,6 +4,8 @@ import { MqttClient } from 'mqtt';
 import { IMQTTConnection } from './IMQTTConnection';
 
 export class MQTTConnection extends EventEmitter implements IMQTTConnection {
+  private subscribedTopics: string[] = [];
+
   constructor(private client: MqttClient) {
     super();
 
@@ -35,10 +37,17 @@ export class MQTTConnection extends EventEmitter implements IMQTTConnection {
   }
 
   subscribe(topic: string) {
-    this.client.subscribe(topic);
+    if (!this.subscribedTopics.includes(topic)) {
+      this.client.subscribe(topic);
+      this.subscribedTopics.push(topic);
+    }
   }
 
   unsubscribe(topic: string) {
-    this.client.unsubscribe(topic);
+    var index = this.subscribedTopics.indexOf(topic);
+    if (index !== -1) {
+      this.client.unsubscribe(topic);
+      this.subscribedTopics.splice(index, 1);
+    }
   }
 }

@@ -16,7 +16,6 @@ export class Button extends Entity {
     this.commandTopic = `${this.baseTopic}/command`;
     mqtt.subscribe(this.commandTopic);
     mqtt.on(this.commandTopic, (message) => {
-      console.log(message);
       if (message !== 'PRESS') return;
       onPress();
     });
