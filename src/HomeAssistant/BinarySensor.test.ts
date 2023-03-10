@@ -4,7 +4,7 @@ import { testDevice } from '@utils/testHelpers';
 import { mock } from 'jest-mock-extended';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
-const buildSubject = () => new BinarySensor(testDevice, mqtt, 'Binary Sensor');
+const buildSubject = () => new BinarySensor(mqtt, testDevice, 'Binary Sensor');
 
 describe(BinarySensor.name, () => {
   beforeAll(() => jest.useFakeTimers());

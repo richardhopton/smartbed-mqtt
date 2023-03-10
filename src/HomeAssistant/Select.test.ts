@@ -8,8 +8,8 @@ const onChange = jest.fn();
 const options = ['one', 'two', 'three'];
 const buildSubject = (isConfig = false) =>
   new Select(
-    testDevice,
     mqtt,
+    testDevice,
     'Select',
     options,
     async (state) => {

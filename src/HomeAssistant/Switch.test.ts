@@ -7,8 +7,8 @@ const mqtt: IMQTTConnection = mock<IMQTTConnection>();
 const onChange = jest.fn();
 const buildSubject = (isConfig = false) =>
   new Switch(
-    testDevice,
     mqtt,
+    testDevice,
     'Switch',
     async (state) => {
       onChange(state);

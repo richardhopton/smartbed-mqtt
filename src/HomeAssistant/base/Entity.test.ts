@@ -4,7 +4,7 @@ import { mock } from 'jest-mock-extended';
 import { Entity } from './Entity';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
-const buildSubject = () => new Entity(testDevice, mqtt, 'Binary Sensor', 'binary_sensor');
+const buildSubject = () => new Entity(mqtt, testDevice, 'Binary Sensor', 'binary_sensor');
 
 describe(Entity.name, () => {
   beforeAll(() => jest.useFakeTimers());

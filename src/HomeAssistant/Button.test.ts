@@ -5,7 +5,7 @@ import { Button } from './Button';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
 const onPress = jest.fn();
-const buildSubject = (isConfig = false) => new Button(testDevice, mqtt, 'Button', onPress, isConfig);
+const buildSubject = (isConfig = false) => new Button(mqtt, testDevice, 'Button', onPress, isConfig);
 
 describe(Button.name, () => {
   beforeAll(() => jest.useFakeTimers());
@@ -64,7 +64,7 @@ describe(Button.name, () => {
       });
     });
 
-    it('published state %s when event handler is called', () => {
+    it('onPress called when event handler is called', () => {
       buildSubject();
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;

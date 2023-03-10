@@ -4,7 +4,7 @@ import { mock } from 'jest-mock-extended';
 import { StatefulEntity } from './StatefulEntity';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
-const buildSubject = () => new StatefulEntity<string>(testDevice, mqtt, 'Sensor', 'sensor');
+const buildSubject = () => new StatefulEntity<string>(mqtt, testDevice, 'Sensor', 'sensor');
 
 describe(StatefulEntity.name, () => {
   beforeAll(() => jest.useFakeTimers());

@@ -5,7 +5,7 @@ import { mock } from 'jest-mock-extended';
 import { JsonSensor } from './JsonSensor';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
-const buildSubject = (valueField = 'value') => new JsonSensor(testDevice, mqtt, 'Json Sensor', valueField);
+const buildSubject = (valueField = 'value') => new JsonSensor(mqtt, testDevice, 'Json Sensor', valueField);
 
 describe(BinarySensor.name, () => {
   beforeAll(() => jest.useFakeTimers());
