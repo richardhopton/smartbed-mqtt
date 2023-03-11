@@ -1,8 +1,11 @@
 import { readFileSync } from 'fs';
 
+export type SleeptrackerType = 'tempur' | 'beautyrest' | 'serta';
+
 export interface Credentials {
   email: string;
   password: string;
+  type?: SleeptrackerType;
 }
 
 interface OptionsJson {

@@ -2,16 +2,18 @@ import { logError } from '@utils/logger';
 import { Credentials } from '@utils/Options';
 import axios from 'axios';
 import { HelloData } from '../types/HelloData';
-import defaultHeaders from './defaultHeaders';
-import { buildDefaultPayload } from './defaultPayload';
 import { getAuthHeader } from './getAuthHeader';
-import { appHost, processorBaseUrl } from './urls';
+import defaultHeaders from './shared/defaultHeaders';
+import { buildDefaultPayload } from './shared/defaultPayload';
+import { urls } from './shared/urls';
 
 type Response = { helloData: HelloData & { buildMeta: any; server_config_url: any }; statusMessage: string };
 
-export const getHelloData = async (processorId: number, user: Credentials) => {
-  const authHeader = await getAuthHeader(user);
+export const getHelloData = async (processorId: number, credentials: Credentials) => {
+  const authHeader = await getAuthHeader(credentials);
   if (!authHeader) return null;
+
+  const { appHost, processorBaseUrl } = urls(credentials);
 
   try {
     const response = await axios.request<Response>({
@@ -23,7 +25,7 @@ export const getHelloData = async (processorId: number, user: Credentials) => {
         Authorization: authHeader,
       },
       data: {
-        ...buildDefaultPayload('hello'),
+        ...buildDefaultPayload('hello', credentials),
         sleeptrackerProcessorID: processorId,
       },
     });

@@ -3,9 +3,9 @@ import { getUnixEpoch } from '@utils/getUnixEpoch';
 import { logError } from '@utils/logger';
 import axios from 'axios';
 import { Credentials } from '../../Utils/Options';
-import defaultHeaders from './defaultHeaders';
-import { buildDefaultPayload } from './defaultPayload';
-import { authHost, authRequestUrl } from './urls';
+import defaultHeaders from './shared/defaultHeaders';
+import { buildDefaultPayload } from './shared/defaultPayload';
+import { urls } from './shared/urls';
 
 const base64Encode = (str: string): string => Buffer.from(str).toString('base64');
 
@@ -16,6 +16,7 @@ interface AuthToken {
 const authTokens: Dictionary<AuthToken> = {};
 
 export const getAuthHeader = async (credentials: Credentials) => {
+  const { authHost, authRequestUrl } = urls(credentials);
   let authToken = authTokens[credentials.email];
   if (!authToken) {
     authToken = authTokens[credentials.email] = {
@@ -38,7 +39,7 @@ export const getAuthHeader = async (credentials: Credentials) => {
           Authorization: `Basic ${base64Encode(authHeader)}`,
         },
         data: {
-          ...buildDefaultPayload('session'),
+          ...buildDefaultPayload('session', credentials),
           scope: 'scope',
         },
       });

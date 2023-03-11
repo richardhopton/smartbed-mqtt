@@ -2,10 +2,10 @@ import { logError } from '@utils/logger';
 import { Credentials } from '@utils/Options';
 import axios from 'axios';
 import { SleepSensor } from '../types/SleepSensor';
-import defaultHeaders from './defaultHeaders';
-import { buildDefaultPayload } from './defaultPayload';
 import { getAuthHeader } from './getAuthHeader';
-import { appHost, processorBaseUrl } from './urls';
+import defaultHeaders from './shared/defaultHeaders';
+import { buildDefaultPayload } from './shared/defaultPayload';
+import { urls } from './shared/urls';
 
 type Response = { sensorMap: SleepSensor[] };
 
@@ -13,6 +13,7 @@ export const getSleepSensors = async (processorId: number, credentials: Credenti
   const authHeader = await getAuthHeader(credentials);
   if (!authHeader) return [];
 
+  const { appHost, processorBaseUrl } = urls(credentials);
   try {
     const response = await axios.request<Response>({
       method: 'POST',
@@ -23,7 +24,7 @@ export const getSleepSensors = async (processorId: number, credentials: Credenti
         Authorization: authHeader,
       },
       data: {
-        ...buildDefaultPayload('getSensorMap'),
+        ...buildDefaultPayload('getSensorMap', credentials),
         sleeptrackerProcessorID: processorId,
       },
     });

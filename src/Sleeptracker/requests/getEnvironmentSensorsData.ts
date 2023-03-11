@@ -2,10 +2,10 @@ import { logError } from '@utils/logger';
 import { Credentials } from '@utils/Options';
 import axios from 'axios';
 import { EnvironmentSensorData, EnvironmentSensorType } from '../types/EnvironmentSensor';
-import defaultHeaders from './defaultHeaders';
-import { buildDefaultPayload } from './defaultPayload';
 import { getAuthHeader } from './getAuthHeader';
-import { appHost, processorBaseUrl } from './urls';
+import defaultHeaders from './shared/defaultHeaders';
+import { buildDefaultPayload } from './shared/defaultPayload';
+import { urls } from './shared/urls';
 
 type ResponseSensor = {
   status: 'valid' | 'invalid';
@@ -31,6 +31,7 @@ export const getEnvironmentSensorsData = async (processorId: number, credentials
   const authHeader = await getAuthHeader(credentials);
   if (!authHeader) return [];
 
+  const { appHost, processorBaseUrl } = urls(credentials);
   try {
     const response = await axios.request<Response>({
       method: 'POST',
@@ -41,7 +42,7 @@ export const getEnvironmentSensorsData = async (processorId: number, credentials
         Authorization: authHeader,
       },
       data: {
-        ...buildDefaultPayload('latestEnvironmentSensorData'),
+        ...buildDefaultPayload('latestEnvironmentSensorData', credentials),
         sleeptrackerProcessorID: processorId,
       },
     });

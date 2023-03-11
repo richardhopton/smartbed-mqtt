@@ -2,9 +2,9 @@
 
 This project aims to enable remote control of smart beds from HomeAssistant.
 
-Initial support is for:-
+Support is for:-
 
-- Sleeptracker AI controlled beds such as the Tempur Ergo Smart Base.
+- Sleeptracker AI controlled beds such as the Tempur Ergo/Extend, BeautyRest SmartMotion, and Serta Perfect Smart Bases
 
 # Installation
 
@@ -18,6 +18,20 @@ Initial support is for:-
 
 # Sleeptracker Support
 
+## Configurating
+
+It is possible to configure multiple users for one or more sleeptracker beds. Although it is possible to configure two users for the same bed, it is necessary if the represent a split bed.
+
+The default bed type is `tempur`, but can be adjusted by specifying `beautyrest` or `serta` using the optional type field on each user.
+
+e.g.
+
+```
+ - email: me@example.org
+   password: some strong password
+   type: serta
+```
+
 ## Current features includes:-
 
 - Buttons to trigger the presets
@@ -28,13 +42,14 @@ Initial support is for:-
 - Sensors for Heat & Foot Angle
 - Buttons to step thru the massage strengths, patterns & timer (auto turn off massage)
 - Sensors for Massage strengths and patterns
-- Untested support for split beds, and multiple beds
+- Support for split beds, and multiple beds
 
 ## Possible future features:-
 
 - Buttons to control raising and lowering head/feet
 - Configuration of bed "alarm"
 - Service to trigger sleep summary email to be sent from Sleeptracker
+- Switches to control presets
 
 ## Features that can't be done:-
 

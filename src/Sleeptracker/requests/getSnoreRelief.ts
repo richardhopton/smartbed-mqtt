@@ -2,13 +2,15 @@ import { SnoreRelief } from '@sleeptracker/types/SnoreRelief';
 import { logError } from '@utils/logger';
 import { Credentials } from '@utils/Options';
 import axios from 'axios';
-import defaultHeaders from './defaultHeaders';
 import { getAuthHeader } from './getAuthHeader';
-import { appHost, settingsBaseUrl } from './urls';
+import defaultHeaders from './shared/defaultHeaders';
+import { urls } from './shared/urls';
 
 export const getSnoreRelief = async (credentials: Credentials) => {
   const authHeader = await getAuthHeader(credentials);
   if (!authHeader) return null;
+
+  const { appHost, settingsBaseUrl } = urls(credentials);
 
   try {
     const response = await axios.request<SnoreRelief>({

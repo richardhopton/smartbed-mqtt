@@ -4,10 +4,10 @@ import { Dictionary } from '@utils/Dictionary';
 import { logError } from '@utils/logger';
 import { Credentials } from '@utils/Options';
 import axios from 'axios';
-import defaultHeaders from './defaultHeaders';
-import { buildDefaultPayload } from './defaultPayload';
 import { getAuthHeader } from './getAuthHeader';
-import { appHost, processorBaseUrl } from './urls';
+import defaultHeaders from './shared/defaultHeaders';
+import { buildDefaultPayload } from './shared/defaultPayload';
+import { urls } from './shared/urls';
 
 type Response = { statusCode: number; statusMessage: string; body: { snapshots: Snapshot[] } };
 
@@ -16,6 +16,9 @@ export const sendAdjustableBaseCommand = async (
   credentials: Credentials,
   additionalPayload: Dictionary<any> = {}
 ) => {
+  const authHeader = await getAuthHeader(credentials);
+  if (!authHeader) return [];
+
   const shouldLogError = (statusCode: number, statusMessage: string) => {
     if (bedControlCommand === Commands.Status && statusCode === 28 && statusMessage.includes('INVALID_PRESET'))
       return false;
@@ -23,9 +26,7 @@ export const sendAdjustableBaseCommand = async (
     return statusCode !== 0;
   };
 
-  const authHeader = await getAuthHeader(credentials);
-  if (!authHeader) return [];
-
+  const { appHost, processorBaseUrl } = urls(credentials);
   try {
     const response = await axios.request<Response>({
       method: 'POST',
@@ -36,7 +37,7 @@ export const sendAdjustableBaseCommand = async (
         Authorization: authHeader,
       },
       data: {
-        ...buildDefaultPayload('adjustableBaseControls'),
+        ...buildDefaultPayload('adjustableBaseControls', credentials),
         bedControlCommand,
         ...additionalPayload,
       },

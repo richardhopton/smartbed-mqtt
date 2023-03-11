@@ -14,11 +14,13 @@
     "mqtt_user": "<auto_detect>",
     "mqtt_password": "<auto_detect>",
     "type": "sleeptracker",
+    "sleeptrackerType": "tempur",
     "sleeptrackerRefreshFrequency": 1,
     "sleeptrackerCredentials": [
       {
         "email": "me@example.org",
-        "password": "some strong password"
+        "password": "some strong password",
+        "type": "tempur"
       }
     ]
   },
@@ -28,11 +30,12 @@
     "mqtt_user": "str",
     "mqtt_password": "password",
     "type": "match(sleeptracker)",
-    "sleeptrackerRefreshFrequency": "int",
+    "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
         "email": "email",
-        "password": "password"
+        "password": "password",
+        "type": "list(tempur|beautyrest|serta)?"
       }
     ]
   }
