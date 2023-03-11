@@ -13,7 +13,6 @@ type Entities = {
 };
 
 export type Bed = {
-  deviceId: number;
   processorId: number;
   deviceData: IDeviceData;
   primaryUser: Credentials;

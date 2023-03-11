@@ -4,11 +4,11 @@ import { Dictionary } from '@utils/Dictionary';
 import { getSideNameFunc } from '@utils/getSideNameFunc';
 import { logError, logInfo } from '@utils/logger';
 import { getSleeptrackerRefreshFrequency, getSleeptrackerUsers } from '@utils/Options';
+import { minutes } from '../Utils/minutes';
 import { buildMQTTDeviceData } from './buildMQTTDeviceData';
 import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
 import { HelloDataSensor } from './entities/InfoSensor';
 import { SleepSensorInfoSensor } from './entities/SensorMapInfoSensor';
-import { minutes } from '../Utils/minutes';
 import { processBedPositionSensors } from './processors/bedPositionSensors';
 import { processEnvironmentSensors } from './processors/environmentSensors';
 import { setupMassageButtons } from './processors/massageButtons';
@@ -34,8 +34,8 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
       return logError('Could not load devices');
     }
     for (const device of devices) {
-      const { deviceID: deviceId, sleeptrackerProcessorID: processorId } = device;
-      let bed = beds[deviceId];
+      const { sleeptrackerProcessorID: processorId } = device;
+      let bed = beds[processorId];
 
       const helloData = await getHelloData(processorId, user);
       if (!helloData) {
@@ -49,8 +49,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
           powerBase: { antiSnorePresetSupported, headAngleTicksPerDegree, footAngleTicksPerDegree },
         } = device;
         const deviceData = buildMQTTDeviceData(device);
-        bed = beds[deviceId] = {
-          deviceId,
+        bed = beds[processorId] = {
           processorId,
           deviceData,
           primaryUser: user,
@@ -109,16 +108,16 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
 
   const refreshDeviceData = async () => {
     for (const bed of Object.values(beds)) {
-      logInfo('Fetching data for bed', bed.deviceId);
+      logInfo('Fetching data for bed', bed.processorId);
       const { smartBedControls, environmentSensors } = bed.supportedFeatures;
       if (smartBedControls) {
+        const snapshots = await sendAdjustableBaseCommand(Commands.Status, bed.primaryUser);
         for (const controller of bed.controllers) {
           await setupPresetButtons(mqtt, bed, controller);
           await setupMassageButtons(mqtt, bed, controller);
 
           await processSnoreReliefSwitches(mqtt, bed, controller);
 
-          const snapshots = await sendAdjustableBaseCommand(Commands.Status, controller.user);
           const snapshot = snapshots.find((s) => s.side === controller.side);
           if (!snapshot) continue;
 

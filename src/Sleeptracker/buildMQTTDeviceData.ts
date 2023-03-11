@@ -5,14 +5,12 @@ export const buildMQTTDeviceData = ({
   name,
   mattressBrandName,
   modelID,
-  sleeptrackerID,
   sleeptrackerProcessorID: processorId,
 }: Device): IDeviceData => {
-  const id = `${sleeptrackerID}_${processorId}`;
   return {
-    deviceTopic: `sleeptracker/${id}`,
+    deviceTopic: `sleeptracker/${processorId}`,
     device: {
-      ids: [id],
+      ids: [`${processorId}`],
       name: name,
       mf: mattressBrandName || 'Sleeptracker',
       mdl: modelID,
