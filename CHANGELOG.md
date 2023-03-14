@@ -1,3 +1,18 @@
+## v1.0.7
+
+**New Features**
+
+- (Sleeptracker) Support for Beautyrest SmartMotion & Serta Perfect smart bases
+- (ErgoMotion) Experimental support for ErgoMotion beds that use the ErgoWifi app and Keeson WF02D & WF03D controller.
+
+**Breaking Changes**
+
+- (Sleeptracker) Changed the MQTT topic to handle split base beds; You will need to delete the current device and let the add-on re-create it, although entity ids should stay the same.
+
+**Bugs Fixed**
+
+- (Sleeptracker) Split base beds showing as two devices
+
 ## v1.0.6
 
 **Bugs Fixed**

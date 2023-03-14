@@ -5,6 +5,7 @@ This project aims to enable remote control of smart beds from HomeAssistant.
 Support is for:-
 
 - Sleeptracker AI controlled beds such as the Tempur Ergo/Extend, BeautyRest SmartMotion, and Serta Perfect Smart Bases
+- ErgoMotion controlled beds that use the ErgoWifi app (experimental)
 
 # Installation
 
@@ -62,3 +63,7 @@ This integration uses the same api used by the iOS and Android apps, so it is po
 If you have a split base bed, or a bed with lumbar/head tilt support, or a bed with just the sleeptracker (non-adjustable) please reach out using the Github Issues tab.
 
 For help with setup, or for sharing feedback please join the Discord server https://discord.gg/Hf3kpFjbZs
+
+# ErgoMotion Support (experimental)
+
+Very experimental...
