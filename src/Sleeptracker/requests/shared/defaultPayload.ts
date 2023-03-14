@@ -1,4 +1,4 @@
-import { Credentials, SleeptrackerType } from '@utils/Options';
+import { Credentials, Type } from '../../options';
 
 type Context =
   | 'session'
@@ -19,7 +19,7 @@ const contextMap = {
   adjustableBaseControls: 'adjustableBaseControls',
 };
 
-const getClientFields = (type?: SleeptrackerType) => {
+const getClientFields = (type?: Type) => {
   switch (type) {
     case 'beautyrest':
     case 'serta':

@@ -1,6 +1,6 @@
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
-import { Credentials } from '@utils/Options';
+import { Credentials } from '../options';
 import { Capability } from './HelloData';
 
 export type Controller = {

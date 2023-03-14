@@ -2,7 +2,7 @@ import { Dictionary } from '@utils/Dictionary';
 import { getUnixEpoch } from '@utils/getUnixEpoch';
 import { logError } from '@utils/logger';
 import axios from 'axios';
-import { Credentials } from '../../Utils/Options';
+import { Credentials } from '../options';
 import defaultHeaders from './shared/defaultHeaders';
 import { buildDefaultPayload } from './shared/defaultPayload';
 import { urls } from './shared/urls';

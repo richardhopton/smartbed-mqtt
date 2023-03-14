@@ -26,7 +26,6 @@
     "baseUrl": "./src",
     "paths": {
       "@ha/*": ["HomeAssistant/*"],
-      "@sleeptracker/*": ["Sleeptracker/*"],
       "@mqtt/*": ["MQTT/*"],
       "@utils/*": ["Utils/*"]
     }

@@ -1,7 +1,7 @@
 import { Dictionary } from '@utils/Dictionary';
-import { Credentials, SleeptrackerType } from '@utils/Options';
+import { Credentials, Type } from '../../options';
 
-const getBaseUrl = (type: SleeptrackerType) => {
+const getBaseUrl = (type: Type) => {
   switch (type) {
     case 'beautyrest':
     case 'serta':

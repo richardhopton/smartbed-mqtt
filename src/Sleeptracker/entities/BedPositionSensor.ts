@@ -1,7 +1,7 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { JsonSensor } from '@ha/JsonSensor';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { MotorStatus } from '@sleeptracker/types/Snapshot';
+import { MotorStatus } from '../types/Snapshot';
 
 type BedPosition = MotorStatus & {
   angle: number;

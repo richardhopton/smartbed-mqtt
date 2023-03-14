@@ -1,10 +1,10 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { Bed } from '@sleeptracker/types/Bed';
-import { Controller } from '@sleeptracker/types/Controller';
-import { Credentials } from '@utils/Options';
 import { SnoreReliefSwitchSet } from '../entities/SnoreReliefSwitchSet';
+import { Credentials } from '../options';
 import { getSnoreRelief } from '../requests/getSnoreRelief';
 import { setSnoreRelief } from '../requests/setSnoreRelief';
+import { Bed } from '../types/Bed';
+import { Controller } from '../types/Controller';
 import { SnoreRelief } from '../types/SnoreRelief';
 
 let snoreRelief: SnoreRelief | null;

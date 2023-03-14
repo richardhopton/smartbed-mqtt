@@ -1,7 +1,7 @@
-import { SnoreRelief } from '@sleeptracker/types/SnoreRelief';
 import { logError } from '@utils/logger';
-import { Credentials } from '@utils/Options';
 import axios from 'axios';
+import { Credentials } from '../options';
+import { SnoreRelief } from '../types/SnoreRelief';
 import { getAuthHeader } from './getAuthHeader';
 import defaultHeaders from './shared/defaultHeaders';
 import { buildDefaultPayload } from './shared/defaultPayload';

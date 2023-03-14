@@ -14,7 +14,6 @@
     "mqtt_user": "<auto_detect>",
     "mqtt_password": "<auto_detect>",
     "type": "sleeptracker",
-    "sleeptrackerType": "tempur",
     "sleeptrackerRefreshFrequency": 1,
     "sleeptrackerCredentials": [
       {
@@ -29,7 +28,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "match(sleeptracker)",
+    "type": "list(sleeptracker|ergomotion)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {

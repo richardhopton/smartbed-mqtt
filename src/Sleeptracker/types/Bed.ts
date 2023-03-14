@@ -1,9 +1,9 @@
 import { Entity } from '@ha/base/Entity';
 import { IDeviceData } from '@ha/IDeviceData';
-import { DeviceInfoSensor } from '@sleeptracker/entities/DeviceInfoSensor';
-import { HelloDataSensor } from '@sleeptracker/entities/InfoSensor';
 import { Dictionary } from '@utils/Dictionary';
-import { Credentials } from '@utils/Options';
+import { DeviceInfoSensor } from '../entities/DeviceInfoSensor';
+import { HelloDataSensor } from '../entities/InfoSensor';
+import { Credentials } from '../options';
 import { Controller } from './Controller';
 import { SleepSensor } from './SleepSensor';
 

@@ -1,8 +1,8 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { JsonSensor } from '@ha/JsonSensor';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { SleepSensor } from '@sleeptracker/types/SleepSensor';
 import { cleanJsonState } from '@utils/cleanJsonState';
+import { SleepSensor } from '../types/SleepSensor';
 
 export class SleepSensorInfoSensor extends JsonSensor<SleepSensor> {
   constructor(mqtt: IMQTTConnection, deviceData: IDeviceData, entityDesc: string) {

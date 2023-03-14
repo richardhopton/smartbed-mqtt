@@ -1,6 +1,6 @@
 import { logError } from '@utils/logger';
-import { Credentials } from '@utils/Options';
 import axios from 'axios';
+import { Credentials } from '../options';
 import { EnvironmentSensorData, EnvironmentSensorType } from '../types/EnvironmentSensor';
 import { getAuthHeader } from './getAuthHeader';
 import defaultHeaders from './shared/defaultHeaders';

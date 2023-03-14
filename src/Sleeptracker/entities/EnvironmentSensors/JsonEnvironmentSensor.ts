@@ -1,6 +1,6 @@
 import { JsonSensor } from '@ha/JsonSensor';
-import { EnvironmentSensorData } from '@sleeptracker/types/EnvironmentSensor';
 import { cleanJsonState } from '@utils/cleanJsonState';
+import { EnvironmentSensorData } from '../../types/EnvironmentSensor';
 
 export class JsonEnvironmentSensor extends JsonSensor<EnvironmentSensorData> {
   mapState(state?: EnvironmentSensorData | undefined) {

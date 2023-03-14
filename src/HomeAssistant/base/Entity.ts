@@ -1,7 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { Dictionary } from '@utils/Dictionary';
 import { safeId } from '@utils/safeId';
 import { seconds } from '@utils/seconds';
-import { Dictionary } from 'Utils/Dictionary';
 import { IDeviceData } from '../IDeviceData';
 import { ComponentType as EntityWithStateComponentType } from './ComponentTypeWithState';
 import { IAvailable } from './IAvailable';

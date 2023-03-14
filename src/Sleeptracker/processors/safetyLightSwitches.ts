@@ -1,11 +1,11 @@
 import { Switch } from '@ha/Switch';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { sendAdjustableBaseCommand } from '@sleeptracker/requests/sendAdjustableBaseCommand';
-import { Bed } from '@sleeptracker/types/Bed';
-import { Commands } from '@sleeptracker/types/Commands';
-import { Controller } from '@sleeptracker/types/Controller';
-import { Snapshot } from '@sleeptracker/types/Snapshot';
 import { buildEntityName } from '@utils/buildEntityName';
+import { sendAdjustableBaseCommand } from '../requests/sendAdjustableBaseCommand';
+import { Bed } from '../types/Bed';
+import { Commands } from '../types/Commands';
+import { Controller } from '../types/Controller';
+import { Snapshot } from '../types/Snapshot';
 
 export const processSafetyLightSwitches = async (
   mqtt: IMQTTConnection,

@@ -1,10 +1,10 @@
 import { Button } from '@ha/Button';
 import { IDeviceData } from '@ha/IDeviceData';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { sendAdjustableBaseCommand } from '@sleeptracker/requests/sendAdjustableBaseCommand';
-import { Commands } from '@sleeptracker/types/Commands';
 import { Dictionary } from '@utils/Dictionary';
-import { Credentials } from '@utils/Options';
+import { Credentials } from '../options';
+import { sendAdjustableBaseCommand } from '../requests/sendAdjustableBaseCommand';
+import { Commands } from '../types/Commands';
 
 type options = {
   isConfig?: boolean;

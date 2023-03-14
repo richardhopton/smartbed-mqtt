@@ -1,9 +1,9 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { BedPositionSensor } from '@sleeptracker/entities/BedPositionSensor';
-import { Bed } from '@sleeptracker/types/Bed';
-import { Controller } from '@sleeptracker/types/Controller';
-import { Snapshot } from '@sleeptracker/types/Snapshot';
 import { buildEntityName } from '@utils/buildEntityName';
+import { BedPositionSensor } from '../entities/BedPositionSensor';
+import { Bed } from '../types/Bed';
+import { Controller } from '../types/Controller';
+import { Snapshot } from '../types/Snapshot';
 
 interface BedPositionEntities {
   headPosition?: BedPositionSensor;

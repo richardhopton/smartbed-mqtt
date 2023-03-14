@@ -3,12 +3,12 @@ import { buildEntityName } from '@utils/buildEntityName';
 import { Dictionary } from '@utils/Dictionary';
 import { getSideNameFunc } from '@utils/getSideNameFunc';
 import { logError, logInfo } from '@utils/logger';
-import { getSleeptrackerRefreshFrequency, getSleeptrackerUsers } from '@utils/Options';
-import { minutes } from '../Utils/minutes';
+import { minutes } from '@utils/minutes';
 import { buildMQTTDeviceData } from './buildMQTTDeviceData';
 import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
 import { HelloDataSensor } from './entities/InfoSensor';
 import { SleepSensorInfoSensor } from './entities/SensorMapInfoSensor';
+import { getRefreshFrequency, getUsers } from './options';
 import { processBedPositionSensors } from './processors/bedPositionSensors';
 import { processEnvironmentSensors } from './processors/environmentSensors';
 import { setupMassageButtons } from './processors/massageButtons';
@@ -26,12 +26,12 @@ import { Commands } from './types/Commands';
 const beds: Dictionary<Bed> = {};
 
 export const sleeptracker = async (mqtt: IMQTTConnection) => {
-  const users = getSleeptrackerUsers();
-
+  const users = getUsers();
+  if (!users.length) return logInfo('[Sleeptracker] No users configured');
   for (const user of users) {
     const devices = await getDevices(user);
     if (!devices || devices.length === 0) {
-      return logError('Could not load devices');
+      return logError('[Sleeptracker] Could not load devices');
     }
     for (const device of devices) {
       const { sleeptrackerProcessorID: processorId } = device;
@@ -39,7 +39,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
 
       const helloData = await getHelloData(processorId, user);
       if (!helloData) {
-        logError('Could not load helloData');
+        logError('[Sleeptracker] Could not load helloData');
         continue;
       }
 
@@ -108,7 +108,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
 
   const refreshDeviceData = async () => {
     for (const bed of Object.values(beds)) {
-      logInfo('Fetching data for bed', bed.processorId);
+      logInfo('[Sleeptracker] Fetching data for bed', bed.processorId);
       const { smartBedControls, environmentSensors } = bed.supportedFeatures;
       if (smartBedControls) {
         const snapshots = await sendAdjustableBaseCommand(Commands.Status, bed.primaryUser);
@@ -133,5 +133,5 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
     }
   };
   await refreshDeviceData();
-  setInterval(refreshDeviceData, minutes(getSleeptrackerRefreshFrequency()));
+  setInterval(refreshDeviceData, minutes(getRefreshFrequency()));
 };

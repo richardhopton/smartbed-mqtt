@@ -1,9 +1,9 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { CommandButton } from '@sleeptracker/entities/CommandButton';
-import { Bed } from '@sleeptracker/types/Bed';
-import { Commands } from '@sleeptracker/types/Commands';
-import { Controller } from '@sleeptracker/types/Controller';
 import { buildEntityName } from '@utils/buildEntityName';
+import { CommandButton } from '../entities/CommandButton';
+import { Bed } from '../types/Bed';
+import { Commands } from '../types/Commands';
+import { Controller } from '../types/Controller';
 
 interface PresetButtonEntities {
   flatPreset?: CommandButton;

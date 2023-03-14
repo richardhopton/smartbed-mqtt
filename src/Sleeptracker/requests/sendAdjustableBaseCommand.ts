@@ -1,9 +1,9 @@
-import { Commands } from '@sleeptracker/types/Commands';
-import { Snapshot } from '@sleeptracker/types/Snapshot';
 import { Dictionary } from '@utils/Dictionary';
 import { logError } from '@utils/logger';
-import { Credentials } from '@utils/Options';
 import axios from 'axios';
+import { Credentials } from '../options';
+import { Commands } from '../types/Commands';
+import { Snapshot } from '../types/Snapshot';
 import { getAuthHeader } from './getAuthHeader';
 import defaultHeaders from './shared/defaultHeaders';
 import { buildDefaultPayload } from './shared/defaultPayload';
@@ -44,7 +44,7 @@ export const sendAdjustableBaseCommand = async (
     });
     const { statusCode, statusMessage, body } = response.data;
     if (shouldLogError(statusCode, statusMessage)) {
-      logError(JSON.stringify(response.data));
+      logError('[Sleeptracker]', JSON.stringify(response.data));
     }
     return body.snapshots || [];
   } catch (err) {

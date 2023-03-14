@@ -1,12 +1,12 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { Sensor } from '@ha/Sensor';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { Bed } from '@sleeptracker/types/Bed';
 import { CO2Sensor } from '../entities/EnvironmentSensors/CO2Sensor';
 import { HumiditySensor } from '../entities/EnvironmentSensors/HumiditySensor';
 import { TemperatureSensor } from '../entities/EnvironmentSensors/TemperatureSensor';
 import { VOCSensor } from '../entities/EnvironmentSensors/VOCSensor';
 import { getEnvironmentSensorsData } from '../requests/getEnvironmentSensorsData';
+import { Bed } from '../types/Bed';
 import { EnvironmentSensorData, EnvironmentSensorType } from '../types/EnvironmentSensor';
 
 const buildSensorFromEnvironmentSensorType = (

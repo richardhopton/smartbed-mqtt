@@ -2,8 +2,8 @@ import { IStateful } from '@ha/base/IStateful';
 import { IDeviceData } from '@ha/IDeviceData';
 import { Switch } from '@ha/Switch';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { SnoreRelief } from '@sleeptracker/types/SnoreRelief';
 import { buildEntityName } from '@utils/buildEntityName';
+import { SnoreRelief } from '../types/SnoreRelief';
 
 export class SnoreReliefSwitchSet implements IStateful<SnoreRelief> {
   private tilt: Switch;

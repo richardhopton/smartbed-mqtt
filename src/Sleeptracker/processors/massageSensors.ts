@@ -1,9 +1,9 @@
 import { JsonSensor } from '@ha/JsonSensor';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { Bed } from '@sleeptracker/types/Bed';
-import { Controller } from '@sleeptracker/types/Controller';
-import { MassagePattern, MassageStatus, Snapshot } from '@sleeptracker/types/Snapshot';
 import { buildEntityName } from '@utils/buildEntityName';
+import { Bed } from '../types/Bed';
+import { Controller } from '../types/Controller';
+import { MassagePattern, MassageStatus, Snapshot } from '../types/Snapshot';
 
 type MassagePatternState = {
   pattern: number;

@@ -1,7 +1,7 @@
 import { connectToMQTT } from '@mqtt/connectToMQTT';
-import { sleeptracker } from '@sleeptracker/sleeptracker';
 import { logError, logWarn } from '@utils/logger';
-import { getType } from '@utils/Options';
+import { sleeptracker } from 'Sleeptracker/sleeptracker';
+import { getType } from './Utils/options';
 
 const processExit = (exitCode?: number) => {
   if (exitCode && exitCode > 0) {
@@ -24,9 +24,10 @@ process.on('uncaughtException', (err) => {
 const start = async (): Promise<void> => {
   const mqtt = await connectToMQTT();
 
-  const type = getType();
-  if (type === 'sleeptracker') {
-    await sleeptracker(mqtt);
+  switch (getType()) {
+    case 'sleeptracker':
+    default:
+      return void (await sleeptracker(mqtt));
   }
 };
 void start();
