@@ -1,5 +1,6 @@
 import { connectToMQTT } from '@mqtt/connectToMQTT';
 import { logError, logWarn } from '@utils/logger';
+import { ergomotion } from 'ErgoMotion/ergomotion';
 import { sleeptracker } from 'Sleeptracker/sleeptracker';
 import { getType } from './Utils/options';
 
@@ -28,6 +29,8 @@ const start = async (): Promise<void> => {
     case 'sleeptracker':
     default:
       return void (await sleeptracker(mqtt));
+    case 'ergomotion':
+      return void (await ergomotion(mqtt));
   }
 };
 void start();

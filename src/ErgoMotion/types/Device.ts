@@ -1,0 +1,23 @@
+export type Device = {
+  subscribe_date: string;
+  is_active: boolean;
+  role: number;
+  has_pairing: boolean;
+  last_login: string;
+  firmware_mod: string;
+  active_code: string;
+  active_date: string;
+  groups: string;
+  mcu_version: number;
+  firmware_version: number;
+  source: number;
+  mac: string;
+  mcu_mod: string;
+  product_id: string;
+  access_key: number;
+  name: string;
+  authorize_code: string;
+  id: number;
+  is_online: boolean;
+  sn: string;
+};

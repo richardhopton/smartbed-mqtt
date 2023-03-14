@@ -21,6 +21,12 @@
         "password": "some strong password",
         "type": "tempur"
       }
+    ],
+    "ergoMotionCredentials": [
+      {
+        "email": "me@example.org",
+        "password": "some strong password"
+      }
     ]
   },
   "schema": {
@@ -35,6 +41,12 @@
         "email": "email",
         "password": "password",
         "type": "list(tempur|beautyrest|serta)?"
+      }
+    ],
+    "ergoMotionCredentials": [
+      {
+        "email": "email",
+        "password": "password"
       }
     ]
   }
