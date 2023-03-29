@@ -1,9 +1,9 @@
 export enum Commands {
   PresetZeroG = 4096,
   PresetFlat = 134217728,
-  PresetTV = 134234112,
+  PresetTV = 16384,
   PresetAntiSnore = 32768,
-  PresetUserFavorite = 134225920,
+  PresetUserFavorite = 8192,
 
   HeadUpIncrement = 1,
   HeadDownIncrement = 2,
@@ -19,7 +19,7 @@ export enum Commands {
   MassageFootUp = 1024,
   MassageFootDown = 16777216,
   MassageStep = 256,
-  MassageAllOff = 512,
+  MassageTimerStep = 512,
 
   ToggleSafetyLights = 131072,
 }

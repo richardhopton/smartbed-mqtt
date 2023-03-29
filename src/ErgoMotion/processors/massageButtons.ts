@@ -31,14 +31,14 @@ export const setupMassageButtons = async (mqtt: IMQTTConnection, { deviceData, i
   cache.massageHeadDown.setOnline();
 
   if (!cache.massageFootUp) {
-    cache.massageFootUp = new CommandButton(mqtt, deviceData, 'Massage Foot Step', Commands.MassageFootUp, user, id);
+    cache.massageFootUp = new CommandButton(mqtt, deviceData, 'Massage Foot Up', Commands.MassageFootUp, user, id);
   }
   cache.massageFootUp.setOnline();
   if (!cache.massageFootDown) {
     cache.massageFootDown = new CommandButton(
       mqtt,
       deviceData,
-      'Massage Foot Step',
+      'Massage Foot Down',
       Commands.MassageFootDown,
       user,
       id
@@ -52,7 +52,14 @@ export const setupMassageButtons = async (mqtt: IMQTTConnection, { deviceData, i
   cache.massageStep.setOnline();
 
   if (!cache.massageAllOff) {
-    cache.massageAllOff = new CommandButton(mqtt, deviceData, 'Massage All Off', Commands.MassageAllOff, user, id);
+    cache.massageAllOff = new CommandButton(
+      mqtt,
+      deviceData,
+      'Massage Timer Step',
+      Commands.MassageTimerStep,
+      user,
+      id
+    );
   }
   cache.massageAllOff.setOnline();
 };

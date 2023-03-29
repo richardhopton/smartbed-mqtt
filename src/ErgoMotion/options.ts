@@ -1,8 +1,11 @@
 import { readFileSync } from 'fs';
 
+export type RemoteStyle = 'L' | 'M' | 'H';
+
 export interface Credentials {
   email: string;
   password: string;
+  remoteStyle: RemoteStyle;
 }
 
 interface OptionsJson {

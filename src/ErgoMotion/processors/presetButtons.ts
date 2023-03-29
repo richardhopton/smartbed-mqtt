@@ -33,6 +33,8 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, { deviceData, id
   }
   zeroGPreset.setOnline();
 
+  if (user.remoteStyle === 'L') return;
+
   let { tvPreset } = cache;
   if (!tvPreset) {
     tvPreset = cache.tvPreset = new CommandButton(mqtt, deviceData, 'Preset: TV', Commands.PresetTV, user, id);

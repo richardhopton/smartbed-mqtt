@@ -39,6 +39,8 @@ export const ergomotion = async (mqtt: IMQTTConnection) => {
         logInfo('[ErgoMotion] Setting up bed', id);
 
         await setupPresetButtons(mqtt, bed);
+        if (user.remoteStyle == 'L') continue;
+
         await setupMassageButtons(mqtt, bed);
         await processSafetyLightButton(mqtt, bed);
       }
