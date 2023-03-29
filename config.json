@@ -27,6 +27,13 @@
         "email": "me@example.org",
         "password": "some strong password"
       }
+    ],
+    "richmatDevices": [
+      {
+        "name": "QRRM12345",
+        "friendlyName": "Richmat Bed",
+        "remoteCode": "VIRM"
+      }
     ]
   },
   "schema": {
@@ -34,7 +41,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergomotion)",
+    "type": "list(sleeptracker|ergomotion|richmat)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -47,6 +54,20 @@
       {
         "email": "email",
         "password": "password"
+      }
+    ],
+    "richmatDevices": [
+      {
+        "name": "str",
+        "friendlyName": "str",
+        "remoteCode": "str"
+      }
+    ],
+    "bleProxies": [
+      {
+        "host": "str",
+        "port": "int(1,65536)?",
+        "password": "password?"
       }
     ]
   }

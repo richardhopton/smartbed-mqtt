@@ -1,5 +1,7 @@
 FROM node:14-alpine
 
+RUN apk --no-cache add git
+
 COPY package.json /smartbed-mqtt/
 COPY yarn.lock /smartbed-mqtt/
 WORKDIR /smartbed-mqtt

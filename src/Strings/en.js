@@ -1,0 +1,28 @@
+const strings = {
+  PresetFlat: 'Preset: Flat',
+  PresetZeroG: 'Preset: Zero G',
+  PresetTV: 'Preset: TV',
+  PresetUserFavorite: 'Preset: User Favorite',
+  PresetMemory: 'Preset: Memory',
+  PresetAntiSnore: 'Preset: Anti Snore',
+  ProgramZeroG: 'Program: Zero G',
+  ProgramTV: 'Program: TV',
+  ProgramUserFavorite: 'Program: User Favorite',
+  ProgramMemory: 'Program: Memory',
+  ProgramAntiSnore: 'Program: Anti Snore',
+  MassageHeadStep: 'Head Massage Step',
+  MassageFootStep: 'Foot Massage Step',
+  MassageStep: 'Massage Step',
+  MassageTimerStep: 'Massage Timer Step',
+  MassageHeadStrength: 'Head Massage Strength',
+  MassageFootStrength: 'Foot Massage Strength',
+  AngleHead: 'Head Angle',
+  AngleFoot: 'Foot Angle',
+  SafetyLights: 'SafetyLights',
+  SafetyLightsToggle: 'Toggle Safety Lights',
+  UnderBedLightsToggle: 'Toggle Under Bed Lights',
+  MassageToggle: 'Toggle Massage',
+  MassageMode: 'Massage Mode',
+};
+
+module.exports = strings;

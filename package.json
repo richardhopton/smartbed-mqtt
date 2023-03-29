@@ -2,10 +2,11 @@
   "name": "smartbed-mqtt",
   "version": "1.0.7",
   "description": "Smartbed MQTT integration",
-  "main": "./dist/tsc/index.js",
-  "types": "./dist/tsc/index.d.ts",
+  "author": "Richard Hopton",
   "repository": "git@github.com:richardhopton/smartbed-mqtt.git",
   "license": "MIT",
+  "main": "./dist/tsc/index.js",
+  "types": "./dist/tsc/index.d.ts",
   "devDependencies": {
     "@types/bonjour": "^3.5.9",
     "@types/jest": "^26.0.23",
@@ -48,6 +49,7 @@
     "srs/*.{ts,js,json}": "prettier --write"
   },
   "dependencies": {
+    "@2colors/esphome-native-api": "^1.1.1",
     "axios": "^1.3.2",
     "mqtt": "^4.2.8"
   }

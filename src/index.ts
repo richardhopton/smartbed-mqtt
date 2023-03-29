@@ -1,6 +1,9 @@
 import { connectToMQTT } from '@mqtt/connectToMQTT';
+import { loadStrings } from '@utils/getString';
 import { logError, logWarn } from '@utils/logger';
 import { ergomotion } from 'ErgoMotion/ergomotion';
+import { connectToESPHome } from 'ESPHome/connectToESPHome';
+import { richmat } from 'Richmat/richmat';
 import { sleeptracker } from 'Sleeptracker/sleeptracker';
 import { getType } from './Utils/options';
 
@@ -23,6 +26,8 @@ process.on('uncaughtException', (err) => {
 });
 
 const start = async (): Promise<void> => {
+  loadStrings();
+
   const mqtt = await connectToMQTT();
 
   switch (getType()) {
@@ -31,6 +36,10 @@ const start = async (): Promise<void> => {
       return void (await sleeptracker(mqtt));
     case 'ergomotion':
       return void (await ergomotion(mqtt));
+    case 'richmat': {
+      const esphome = await connectToESPHome();
+      return void (await richmat(mqtt, esphome));
+    }
   }
 };
 void start();
