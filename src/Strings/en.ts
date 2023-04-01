@@ -25,4 +25,4 @@ const strings = {
   MassageMode: 'Massage Mode',
 };
 
-module.exports = strings;
+export default strings;

@@ -30,7 +30,7 @@
       "@utils/*": ["Utils/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/Strings/*.js"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"],
 
   "ts-node": {
