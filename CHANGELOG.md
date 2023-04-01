@@ -1,3 +1,14 @@
+## v1.0.8
+
+**New Features**
+
+- (Richmat) Experimental support for Richmat beds that use BLE controllers, e.g. Sven & Son
+
+**Bugs Fixed**
+
+- (ErgoMotion) Some buttons shouldn't be visible for all beds
+- (ErgoMotion) Some buttons have wrong names
+
 ## v1.0.7
 
 **New Features**

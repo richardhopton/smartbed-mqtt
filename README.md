@@ -6,6 +6,7 @@ Support is for:-
 
 - Sleeptracker AI controlled beds such as the Tempur Ergo/Extend, BeautyRest SmartMotion, and Serta Perfect Smart Bases
 - ErgoMotion controlled beds that use the ErgoWifi app (experimental)
+- Richmat BLE controlled beds (experimental)
 
 # Installation
 
@@ -60,10 +61,29 @@ e.g.
 
 This integration uses the same api used by the iOS and Android apps, so it is possible that this will break if the apps are changed. I will attempt to maintain it where feasible, but also open to PRs.
 
-If you have a split base bed, or a bed with lumbar/head tilt support, or a bed with just the sleeptracker (non-adjustable) please reach out using the Github Issues tab.
-
-For help with setup, or for sharing feedback please join the Discord server https://discord.gg/Hf3kpFjbZs
-
 # ErgoMotion Support (experimental)
 
 Very experimental...
+
+# Richmat Support (experimental)
+
+Experimental...
+
+## Configuring
+
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Richmat controller with `name`, `friendlyName`, and `remoteCode`.
+
+## Current features includes:-
+
+- Buttons to trigger the presets
+- Buttons to program the presets
+- Button for under bed lights
+- Buttons to step thru the massage strengths for head & foot, massage mode, and toggle
+
+## Notes
+
+Support for this was only possible due to assistance from getrav on Discord. This was reverse engineered from a Sven & Son bed, so your mileage may vary.
+
+# Support
+
+For help with setup, or for sharing feedback please join the Discord server https://discord.gg/Hf3kpFjbZs
