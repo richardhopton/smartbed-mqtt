@@ -1,3 +1,9 @@
+## v1.1.0
+
+**Bugs Fixed**
+
+- (Richmat) Strings module not found
+
 ## v1.0.9
 
 **Bugs Fixed**
