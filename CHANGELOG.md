@@ -1,3 +1,9 @@
+## v1.0.9
+
+**Bugs Fixed**
+
+- (Richmat) Casing of import breaks docker build
+
 ## v1.0.8
 
 **New Features**
