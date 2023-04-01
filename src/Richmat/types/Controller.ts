@@ -3,7 +3,7 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { Dictionary } from '@utils/Dictionary';
 import { wait } from '@utils/wait';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
-import { IDeviceWrapper } from '../DeviceWrappers/IDeviceWrapper';
+import { IDeviceWrapper } from '../deviceWrappers/IDeviceWrapper';
 import { RichmatDevice } from '../options';
 import { Features } from './Features';
 import { remoteFeatures } from './supportedFeatures';
