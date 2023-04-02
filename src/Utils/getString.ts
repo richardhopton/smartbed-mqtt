@@ -3,7 +3,7 @@ import { Dictionary } from './Dictionary';
 let strings: Dictionary<string> = {};
 
 export const loadStrings = (language = 'en') => {
-  strings = require(`../Strings/${language}`);
+  strings = require(`../Strings/${language}`).default;
 };
 
 type Key =
