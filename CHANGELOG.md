@@ -1,3 +1,10 @@
+## v1.1.1
+
+**Bugs Fixed**
+
+- (HomeAssistant) Cannot save config with default config
+- (Richmat) Strings not used properly
+
 ## v1.1.0
 
 **Bugs Fixed**
