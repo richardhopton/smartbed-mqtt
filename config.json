@@ -34,6 +34,11 @@
         "friendlyName": "Richmat Bed",
         "remoteCode": "VIRM"
       }
+    ],
+    "bleProxies": [
+      {
+        "host": "bluetooth-proxy.local"
+      }
     ]
   },
   "schema": {
