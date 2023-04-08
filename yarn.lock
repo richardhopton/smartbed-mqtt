@@ -2,11 +2,12 @@
 # yarn lockfile v1
 
 
-"@2colors/esphome-native-api@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@2colors/esphome-native-api/-/esphome-native-api-1.1.1.tgz#5b9436cd28e0138029699bed79c280205b61db7c"
-  integrity sha512-jHu9QTopyBNhlja8iU2Ls4ABarqXHohmFUMfz/fsrJ23pxa/OzFo0atwGNwyGxdnI19EF041thqeMN7lu7HvEw==
+"@2colors/esphome-native-api@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@2colors/esphome-native-api/-/esphome-native-api-1.2.3.tgz#9bfe66ca928cd07405143661360dab148c9a96f3"
+  integrity sha512-hMrsfss+LtrUDzD6+TqGRFHaETLf0qvhEhXiLY3rKKvO8Lna4eRM/ntte2qV7SDutWznw/5zgY6LctTwfaTzGw==
   dependencies:
+    "@richardhopton/noise-c.wasm" "^0.5.0"
     google-protobuf "^3.21.2"
     multicast-dns "^7.2.5"
 
@@ -642,6 +643,11 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@richardhopton/noise-c.wasm@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@richardhopton/noise-c.wasm/-/noise-c.wasm-0.5.0.tgz#ccb4b008ca91c0f18f31a7b6f9174cfdf830e94c"
+  integrity sha512-ueWk5iy/0fOf4cNHXfZvwq1w1mIsgi/2ZMO+3bjiV+KupmWdgyTljWNIh7wjjwML7r1BtVkzjws9wHwVlp4JPA==
 
 "@sinclair/typebox@^0.25.16":
   version "0.25.24"

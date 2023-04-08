@@ -4,6 +4,8 @@ export interface BLEProxy {
   host: string;
   port: number | undefined;
   password: string | undefined;
+  encryptionKey: string | undefined;
+  expectedServerName: string | undefined;
 }
 
 interface OptionsJson {
