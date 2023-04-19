@@ -25,7 +25,7 @@ export const getDevices = async (credentials: Credentials) => {
       },
       data: {
         ...buildDefaultPayload('getByType', credentials),
-        types: [1, 2, 4],
+        types: [1, 2, 4, 6],
       },
     });
     return response.data.deviceList;
