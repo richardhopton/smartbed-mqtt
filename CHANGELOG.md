@@ -1,3 +1,9 @@
+## v1.1.2
+
+**New Features**
+
+- (Sleeptracker) Support for STS-60 devices
+
 ## v1.1.1
 
 **Bugs Fixed**
