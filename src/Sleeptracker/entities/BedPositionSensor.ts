@@ -1,15 +1,11 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { JsonSensor } from '@ha/JsonSensor';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { round } from '@utils/round';
 import { MotorStatus } from '../types/Snapshot';
 
 type BedPosition = MotorStatus & {
   angle: number;
-};
-
-const round = (value: number, dp: number) => {
-  const multiplier = Math.pow(10, dp);
-  return Math.round(value * multiplier) / multiplier;
 };
 
 export class BedPositionSensor extends JsonSensor<BedPosition> {

@@ -1,10 +1,10 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { Dictionary } from '@utils/Dictionary';
+import { buildDictionary } from '@utils/buildDictionary';
 import { logError, logInfo } from '@utils/logger';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { buildMQTTDeviceData } from './buildMQTTDeviceData';
 import { inferDeviceWrapperFromServices } from './deviceWrappers/inferDeviceWrapperFromServices';
-import { getDevices, RichmatDevice } from './options';
+import { getDevices } from './options';
 import { setupMassageButtons } from './processors/massageButtons';
 import { setupPresetButtons } from './processors/presetButtons';
 import { setupUnderBedLightButton } from './processors/safetyLightButton';
@@ -14,10 +14,7 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
   const devices = getDevices();
   if (!devices.length) return logInfo('[Richmat] No devices configured');
 
-  const devicesMap = devices.reduce((acc, { friendlyName, name, remoteCode }) => {
-    acc[name] = { friendlyName, name, remoteCode };
-    return acc;
-  }, {} as Dictionary<RichmatDevice>);
+  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
   const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
   const controllers: Controller[] = [];
   for (const bleDevice of bleDevices) {

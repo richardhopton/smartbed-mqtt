@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { getRootOptions } from '@utils/options';
 
 export interface BLEProxy {
   host: string;
@@ -12,8 +12,7 @@ interface OptionsJson {
   bleProxies: BLEProxy[];
 }
 
-const fileContents = readFileSync('../data/options.json');
-const options: OptionsJson = JSON.parse(fileContents.toString());
+const options: OptionsJson = getRootOptions();
 
 export const getProxies = () => {
   const proxies = options.bleProxies;

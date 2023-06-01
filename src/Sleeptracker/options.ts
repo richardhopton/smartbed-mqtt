@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { getRootOptions } from '@utils/options';
 
 export type Type = 'tempur' | 'beautyrest' | 'serta';
 
@@ -13,8 +13,7 @@ interface OptionsJson {
   sleeptrackerCredentials: Credentials[];
 }
 
-const fileContents = readFileSync('../data/options.json');
-const options: OptionsJson = JSON.parse(fileContents.toString());
+const options: OptionsJson = getRootOptions();
 
 export const getUsers = () => {
   const credentials = options.sleeptrackerCredentials;

@@ -8,5 +8,6 @@ interface OptionsJson {
 
 const fileContents = readFileSync('../data/options.json');
 const options: OptionsJson = JSON.parse(fileContents.toString());
+export const getRootOptions = (): any => options;
 
 export const getType = () => options.type;

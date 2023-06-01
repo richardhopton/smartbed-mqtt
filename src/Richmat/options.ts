@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { getRootOptions } from '@utils/options';
 
 export interface RichmatDevice {
   friendlyName: string;
@@ -10,8 +10,7 @@ interface OptionsJson {
   richmatDevices: RichmatDevice[];
 }
 
-const fileContents = readFileSync('../data/options.json');
-const options: OptionsJson = JSON.parse(fileContents.toString());
+const options: OptionsJson = getRootOptions();
 
 export const getDevices = () => {
   const devices = options.richmatDevices;
