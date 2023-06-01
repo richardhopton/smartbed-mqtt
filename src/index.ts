@@ -1,8 +1,9 @@
 import { connectToMQTT } from '@mqtt/connectToMQTT';
 import { loadStrings } from '@utils/getString';
 import { logError, logWarn } from '@utils/logger';
-import { ergomotion } from 'ErgoMotion/ergomotion';
 import { connectToESPHome } from 'ESPHome/connectToESPHome';
+import { ergomotion } from 'ErgoMotion/ergomotion';
+import { linak } from 'Linak/linak';
 import { richmat } from 'Richmat/richmat';
 import { sleeptracker } from 'Sleeptracker/sleeptracker';
 import { getType } from './Utils/options';
@@ -39,6 +40,10 @@ const start = async (): Promise<void> => {
     case 'richmat': {
       const esphome = await connectToESPHome();
       return void (await richmat(mqtt, esphome));
+    }
+    case 'linak': {
+      const esphome = await connectToESPHome();
+      return void (await linak(mqtt, esphome));
     }
   }
 };

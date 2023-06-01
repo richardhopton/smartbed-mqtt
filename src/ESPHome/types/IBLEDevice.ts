@@ -7,4 +7,5 @@ export interface IBLEDevice {
   disconnect(): Promise<void>;
   writeCharacteristic(handle: number, bytes: Uint8Array): Promise<void>;
   getServices(): Promise<BluetoothGATTService[]>;
+  subscribeToCharacteristic(handle: number, notify: (data: Uint8Array) => void): Promise<void>;
 }

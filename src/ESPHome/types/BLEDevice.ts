@@ -20,4 +20,12 @@ export class BLEDevice implements IBLEDevice {
     const response = await this.connection.listBluetoothGATTServicesService(this.address);
     return response.servicesList;
   };
+
+  subscribeToCharacteristic = async (handle: number, notify: (data: Uint8Array) => void) => {
+    this.connection.on('message.BluetoothGATTNotifyDataResponse', (message) => {
+      if (message.address != this.address || message.handle != handle) return;
+      notify(new Uint8Array([...Buffer.from(message.data)]));
+    });
+    await this.connection.notifyBluetoothGATTCharacteristicService(this.address, handle);
+  };
 }

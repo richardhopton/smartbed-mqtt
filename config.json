@@ -35,6 +35,13 @@
         "remoteCode": "VIRM"
       }
     ],
+    "linakDevices": [
+      {
+        "name": "LINAK Bed 0123",
+        "friendlyName": "Linak Bed",
+        "type": "standard"
+      }
+    ],
     "bleProxies": [
       {
         "host": "bluetooth-proxy.local"
@@ -46,7 +53,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergomotion|richmat)",
+    "type": "list(sleeptracker|ergomotion|richmat|linak)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -66,6 +73,13 @@
         "name": "str",
         "friendlyName": "str",
         "remoteCode": "str"
+      }
+    ],
+    "linakDevices": [
+      {
+        "name": "str",
+        "friendlyName": "str",
+        "type": "list(standard|advanced)"
       }
     ],
     "bleProxies": [
