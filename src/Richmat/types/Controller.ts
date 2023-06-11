@@ -1,12 +1,12 @@
-import { Entity } from '@ha/base/Entity';
 import { IDeviceData } from '@ha/IDeviceData';
+import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { wait } from '@utils/wait';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import { IDeviceWrapper } from '../deviceWrappers/IDeviceWrapper';
 import { RichmatDevice } from '../options';
 import { Features } from './Features';
-import { remoteFeatures } from './supportedFeatures';
+import { remoteFeatures } from './remoteFeatures';
 
 export class Controller {
   entities: Dictionary<Entity> = {};

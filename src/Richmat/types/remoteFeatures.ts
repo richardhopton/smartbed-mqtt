@@ -15,4 +15,22 @@ export const remoteFeatures: Dictionary<number> = {
     Features.MassageFootStep |
     Features.MassageMode |
     Features.MassageToggle,
+  ZR10:
+    Features.PresetFlat |
+    Features.PresetZeroG |
+    Features.PresetAntiSnore |
+    Features.PresetMemory |
+    Features.ProgramZeroG |
+    Features.ProgramAntiSnore |
+    Features.ProgramMemory |
+    Features.UnderBedLightsToggle,
+  ZR60:
+    Features.PresetFlat |
+    Features.PresetZeroG |
+    Features.PresetAntiSnore |
+    Features.PresetMemory |
+    Features.ProgramZeroG |
+    Features.ProgramAntiSnore |
+    Features.ProgramMemory |
+    Features.UnderBedLightsToggle,
 };
