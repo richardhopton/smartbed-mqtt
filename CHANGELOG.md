@@ -1,3 +1,10 @@
+## v1.1.3
+
+**New Features**
+
+- (Richmat) Support for ZR10 & ZR60 remote codes
+- (Linak) Very early support for Linak codes
+
 ## v1.1.2
 
 **New Features**
