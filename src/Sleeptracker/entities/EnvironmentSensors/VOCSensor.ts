@@ -12,7 +12,7 @@ export class VOCSensor extends JsonEnvironmentSensor {
       ...super.discoveryState(),
       state_class: 'measurement',
       unit_of_measurement: 'ppb',
-      device_class: 'volatile_organic_compounds',
+      device_class: 'volatile_organic_compounds_parts',
       icon: 'mdi:cloud',
     };
   }
