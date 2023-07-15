@@ -18,8 +18,6 @@ Support is for:-
 - Click on Configuration and set at least one email and password.
 - Click on Info and click Start.
 
-The default bed type is `tempur`, but can be adjusted by specifying `beautyrest` or `serta` using the optional type field on each user.
-
 ## MQTT broker
 
 An MQTT broker is required. The [Mosquitto official Add-On](https://github.com/home-assistant/addons/tree/master/mosquitto) is recommended.  Go to Add-ons and search for MQTT, then follow the provided instructions.
@@ -29,6 +27,8 @@ An MQTT broker is required. The [Mosquitto official Add-On](https://github.com/h
 ## Configuration
 
 It is possible to configure multiple users for one or more sleeptracker beds. Although it is possible to configure two users for the same bed, it is necessary if the represent a split bed.
+
+The default bed type is `tempur`, but can be adjusted by specifying `beautyrest` or `serta` using the optional type field on each user.
 
 e.g.
 
