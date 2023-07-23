@@ -18,9 +18,13 @@ Support is for:-
 - Click on Configuration and set at least one email and password.
 - Click on Info and click Start.
 
+## MQTT broker
+
+An MQTT broker is required. The [Mosquitto official Add-On](https://github.com/home-assistant/addons/tree/master/mosquitto) is recommended.  Go to Add-ons and search for MQTT, then follow the provided instructions.
+
 # Sleeptracker Support
 
-## Configurating
+## Configuration
 
 It is possible to configure multiple users for one or more sleeptracker beds. Although it is possible to configure two users for the same bed, it is necessary if the represent a split bed.
 
@@ -31,8 +35,10 @@ e.g.
 ```
  - email: me@example.org
    password: some strong password
-   type: serta
+   type: tempur
 ```
+
+'sleeptrackerRefreshFrequency' is in minutes.
 
 ## Current features includes:-
 
