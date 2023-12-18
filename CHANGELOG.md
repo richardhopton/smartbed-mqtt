@@ -1,3 +1,9 @@
+## v1.1.6
+
+**Bugs Fixed**
+
+- (ESPHome) Fix build error caused by changes in discovery
+
 ## v1.1.5
 
 **Bugs Fixed**
