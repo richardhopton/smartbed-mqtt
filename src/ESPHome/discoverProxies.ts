@@ -22,7 +22,7 @@ export const discoverProxies = async (password: string) => {
       await connect(connection);
     };
 
-    const discovery = new Discovery();
+    const discovery = new Discovery({});
     let discoveryTimes = 0;
     const discoveryInterval: NodeJS.Timer = setInterval(() => {
       discovery.destroy();
