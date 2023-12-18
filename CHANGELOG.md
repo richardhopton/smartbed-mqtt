@@ -1,9 +1,22 @@
+## v1.1.4
+
+**New Features**
+
+- (Solace) Very early support for Solace beds
+
+**Bugs Fixed**
+
+- (ESPHome) Better handling of ESPHome encryption key config
+- (ESPHome) Better support for Bluetooth devices
+- (Linak) Tweaks to Linak bed prototype
+- (Sleeptracker) Fixed VOC sensor class
+
 ## v1.1.3
 
 **New Features**
 
 - (Richmat) Support for ZR10 & ZR60 remote codes
-- (Linak) Very early support for Linak codes
+- (Linak) Very early support for Linak beds
 
 ## v1.1.2
 
