@@ -1,3 +1,9 @@
+## v1.1.5
+
+**Bugs Fixed**
+
+- (ESPHome) Support device name prefixes
+
 ## v1.1.4
 
 **New Features**
