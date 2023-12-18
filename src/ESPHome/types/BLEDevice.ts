@@ -33,4 +33,9 @@ export class BLEDevice implements IBLEDevice {
     });
     await this.connection.notifyBluetoothGATTCharacteristicService(this.address, handle);
   };
+
+  readCharacteristic = async (handle: number) => {
+    const response = await this.connection.readBluetoothGATTCharacteristicService(this.address, handle);
+    return new Uint8Array([...Buffer.from(response.data)]);
+  };
 }

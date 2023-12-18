@@ -35,33 +35,35 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
 
     logInfo('[Linak] Setting up entities for device:', name);
     // under bed light toggle
-    new Button(mqtt, deviceData, getString('UnderBedLightsToggle'), () =>
+    const underBedLightsButton = new Button(mqtt, deviceData, getString('UnderBedLightsToggle'), () =>
       bleDevice.writeCharacteristic(commandCharacteristic.handle, new Uint8Array([Commands.UnderBedLightsToggle, 0x00]))
     );
+    underBedLightsButton.setOnline();
 
     if (device.type !== 'advanced') continue;
 
     const outputService = services.find((s) => s.uuid === '99fa0020-338a-1024-8a49-009c0215f78a');
     if (!outputService) continue;
 
+    const mapPositionData = (data: Uint8Array) => (data[1] << 8) | data[0];
     const legsPositionCharacteristic = outputService.characteristicsList.find(
       (c) => c.uuid === '99fa0027-338a-1024-8a49-009c0215f78a'
     );
     if (legsPositionCharacteristic) {
+      const { handle } = legsPositionCharacteristic;
       const legPositionSensor = new BedPositionSensor(mqtt, deviceData, getString('AngleLeg'), 548, 45);
-      bleDevice.subscribeToCharacteristic(legsPositionCharacteristic.handle, (data) => {
-        legPositionSensor.setPosition((data[1] << 8) | data[0]);
-      });
+      bleDevice.subscribeToCharacteristic(handle, (data) => legPositionSensor.setPosition(mapPositionData(data)));
+      legPositionSensor.setPosition(mapPositionData(await bleDevice.readCharacteristic(handle)));
     }
 
     const backPositionCharacteristic = outputService.characteristicsList.find(
-      (c) => c.uuid === '99FA0028-338A-1024-8A49-009C0215F78A'
+      (c) => c.uuid === '99fa0028-338a-1024-8a49-009c0215f78a'
     );
     if (backPositionCharacteristic) {
-      const legPositionSensor = new BedPositionSensor(mqtt, deviceData, getString('AngleBack'), 820, 68);
-      bleDevice.subscribeToCharacteristic(backPositionCharacteristic.handle, (data) => {
-        legPositionSensor.setPosition((data[1] << 8) | data[0]);
-      });
+      const { handle } = backPositionCharacteristic;
+      const backPositionSensor = new BedPositionSensor(mqtt, deviceData, getString('AngleBack'), 820, 68);
+      bleDevice.subscribeToCharacteristic(handle, (data) => backPositionSensor.setPosition(mapPositionData(data)));
+      backPositionSensor.setPosition(mapPositionData(await bleDevice.readCharacteristic(handle)));
     }
   }
 };
