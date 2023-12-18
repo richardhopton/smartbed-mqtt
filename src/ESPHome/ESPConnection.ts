@@ -63,9 +63,10 @@ export class ESPConnection implements IESPConnection {
     const listenerBuilder = (connection: Connection) => ({
       connection,
       listener: ({ name, address, addressType }: BLEAdvertisement) => {
-        if (!deviceNames.includes(name)) return;
+        const deviceName = deviceNames.find((deviceName) => name.startsWith(deviceName));
+        if (!deviceName) return;
         logInfo('[ESPHome] Found device:', name);
-        deviceNames.splice(deviceNames.indexOf(name), 1);
+        deviceNames.splice(deviceNames.indexOf(deviceName), 1);
         bleDevices.push(new BLEDevice(name, address, addressType, connection));
 
         if (deviceNames.length) return;
