@@ -1,8 +1,22 @@
+## v1.1.7
+
+**New Features**
+
+- (Richmat) Allow bluetooth to stay connected
+- (ESPHome) Attempt to reconnect when bluetooth disconnected unexpectedly
+
+**Bugs Fixed**
+
+- (Solace) Fixes to initial prototype
+- (Linak) Ensure entities are properly initialized and set to online
+- (ESPHome) Remove device name prefixes due to bugs
+- (ESPHome) Fix BLE support for new ESPHome devices
+
 ## v1.1.6
 
 **Bugs Fixed**
 
-- (ESPHome) Fix build error caused by changes in discovery
+- (ESPHome) Build error caused by changes in discovery
 
 ## v1.1.5
 
