@@ -22,14 +22,14 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
     await connect();
     const services = await getServices();
 
-    const controlService = services.find((s) => s.uuid === '99FA0001-338A-1024-8A49-009C0215F78A');
+    const controlService = services.find((s) => s.uuid === '99fa0001-338a-1024-8a49-009c0215f78a');
     if (!controlService) {
       logInfo('[Linak] Could not find expected services for device:', name);
       continue;
     }
 
     const commandCharacteristic = controlService.characteristicsList.find(
-      (c) => c.uuid === '99FA0002-338A-1024-8A49-009C0215F78A'
+      (c) => c.uuid === '99fa0002-338a-1024-8a49-009c0215f78a'
     );
     if (!commandCharacteristic) continue;
 
@@ -41,11 +41,11 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
 
     if (device.type !== 'advanced') continue;
 
-    const outputService = services.find((s) => s.uuid === '99FA0020-338A-1024-8A49-009C0215F78A');
+    const outputService = services.find((s) => s.uuid === '99fa0020-338a-1024-8a49-009c0215f78a');
     if (!outputService) continue;
 
     const legsPositionCharacteristic = outputService.characteristicsList.find(
-      (c) => c.uuid === '99FA0027-338A-1024-8A49-009C0215F78A'
+      (c) => c.uuid === '99fa0027-338a-1024-8a49-009c0215f78a'
     );
     if (legsPositionCharacteristic) {
       const legPositionSensor = new BedPositionSensor(mqtt, deviceData, getString('AngleLeg'), 548, 45);
