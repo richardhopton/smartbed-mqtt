@@ -1,8 +1,8 @@
 import { BluetoothLEAdvertisementResponse, Connection } from '@2colors/esphome-native-api';
 import { Deferred } from '@utils/deferred';
 import { logInfo, logWarn } from '@utils/logger';
-import { connect } from './connect';
 import { IESPConnection } from './IESPConnection';
+import { connect } from './connect';
 import { BLEAdvertisement } from './types/BLEAdvertisement';
 import { BLEAdvertisementListener } from './types/BLEAdvertisementListener';
 import { BLEDevice } from './types/BLEDevice';
@@ -62,11 +62,11 @@ export class ESPConnection implements IESPConnection {
     const complete = new Deferred<void>();
     const listenerBuilder = (connection: Connection) => ({
       connection,
-      listener: ({ name, address }: BLEAdvertisement) => {
+      listener: ({ name, address, addressType }: BLEAdvertisement) => {
         if (!deviceNames.includes(name)) return;
         logInfo('[ESPHome] Found device:', name);
         deviceNames.splice(deviceNames.indexOf(name), 1);
-        bleDevices.push(new BLEDevice(name, address, connection));
+        bleDevices.push(new BLEDevice(name, address, addressType, connection));
 
         if (deviceNames.length) return;
         complete.resolve();

@@ -2,10 +2,15 @@ import { Connection } from '@2colors/esphome-native-api';
 import { IBLEDevice } from './IBLEDevice';
 
 export class BLEDevice implements IBLEDevice {
-  constructor(public name: string, public address: number, private connection: Connection) {}
+  constructor(
+    public name: string,
+    public address: number,
+    private addressType: number,
+    private connection: Connection
+  ) {}
 
   connect = async () => {
-    await this.connection.connectBluetoothDeviceService(this.address);
+    await this.connection.connectBluetoothDeviceService(this.address, this.addressType);
   };
 
   disconnect = async () => {
