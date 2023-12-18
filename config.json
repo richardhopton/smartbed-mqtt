@@ -42,6 +42,12 @@
         "type": "standard"
       }
     ],
+    "solaceDevices": [
+      {
+        "name": "S4-Y-123-456789",
+        "friendlyName": "Solace Bed"
+      }
+    ],
     "bleProxies": [
       {
         "host": "bluetooth-proxy.local"
@@ -80,6 +86,12 @@
         "name": "str",
         "friendlyName": "str",
         "type": "list(standard|advanced)"
+      }
+    ],
+    "solaceDevices": [
+      {
+        "name": "str",
+        "friendlyName": "str"
       }
     ],
     "bleProxies": [

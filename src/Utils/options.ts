@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 
-export type Type = 'sleeptracker' | 'ergomotion' | 'richmat' | 'linak';
+export type Type = 'sleeptracker' | 'ergomotion' | 'richmat' | 'linak' | 'solace';
 
 interface OptionsJson {
   type: Type;

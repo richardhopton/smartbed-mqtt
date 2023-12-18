@@ -6,6 +6,6 @@ export const loadStrings = (language = 'en') => {
   strings = require(`../Strings/${language}`).default;
 };
 
-type Key = keyof typeof Strings;
+export type StringsKey = keyof typeof Strings;
 
-export const getString = (key: Key) => strings[key] || key;
+export const getString = (key: StringsKey) => strings[key] || key;

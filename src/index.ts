@@ -6,6 +6,7 @@ import { ergomotion } from 'ErgoMotion/ergomotion';
 import { linak } from 'Linak/linak';
 import { richmat } from 'Richmat/richmat';
 import { sleeptracker } from 'Sleeptracker/sleeptracker';
+import { solace } from 'Solace/solace';
 import { getType } from './Utils/options';
 
 const processExit = (exitCode?: number) => {
@@ -31,19 +32,24 @@ const start = async (): Promise<void> => {
 
   const mqtt = await connectToMQTT();
 
+  //http
   switch (getType()) {
     case 'sleeptracker':
-    default:
       return void (await sleeptracker(mqtt));
     case 'ergomotion':
       return void (await ergomotion(mqtt));
+  }
+  // bluetooth
+  const esphome = await connectToESPHome();
+  switch (getType()) {
     case 'richmat': {
-      const esphome = await connectToESPHome();
       return void (await richmat(mqtt, esphome));
     }
     case 'linak': {
-      const esphome = await connectToESPHome();
       return void (await linak(mqtt, esphome));
+    }
+    case 'solace': {
+      return void (await solace(mqtt, esphome));
     }
   }
 };

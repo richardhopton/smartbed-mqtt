@@ -1,0 +1,25 @@
+export const Commands = {
+  PresetMemory1: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 161, 10, 46, 151]),
+  PresetMemory2: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 177, 11, 226, 151]),
+  PresetTV: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 0, 5, 23, 3]),
+  PresetZeroG: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 0, 9, 23, 6]),
+  PresetAntiSnore: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 0, 15, 151, 4]),
+  PresetRise: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 0, 33, 23, 24]),
+  PresetTiltForward: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 0, 40, 215, 30]),
+  PresetFlatBed: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 0, 8, 214, 198]),
+  PresetDecline: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 0, 34, 87, 25]),
+  PresetTiltBackward: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 0, 41, 22, 222]),
+  PresetAllFlat: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 0, 42, 86, 223]),
+
+  ProgramMemory1: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 160, 10, 47, 7]),
+  ProgramMemory2: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 176, 11, 227, 7]),
+  ProgramTV: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 80, 5, 43, 3]),
+  ProgramZeroG: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 144, 9, 123, 6]),
+  ProgramAntiSnore: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 240, 15, 211, 4]),
+
+  ResetMemory1: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 175, 10, 42, 247]),
+  ResetMemory2: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 191, 11, 230, 247]),
+  ResetTV: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 95, 5, 46, 243]),
+  ResetZeroG: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 159, 9, 126, 246]),
+  ResetAntiSnore: new Uint8Array([255, 255, 255, 255, 5, 0, 0, 255, 15, 214, 244]),
+};
