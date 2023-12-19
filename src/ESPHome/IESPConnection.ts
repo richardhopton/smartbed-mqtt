@@ -7,5 +7,5 @@ export interface IESPConnection {
   subscribeToBLEAdvertisements(listener: BLEAdvertisementListener): void;
   unsubscribeFromBLEAdvertisements(): void;
 
-  getBLEDevices(deviceNames: string[]): Promise<IBLEDevice[]>;
+  getBLEDevices(deviceNames: string[], nameMapper?: (name: string) => string): Promise<IBLEDevice[]>;
 }

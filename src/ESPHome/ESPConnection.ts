@@ -57,16 +57,18 @@ export class ESPConnection implements IESPConnection {
     this.subscribedToBLEAdvertisements = false;
   }
 
-  async getBLEDevices(deviceNames: string[]): Promise<IBLEDevice[]> {
+  async getBLEDevices(deviceNames: string[], nameMapper?: (name: string) => string): Promise<IBLEDevice[]> {
     const bleDevices: IBLEDevice[] = [];
     const complete = new Deferred<void>();
     const listenerBuilder = (connection: Connection) => ({
       connection,
       listener: ({ name, address, addressType }: BLEAdvertisement) => {
-        const deviceName = deviceNames.find((deviceName) => name.startsWith(deviceName));
-        if (!deviceName) return;
+        if (!name) return;
+        if (nameMapper) name = nameMapper(name);
+        if (!deviceNames.includes(name)) return;
+
         logInfo('[ESPHome] Found device:', name);
-        deviceNames.splice(deviceNames.indexOf(deviceName), 1);
+        deviceNames.splice(deviceNames.indexOf(name), 1);
         bleDevices.push(new BLEDevice(name, address, addressType, connection));
 
         if (deviceNames.length) return;

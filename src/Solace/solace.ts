@@ -7,12 +7,15 @@ import { getDevices } from './options';
 import { setupPresetButtons } from './processors/presetButtons';
 import { Controller } from './types/Controller';
 
+const nameMapper = (name: string) =>
+  name.replace(':', 'A').replace(';', 'B').replace('<', 'C').replace('=', 'D').replace('>', 'E').replace('?', 'F');
+
 export const solace = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
   if (!devices.length) return logInfo('[Solace] No devices configured');
 
-  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
-  const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
+  const devicesMap = buildDictionary(devices, (device) => ({ key: nameMapper(device.name), value: device }));
+  const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap), nameMapper);
   const controllers: Controller[] = [];
   for (const bleDevice of bleDevices) {
     const { name, address, connect, getServices } = bleDevice;
