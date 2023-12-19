@@ -77,7 +77,7 @@ Experimental...
 
 ## Configuring
 
-You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Richmat controller with `name`, `friendlyName`, and `remoteCode`.
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Richmat controller with `name`, `friendlyName`, `remoteCode`, and optionally `stayConnected`.
 
 ## Current features includes:-
 
@@ -87,6 +87,8 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 - Buttons to step thru the massage strengths for head & foot, massage mode, and toggle
 
 ## Notes
+
+Setting `stayConnected` to `true` will stop you from being able to use the app to control the bed.
 
 Support for this was only possible due to assistance from getrav on Discord. This was reverse engineered from a Sven & Son bed, so your mileage may vary.
 

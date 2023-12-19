@@ -32,7 +32,8 @@
       {
         "name": "QRRM12345",
         "friendlyName": "Richmat Bed",
-        "remoteCode": "VIRM"
+        "remoteCode": "VIRM",
+        "stayConnected": "false"
       }
     ],
     "linakDevices": [
@@ -78,7 +79,8 @@
       {
         "name": "str",
         "friendlyName": "str",
-        "remoteCode": "str"
+        "remoteCode": "str",
+        "stayConnected": "bool?"
       }
     ],
     "linakDevices": [

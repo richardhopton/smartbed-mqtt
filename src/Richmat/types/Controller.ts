@@ -16,7 +16,7 @@ export class Controller {
   constructor(
     public deviceData: IDeviceData,
     private bleDevice: IBLEDevice,
-    device: RichmatDevice,
+    private device: RichmatDevice,
     private wrapper: IDeviceWrapper
   ) {
     this.features = remoteFeatures[device.remoteCode];
@@ -33,6 +33,6 @@ export class Controller {
     await this.bleDevice.writeCharacteristic(writeHandle, getBytes(byte));
     await wait(50);
     await this.bleDevice.writeCharacteristic(writeHandle, getBytes(0x6e));
-    await this.bleDevice.disconnect();
+    if (!this.device.stayConnected) await this.bleDevice.disconnect();
   };
 }
