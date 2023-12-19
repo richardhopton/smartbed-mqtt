@@ -4,7 +4,7 @@ import { logError, logInfo } from '@utils/logger';
 export const connect = (connection: Connection) => {
   return new Promise<Connection>((resolve, reject) => {
     const errorHandler = (error: any) => {
-      logError('[ESPHome] Connecting:', error);
+      logError('[ESPHome] Failed Connecting:', error);
       reject(error);
     };
     connection.once('authorized', () => {
@@ -20,8 +20,8 @@ export const connect = (connection: Connection) => {
         errorHandler(err);
       }
     };
-    const retryHandler = () => {
-      logInfo('[ESPHome] Connecting (retry):', connection.host);
+    const retryHandler = (error: any) => {
+      logError('[ESPHome] Failed Connecting (will retry):', error);
       doConnect(errorHandler);
     };
     doConnect(retryHandler);
