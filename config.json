@@ -59,7 +59,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergomotion|richmat|linak)",
+    "type": "list(sleeptracker|ergomotion|richmat|linak|solace)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
