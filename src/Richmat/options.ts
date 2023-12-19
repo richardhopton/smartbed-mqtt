@@ -4,6 +4,7 @@ export interface RichmatDevice {
   friendlyName: string;
   name: string;
   remoteCode: string;
+  stayConnected: boolean | undefined;
 }
 
 interface OptionsJson {

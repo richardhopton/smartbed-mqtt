@@ -23,7 +23,7 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
     const deviceData = buildMQTTDeviceData({ ...device, address });
     await connect();
     const services = await getServices();
-    await disconnect();
+    if (!device.stayConnected) await disconnect();
     const deviceWrapper = inferDeviceWrapperFromServices(services);
     if (!deviceWrapper) {
       logError('[Richmat] Could not infer device from services:', services);
