@@ -20,6 +20,5 @@ export class Controller {
   writeData = async (bytes: Uint8Array) => {
     await this.bleDevice.connect();
     await this.bleDevice.writeCharacteristic(this.handle, bytes);
-    await this.bleDevice.disconnect();
   };
 }

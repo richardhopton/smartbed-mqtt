@@ -15,12 +15,11 @@ export const solace = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
   const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
   const controllers: Controller[] = [];
   for (const bleDevice of bleDevices) {
-    const { name, address, connect, getServices, disconnect } = bleDevice;
+    const { name, address, connect, getServices } = bleDevice;
     const device = devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address });
     await connect();
     const services = await getServices();
-    await disconnect();
     const service = services.find((s) => s.uuid === '0000ffe0-0000-1000-8000-00805f9b34fb');
     if (!service) continue;
     const characteristic = service.characteristicsList.find((c) => c.uuid === '0000ffe1-0000-1000-8000-00805f9b34fb');

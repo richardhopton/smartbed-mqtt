@@ -44,6 +44,7 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Cont
         writeData(command);
       });
     }
+    button.setOnline();
   };
 
   buildCachedButton('presetMemory1', 'PresetMemory1', Commands.PresetMemory1);
