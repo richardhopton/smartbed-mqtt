@@ -77,10 +77,7 @@ export class ESPConnection implements IESPConnection {
     for (const { connection, listener } of listeners) {
       connection.on('message.BluetoothLEAdvertisementResponse', listener).subscribeBluetoothAdvertisementService();
     }
-    await complete; //Promise.any([complete, wait(minutes(1))]);
-    for (const { connection, listener } of listeners) {
-      connection.off('message.BluetoothLEAdvertisementResponse', listener).unsubscribeBluetoothAdvertisementService();
-    }
+    await complete;
     if (deviceNames.length) logWarn('[ESPHome] Cound not find address for device(s):', deviceNames);
     return bleDevices;
   }
