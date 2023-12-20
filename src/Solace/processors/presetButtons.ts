@@ -13,18 +13,21 @@ interface PresetButtonEntities {
   programMemory2?: Button;
   resetMemory2?: Button;
 
+  presetMemory3?: Button;
+  programMemory3?: Button;
+  resetMemory3?: Button;
+
+  presetMemory4?: Button;
+  programMemory4?: Button;
+  resetMemory4?: Button;
+
+  presetMemory5?: Button;
+  programMemory5?: Button;
+  resetMemory5?: Button;
+
   presetTV?: Button;
-  programTV?: Button;
-  resetTV?: Button;
-
   presetZeroG?: Button;
-  programZeroG?: Button;
-  resetZeroG?: Button;
-
   presetAntiSnore?: Button;
-  programAntiSnore?: Button;
-  resetAntiSnore?: Button;
-
   presetRise?: Button;
   presetTiltForward?: Button;
   presetFlatBed?: Button;
@@ -33,40 +36,53 @@ interface PresetButtonEntities {
   presetAllFlat?: Button;
 }
 
-export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Controller) => {
-  const { entities, deviceData, writeData } = controller;
+export const setupPresetButtons = (mqtt: IMQTTConnection, { entities, deviceData, writeData }: Controller) => {
   const cache = entities as PresetButtonEntities;
 
-  const buildCachedButton = (key: keyof PresetButtonEntities, name: StringsKey, command: Uint8Array) => {
+  const buildCachedButton = (
+    key: keyof PresetButtonEntities,
+    name: StringsKey,
+    command: number[],
+    isConfig = false
+  ) => {
     let button = cache[key];
     if (!button) {
-      button = cache[key] = new Button(mqtt, deviceData, getString(name), () => {
-        writeData(command);
-      });
+      button = cache[key] = new Button(
+        mqtt,
+        deviceData,
+        getString(name),
+        () => {
+          writeData(new Uint8Array(command));
+        },
+        isConfig
+      );
     }
     button.setOnline();
   };
 
   buildCachedButton('presetMemory1', 'PresetMemory1', Commands.PresetMemory1);
-  buildCachedButton('programMemory1', 'ProgramMemory1', Commands.ProgramMemory1);
-  buildCachedButton('resetMemory1', 'ResetMemory1', Commands.ResetMemory1);
+  buildCachedButton('programMemory1', 'ProgramMemory1', Commands.ProgramMemory1, true);
+  buildCachedButton('resetMemory1', 'ResetMemory1', Commands.ResetMemory1, true);
 
   buildCachedButton('presetMemory2', 'PresetMemory2', Commands.PresetMemory2);
-  buildCachedButton('programMemory2', 'ProgramMemory2', Commands.ProgramMemory2);
-  buildCachedButton('resetMemory2', 'ResetMemory2', Commands.ResetMemory2);
+  buildCachedButton('programMemory2', 'ProgramMemory2', Commands.ProgramMemory2, true);
+  buildCachedButton('resetMemory2', 'ResetMemory2', Commands.ResetMemory2, true);
+
+  buildCachedButton('presetMemory3', 'PresetMemory3', Commands.PresetMemory3);
+  buildCachedButton('programMemory3', 'ProgramMemory3', Commands.ProgramMemory3, true);
+  buildCachedButton('resetMemory3', 'ResetMemory3', Commands.ResetMemory3, true);
+
+  buildCachedButton('presetMemory4', 'PresetMemory4', Commands.PresetMemory4);
+  buildCachedButton('programMemory4', 'ProgramMemory4', Commands.ProgramMemory4, true);
+  buildCachedButton('resetMemory4', 'ResetMemory4', Commands.ResetMemory4, true);
+
+  buildCachedButton('presetMemory5', 'PresetMemory5', Commands.PresetMemory5);
+  buildCachedButton('programMemory5', 'ProgramMemory5', Commands.ProgramMemory5, true);
+  buildCachedButton('resetMemory5', 'ResetMemory5', Commands.ResetMemory5, true);
 
   buildCachedButton('presetTV', 'PresetTV', Commands.PresetTV);
-  buildCachedButton('programTV', 'ProgramTV', Commands.ProgramTV);
-  buildCachedButton('resetTV', 'ResetTV', Commands.ResetTV);
-
   buildCachedButton('presetZeroG', 'PresetZeroG', Commands.PresetZeroG);
-  buildCachedButton('programZeroG', 'ProgramZeroG', Commands.ProgramZeroG);
-  buildCachedButton('resetZeroG', 'ResetZeroG', Commands.ResetZeroG);
-
   buildCachedButton('presetAntiSnore', 'PresetAntiSnore', Commands.PresetAntiSnore);
-  buildCachedButton('programAntiSnore', 'ProgramAntiSnore', Commands.ProgramAntiSnore);
-  buildCachedButton('resetAntiSnore', 'ResetAntiSnore', Commands.ResetAntiSnore);
-
   buildCachedButton('presetRise', 'PresetRise', Commands.PresetRise);
   buildCachedButton('presetTiltForward', 'PresetTiltForward', Commands.PresetTiltForward);
   buildCachedButton('presetFlatBed', 'PresetFlatBed', Commands.PresetFlatBed);
