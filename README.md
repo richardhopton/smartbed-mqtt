@@ -115,7 +115,7 @@ This remains connected to the bed controller and due to the bed only accepting o
 
 Initial prototyping was only possible due to assistance from jascdk on Discord.
 
-# Solace Support (Bluetooth) [prototype]
+# Solace Support (Bluetooth) [experimental]
 
 ## Configuring
 
@@ -123,9 +123,10 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 
 ## Current features include:
 
-- Buttons to trigger the presets
-- Buttons to program the presets
-- Buttons to reset the presets
+- Buttons to trigger the standard presets
+- Buttons to trigger the user presets
+- Buttons to program the user presets
+- Buttons to reset the user presets
 
 ## Notes
 
