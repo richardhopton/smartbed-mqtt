@@ -39,8 +39,7 @@
     "linakDevices": [
       {
         "name": "LINAK Bed 0123",
-        "friendlyName": "Linak Bed",
-        "type": "standard"
+        "friendlyName": "Linak Bed"
       }
     ],
     "solaceDevices": [
@@ -86,8 +85,7 @@
     "linakDevices": [
       {
         "name": "str",
-        "friendlyName": "str",
-        "type": "list(standard|advanced)"
+        "friendlyName": "str"
       }
     ],
     "solaceDevices": [
