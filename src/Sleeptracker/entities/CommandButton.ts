@@ -1,30 +1,21 @@
 import { Button } from '@ha/Button';
 import { IDeviceData } from '@ha/IDeviceData';
+import { EntityConfig } from '@ha/base/Entity';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { Credentials } from '../options';
 import { sendAdjustableBaseCommand } from '../requests/sendAdjustableBaseCommand';
 import { Commands } from '../types/Commands';
 
-type options = {
-  isConfig?: boolean;
-} & Dictionary<any>;
-
 export class CommandButton extends Button {
   constructor(
     mqtt: IMQTTConnection,
     deviceData: IDeviceData,
-    entityDesc: string,
+    config: EntityConfig,
     command: Commands,
     credentials: Credentials,
-    { isConfig, ...additionalPayload }: options = { isConfig: false }
+    additionalPayload: Dictionary<any> = {}
   ) {
-    super(
-      mqtt,
-      deviceData,
-      entityDesc,
-      () => sendAdjustableBaseCommand(command, credentials, additionalPayload),
-      isConfig
-    );
+    super(mqtt, deviceData, config, () => sendAdjustableBaseCommand(command, credentials, additionalPayload));
   }
 }

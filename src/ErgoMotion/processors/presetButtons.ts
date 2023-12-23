@@ -16,7 +16,14 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, { deviceData, id
 
   let { flatPreset } = cache;
   if (!flatPreset) {
-    flatPreset = cache.flatPreset = new CommandButton(mqtt, deviceData, 'Preset: Flat', Commands.PresetFlat, user, id);
+    flatPreset = cache.flatPreset = new CommandButton(
+      mqtt,
+      deviceData,
+      { description: 'Preset: Flat' },
+      Commands.PresetFlat,
+      user,
+      id
+    );
   }
   flatPreset.setOnline();
 
@@ -25,7 +32,7 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, { deviceData, id
     zeroGPreset = cache.zeroGPreset = new CommandButton(
       mqtt,
       deviceData,
-      'Preset: Zero G',
+      { description: 'Preset: Zero G' },
       Commands.PresetZeroG,
       user,
       id
@@ -37,7 +44,14 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, { deviceData, id
 
   let { tvPreset } = cache;
   if (!tvPreset) {
-    tvPreset = cache.tvPreset = new CommandButton(mqtt, deviceData, 'Preset: TV', Commands.PresetTV, user, id);
+    tvPreset = cache.tvPreset = new CommandButton(
+      mqtt,
+      deviceData,
+      { description: 'Preset: TV' },
+      Commands.PresetTV,
+      user,
+      id
+    );
   }
   tvPreset.setOnline();
 
@@ -46,7 +60,7 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, { deviceData, id
     userFavoritePreset = cache.userFavoritePreset = new CommandButton(
       mqtt,
       deviceData,
-      'Preset: User Favorite',
+      { description: 'Preset: User Favorite' },
       Commands.PresetUserFavorite,
       user,
       id
@@ -59,7 +73,7 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, { deviceData, id
     antiSnorePreset = cache.antiSnorePreset = new CommandButton(
       mqtt,
       deviceData,
-      'Preset: Anti Snore',
+      { description: 'Preset: Anti Snore' },
       Commands.PresetAntiSnore,
       user,
       id

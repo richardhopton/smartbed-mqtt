@@ -1,9 +1,9 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { buildEntityName } from '@utils/buildEntityName';
 import { Dictionary } from '@utils/Dictionary';
 import { getSideNameFunc } from '@utils/getSideNameFunc';
 import { logError, logInfo } from '@utils/logger';
 import { minutes } from '@utils/minutes';
+import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { buildMQTTDeviceData } from './buildMQTTDeviceData';
 import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
 import { HelloDataSensor } from './entities/InfoSensor';
@@ -81,7 +81,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
           sleepSensorInfo = bed.entities[entityKey] = new SleepSensorInfoSensor(
             mqtt,
             bed.deviceData,
-            buildEntityName('Sleep Sensor', sideName)
+            buildEntityConfig('Sleep Sensor', sideName)
           )
             .setState(sleepSensor)
             .setOnline();

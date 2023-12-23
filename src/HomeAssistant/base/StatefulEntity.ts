@@ -1,7 +1,7 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { ComponentType } from './ComponentTypeWithState';
-import { Entity } from './Entity';
+import { Entity, EntityConfig } from './Entity';
 import { IStateful } from './IStateful';
 
 export class StatefulEntity<T> extends Entity implements IStateful<T> {
@@ -9,8 +9,13 @@ export class StatefulEntity<T> extends Entity implements IStateful<T> {
 
   private state?: T;
 
-  constructor(mqtt: IMQTTConnection, deviceData: IDeviceData, entityDesc: string, componentType: ComponentType) {
-    super(mqtt, deviceData, entityDesc, componentType);
+  constructor(
+    mqtt: IMQTTConnection,
+    deviceData: IDeviceData,
+    entityConfig: EntityConfig,
+    componentType: ComponentType
+  ) {
+    super(mqtt, deviceData, entityConfig, componentType);
     this.stateTopic = `${this.baseTopic}/state`;
   }
 

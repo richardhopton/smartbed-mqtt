@@ -4,7 +4,8 @@ import { mock } from 'jest-mock-extended';
 import { StatefulEntity } from './StatefulEntity';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
-const buildSubject = () => new StatefulEntity<string>(mqtt, testDevice, 'Sensor', 'sensor');
+const buildSubject = (category?: string) =>
+  new StatefulEntity<string>(mqtt, testDevice, { description: 'Sensor', category }, 'sensor');
 
 describe(StatefulEntity.name, () => {
   beforeAll(() => jest.useFakeTimers());
@@ -33,6 +34,23 @@ describe(StatefulEntity.name, () => {
         payload_not_available: 'offline',
         state_topic: 'device_topic/sensor/state',
         unique_id: 'test_name_sensor',
+      });
+    });
+
+    it('on construction with entity category', () => {
+      buildSubject('config');
+      jest.runAllTimers();
+      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
+        availability_topic: 'device_topic/json_sensor/status',
+        device: { ...testDevice.device },
+        name: 'Test Name Json Sensor',
+        payload_available: 'online',
+        payload_not_available: 'offline',
+        state_topic: 'device_topic/json_sensor/state',
+        unique_id: 'test_name_json_sensor',
+        json_attributes_topic: 'device_topic/json_sensor/state',
+        value_template: "{{ value_json.value | default('') }}",
+        entity_category: 'config',
       });
     });
 

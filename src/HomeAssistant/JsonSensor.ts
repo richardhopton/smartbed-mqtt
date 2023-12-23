@@ -1,16 +1,16 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { IDeviceData } from './IDeviceData';
 import { Sensor } from './Sensor';
+import { EntityConfig } from './base/Entity';
 
 export class JsonSensor<T> extends Sensor<T> {
   constructor(
     mqtt: IMQTTConnection,
     deviceData: IDeviceData,
-    entityDesc: string,
-    private valueField: string = 'value',
-    private isDiagnostic = false
+    entityConfig: EntityConfig,
+    private valueField: string = 'value'
   ) {
-    super(mqtt, deviceData, entityDesc);
+    super(mqtt, deviceData, entityConfig);
   }
 
   mapState(state: T | undefined): any {
@@ -24,7 +24,6 @@ export class JsonSensor<T> extends Sensor<T> {
       ...super.discoveryState(),
       value_template: `{{ ${value_template.join(' | ')} }}`,
       json_attributes_topic: this.stateTopic,
-      ...(this.isDiagnostic ? { entity_category: 'diagnostic' } : {}),
     };
   }
 }

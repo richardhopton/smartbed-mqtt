@@ -1,5 +1,5 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { buildEntityName } from '@utils/buildEntityName';
+import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { CommandButton } from '../entities/CommandButton';
 import { Bed } from '../types/Bed';
 import { Commands } from '../types/Commands';
@@ -29,7 +29,7 @@ export const setupPresetButtons = async (
     flatPreset = cache.flatPreset = new CommandButton(
       mqtt,
       deviceData,
-      buildEntityName('Preset: Flat', sideName),
+      buildEntityConfig('Preset: Flat', sideName),
       Commands.PresetFlat,
       user
     );
@@ -41,7 +41,7 @@ export const setupPresetButtons = async (
     zeroGPreset = cache.zeroGPreset = new CommandButton(
       mqtt,
       deviceData,
-      buildEntityName('Preset: Zero G', sideName),
+      buildEntityConfig('Preset: Zero G', sideName),
       Commands.PresetZeroG,
       user
     );
@@ -51,10 +51,10 @@ export const setupPresetButtons = async (
     zeroGProgram = cache.zeroGProgram = new CommandButton(
       mqtt,
       deviceData,
-      buildEntityName('Program: Zero G', sideName),
+      buildEntityConfig('Program: Zero G', sideName),
       Commands.ProgramZeroG,
       user,
-      { isConfig: true }
+      { entityCategory: 'config' }
     );
   }
   zeroGProgram.setOnline();
@@ -64,7 +64,7 @@ export const setupPresetButtons = async (
     tvPreset = cache.tvPreset = new CommandButton(
       mqtt,
       deviceData,
-      buildEntityName('Preset: TV', sideName),
+      buildEntityConfig('Preset: TV', sideName),
       Commands.PresetTV,
       user
     );
@@ -74,10 +74,10 @@ export const setupPresetButtons = async (
     tvProgram = cache.tvProgram = new CommandButton(
       mqtt,
       deviceData,
-      buildEntityName('Program: TV', sideName),
+      buildEntityConfig('Program: TV', sideName),
       Commands.ProgramTV,
       user,
-      { isConfig: true }
+      { entityCategory: 'config' }
     );
   }
   tvProgram.setOnline();
@@ -87,7 +87,7 @@ export const setupPresetButtons = async (
     userFavoritePreset = cache.userFavoritePreset = new CommandButton(
       mqtt,
       deviceData,
-      buildEntityName('Preset: User Favorite', sideName),
+      buildEntityConfig('Preset: User Favorite', sideName),
       Commands.PresetUserFavorite,
       user
     );
@@ -97,10 +97,10 @@ export const setupPresetButtons = async (
     userFavoriteProgram = cache.userFavoriteProgram = new CommandButton(
       mqtt,
       deviceData,
-      buildEntityName('Program: User Favorite', sideName),
+      buildEntityConfig('Program: User Favorite', sideName),
       Commands.ProgramUserFavorite,
       user,
-      { isConfig: true }
+      { entityCategory: 'config' }
     );
   }
   userFavoriteProgram.setOnline();
@@ -112,7 +112,7 @@ export const setupPresetButtons = async (
     antiSnorePreset = cache.antiSnorePreset = new CommandButton(
       mqtt,
       deviceData,
-      buildEntityName('Preset: Anti Snore', sideName),
+      buildEntityConfig('Preset: Anti Snore', sideName),
       Commands.PresetAntiSnore,
       user
     );
@@ -122,10 +122,10 @@ export const setupPresetButtons = async (
     antiSnoreProgram = cache.antiSnoreProgram = new CommandButton(
       mqtt,
       deviceData,
-      buildEntityName('Program: Anti Snore', sideName),
+      buildEntityConfig('Program: Anti Snore', sideName),
       Commands.ProgramAntiSnore,
       user,
-      { isConfig: true }
+      { entityCategory: 'config' }
     );
   }
   antiSnoreProgram.setOnline();

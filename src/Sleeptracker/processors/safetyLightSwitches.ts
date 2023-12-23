@@ -1,6 +1,6 @@
 import { Switch } from '@ha/Switch';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { buildEntityName } from '@utils/buildEntityName';
+import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { sendAdjustableBaseCommand } from '../requests/sendAdjustableBaseCommand';
 import { Bed } from '../types/Bed';
 import { Commands } from '../types/Commands';
@@ -18,7 +18,7 @@ export const processSafetyLightSwitches = async (
     cache.safetyLightSwitch = new Switch(
       mqtt,
       deviceData,
-      buildEntityName('Safety Lights', sideName),
+      buildEntityConfig('Safety Lights', sideName),
       async (state: boolean) => {
         if (safetyLightOn != state) {
           const results = await sendAdjustableBaseCommand(Commands.ToggleSafetyLights, user);

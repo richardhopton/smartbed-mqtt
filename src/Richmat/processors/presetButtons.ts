@@ -1,6 +1,6 @@
 import { Button } from '@ha/Button';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { getString } from '@utils/getString';
+import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from '../types/Commands';
 import { Controller } from '../types/Controller';
 import { Features } from '../types/Features';
@@ -21,7 +21,7 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Cont
   if (hasFeature(Features.PresetFlat)) {
     let { presetFlat } = cache;
     if (!presetFlat) {
-      presetFlat = cache.presetFlat = new Button(mqtt, deviceData, getString('PresetFlat'), () =>
+      presetFlat = cache.presetFlat = new Button(mqtt, deviceData, buildEntityConfig('PresetFlat'), () =>
         writeData(Commands.PresetFlat)
       );
     }
@@ -31,7 +31,7 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Cont
   if (hasFeature(Features.PresetZeroG)) {
     let { presetZeroG } = cache;
     if (!presetZeroG) {
-      presetZeroG = cache.presetZeroG = new Button(mqtt, deviceData, getString('PresetZeroG'), () =>
+      presetZeroG = cache.presetZeroG = new Button(mqtt, deviceData, buildEntityConfig('PresetZeroG'), () =>
         writeData(Commands.PresetZeroG)
       );
     }
@@ -44,9 +44,8 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Cont
       programZeroG = cache.programZeroG = new Button(
         mqtt,
         deviceData,
-        getString('ProgramZeroG'),
-        () => writeData(Commands.ProgramZeroG),
-        true
+        buildEntityConfig('ProgramZeroG', 'config'),
+        () => writeData(Commands.ProgramZeroG)
       );
     }
     programZeroG.setOnline();
@@ -55,7 +54,7 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Cont
   if (hasFeature(Features.PresetMemory)) {
     let { presetMemory } = cache;
     if (!presetMemory) {
-      presetMemory = cache.presetMemory = new Button(mqtt, deviceData, getString('PresetMemory'), () =>
+      presetMemory = cache.presetMemory = new Button(mqtt, deviceData, buildEntityConfig('PresetMemory'), () =>
         writeData(Commands.PresetMemory)
       );
     }
@@ -68,9 +67,8 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Cont
       programMemory = cache.programMemory = new Button(
         mqtt,
         deviceData,
-        getString('ProgramMemory'),
-        () => writeData(Commands.ProgramMemory),
-        true
+        buildEntityConfig('ProgramMemory', 'config'),
+        () => writeData(Commands.ProgramMemory)
       );
     }
     programMemory.setOnline();
@@ -79,7 +77,7 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Cont
   if (hasFeature(Features.PresetAntiSnore)) {
     let { presetAntiSnore } = cache;
     if (!presetAntiSnore) {
-      presetAntiSnore = cache.presetAntiSnore = new Button(mqtt, deviceData, getString('PresetAntiSnore'), () =>
+      presetAntiSnore = cache.presetAntiSnore = new Button(mqtt, deviceData, buildEntityConfig('PresetAntiSnore'), () =>
         writeData(Commands.PresetAntiSnore)
       );
     }
@@ -92,9 +90,8 @@ export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Cont
       programAntiSnore = cache.programAntiSnore = new Button(
         mqtt,
         deviceData,
-        getString('ProgramAntiSnore'),
-        () => writeData(Commands.ProgramAntiSnore),
-        true
+        buildEntityConfig('ProgramAntiSnore', 'config'),
+        () => writeData(Commands.ProgramAntiSnore)
       );
     }
     programAntiSnore.setOnline();

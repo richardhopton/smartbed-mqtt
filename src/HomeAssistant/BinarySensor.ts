@@ -1,10 +1,11 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { StatefulEntity } from './base/StatefulEntity';
 import { IDeviceData } from './IDeviceData';
+import { EntityConfig } from './base/Entity';
+import { StatefulEntity } from './base/StatefulEntity';
 
 export class BinarySensor extends StatefulEntity<boolean> {
-  constructor(mqtt: IMQTTConnection, deviceData: IDeviceData, entityDesc: string) {
-    super(mqtt, deviceData, entityDesc, 'binary_sensor');
+  constructor(mqtt: IMQTTConnection, deviceData: IDeviceData, config: EntityConfig) {
+    super(mqtt, deviceData, config, 'binary_sensor');
   }
 
   mapState(state?: boolean): string {

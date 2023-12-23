@@ -1,6 +1,6 @@
 import { JsonSensor } from '@ha/JsonSensor';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { buildEntityName } from '@utils/buildEntityName';
+import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { Bed } from '../types/Bed';
 import { Controller } from '../types/Controller';
 import { MassagePattern, MassageStatus, Snapshot } from '../types/Snapshot';
@@ -28,7 +28,7 @@ export const processMassageSensors = async (
       cache.headMassageStrength = new JsonSensor<MassageStatus>(
         mqtt,
         deviceData,
-        buildEntityName('Head Massage Strength', sideName),
+        buildEntityConfig('Head Massage Strength', sideName),
         'strength'
       );
     }
@@ -42,7 +42,7 @@ export const processMassageSensors = async (
       cache.footMassageStrength = new JsonSensor<MassageStatus>(
         mqtt,
         deviceData,
-        buildEntityName('Foot Massage Strength', sideName),
+        buildEntityConfig('Foot Massage Strength', sideName),
         'strength'
       );
     }
@@ -56,7 +56,7 @@ export const processMassageSensors = async (
       cache.massagePattern = new JsonSensor<MassagePatternState>(
         mqtt,
         deviceData,
-        buildEntityName('Massage Pattern', sideName),
+        buildEntityConfig('Massage Pattern', sideName),
         'name'
       );
     }

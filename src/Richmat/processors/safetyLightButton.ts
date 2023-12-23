@@ -1,6 +1,6 @@
 import { Button } from '@ha/Button';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { getString } from '@utils/getString';
+import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Features } from 'Richmat/types/Features';
 import { Commands } from '../types/Commands';
 import { Controller } from '../types/Controller';
@@ -16,7 +16,7 @@ export const setupUnderBedLightButton = async (mqtt: IMQTTConnection, controller
       underBedLightsToggle = cache.underBedLightsToggle = new Button(
         mqtt,
         deviceData,
-        getString('UnderBedLightsToggle'),
+        buildEntityConfig('UnderBedLightsToggle'),
         () => writeData(Commands.UnderBedLightsToggle)
       );
     }

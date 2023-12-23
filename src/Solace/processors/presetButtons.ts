@@ -1,6 +1,7 @@
 import { Button } from '@ha/Button';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { StringsKey, getString } from '@utils/getString';
+import { StringsKey } from '@utils/getString';
+import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from '../types/Commands';
 import { Controller } from '../types/Controller';
 
@@ -43,42 +44,36 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, { entities, deviceData
     key: keyof PresetButtonEntities,
     name: StringsKey,
     command: number[],
-    isConfig = false
+    category?: string
   ) => {
     let button = cache[key];
     if (!button) {
-      button = cache[key] = new Button(
-        mqtt,
-        deviceData,
-        getString(name),
-        () => {
-          writeData(new Uint8Array(command));
-        },
-        isConfig
-      );
+      button = cache[key] = new Button(mqtt, deviceData, buildEntityConfig(name, category), () => {
+        writeData(new Uint8Array(command));
+      });
     }
     button.setOnline();
   };
 
   buildCachedButton('presetMemory1', 'PresetMemory1', Commands.PresetMemory1);
-  buildCachedButton('programMemory1', 'ProgramMemory1', Commands.ProgramMemory1, true);
-  buildCachedButton('resetMemory1', 'ResetMemory1', Commands.ResetMemory1, true);
+  buildCachedButton('programMemory1', 'ProgramMemory1', Commands.ProgramMemory1, 'config');
+  buildCachedButton('resetMemory1', 'ResetMemory1', Commands.ResetMemory1, 'config');
 
   buildCachedButton('presetMemory2', 'PresetMemory2', Commands.PresetMemory2);
-  buildCachedButton('programMemory2', 'ProgramMemory2', Commands.ProgramMemory2, true);
-  buildCachedButton('resetMemory2', 'ResetMemory2', Commands.ResetMemory2, true);
+  buildCachedButton('programMemory2', 'ProgramMemory2', Commands.ProgramMemory2, 'config');
+  buildCachedButton('resetMemory2', 'ResetMemory2', Commands.ResetMemory2, 'config');
 
   buildCachedButton('presetMemory3', 'PresetMemory3', Commands.PresetMemory3);
-  buildCachedButton('programMemory3', 'ProgramMemory3', Commands.ProgramMemory3, true);
-  buildCachedButton('resetMemory3', 'ResetMemory3', Commands.ResetMemory3, true);
+  buildCachedButton('programMemory3', 'ProgramMemory3', Commands.ProgramMemory3, 'config');
+  buildCachedButton('resetMemory3', 'ResetMemory3', Commands.ResetMemory3, 'config');
 
   buildCachedButton('presetMemory4', 'PresetMemory4', Commands.PresetMemory4);
-  buildCachedButton('programMemory4', 'ProgramMemory4', Commands.ProgramMemory4, true);
-  buildCachedButton('resetMemory4', 'ResetMemory4', Commands.ResetMemory4, true);
+  buildCachedButton('programMemory4', 'ProgramMemory4', Commands.ProgramMemory4, 'config');
+  buildCachedButton('resetMemory4', 'ResetMemory4', Commands.ResetMemory4, 'config');
 
   buildCachedButton('presetMemory5', 'PresetMemory5', Commands.PresetMemory5);
-  buildCachedButton('programMemory5', 'ProgramMemory5', Commands.ProgramMemory5, true);
-  buildCachedButton('resetMemory5', 'ResetMemory5', Commands.ResetMemory5, true);
+  buildCachedButton('programMemory5', 'ProgramMemory5', Commands.ProgramMemory5, 'config');
+  buildCachedButton('resetMemory5', 'ResetMemory5', Commands.ResetMemory5, 'config');
 
   buildCachedButton('presetTV', 'PresetTV', Commands.PresetTV);
   buildCachedButton('presetZeroG', 'PresetZeroG', Commands.PresetZeroG);

@@ -1,6 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { StatefulEntity } from './base/StatefulEntity';
 import { IDeviceData } from './IDeviceData';
+import { EntityConfig } from './base/Entity';
+import { StatefulEntity } from './base/StatefulEntity';
 
 export class Select extends StatefulEntity<string> {
   private commandTopic: string;
@@ -8,12 +9,11 @@ export class Select extends StatefulEntity<string> {
   constructor(
     mqtt: IMQTTConnection,
     deviceData: IDeviceData,
-    entityDesc: string,
+    entityConfig: EntityConfig,
     private options: string[],
-    onChange: (state: string) => Promise<void | string>,
-    private isConfig = false
+    onChange: (state: string) => Promise<void | string>
   ) {
-    super(mqtt, deviceData, entityDesc, 'select');
+    super(mqtt, deviceData, entityConfig, 'select');
     this.commandTopic = `${this.baseTopic}/command`;
 
     mqtt.subscribe(this.commandTopic);
@@ -28,7 +28,6 @@ export class Select extends StatefulEntity<string> {
     return {
       ...super.discoveryState(),
       command_topic: this.commandTopic,
-      ...(this.isConfig ? { entity_category: 'config' } : {}),
       options: this.options,
     };
   }

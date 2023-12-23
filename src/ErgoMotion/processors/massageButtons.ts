@@ -15,14 +15,21 @@ interface MassageButtonEntities {
 export const setupMassageButtons = async (mqtt: IMQTTConnection, { deviceData, id, user, entities }: Bed) => {
   const cache = entities as MassageButtonEntities;
   if (!cache.massageHeadUp) {
-    cache.massageHeadUp = new CommandButton(mqtt, deviceData, 'Massage Head Up', Commands.MassageHeadUp, user, id);
+    cache.massageHeadUp = new CommandButton(
+      mqtt,
+      deviceData,
+      { description: 'Massage Head Up' },
+      Commands.MassageHeadUp,
+      user,
+      id
+    );
   }
   cache.massageHeadUp.setOnline();
   if (!cache.massageHeadDown) {
     cache.massageHeadDown = new CommandButton(
       mqtt,
       deviceData,
-      'Massage Head Down',
+      { description: 'Massage Head Down' },
       Commands.MassageHeadDown,
       user,
       id
@@ -31,14 +38,21 @@ export const setupMassageButtons = async (mqtt: IMQTTConnection, { deviceData, i
   cache.massageHeadDown.setOnline();
 
   if (!cache.massageFootUp) {
-    cache.massageFootUp = new CommandButton(mqtt, deviceData, 'Massage Foot Up', Commands.MassageFootUp, user, id);
+    cache.massageFootUp = new CommandButton(
+      mqtt,
+      deviceData,
+      { description: 'Massage Foot Up' },
+      Commands.MassageFootUp,
+      user,
+      id
+    );
   }
   cache.massageFootUp.setOnline();
   if (!cache.massageFootDown) {
     cache.massageFootDown = new CommandButton(
       mqtt,
       deviceData,
-      'Massage Foot Down',
+      { description: 'Massage Foot Down' },
       Commands.MassageFootDown,
       user,
       id
@@ -47,7 +61,14 @@ export const setupMassageButtons = async (mqtt: IMQTTConnection, { deviceData, i
   cache.massageFootDown.setOnline();
 
   if (!cache.massageStep) {
-    cache.massageStep = new CommandButton(mqtt, deviceData, 'Massage Step', Commands.MassageStep, user, id);
+    cache.massageStep = new CommandButton(
+      mqtt,
+      deviceData,
+      { description: 'Massage Step' },
+      Commands.MassageStep,
+      user,
+      id
+    );
   }
   cache.massageStep.setOnline();
 
@@ -55,7 +76,7 @@ export const setupMassageButtons = async (mqtt: IMQTTConnection, { deviceData, i
     cache.massageAllOff = new CommandButton(
       mqtt,
       deviceData,
-      'Massage Timer Step',
+      { description: 'Massage Timer Step' },
       Commands.MassageTimerStep,
       user,
       id

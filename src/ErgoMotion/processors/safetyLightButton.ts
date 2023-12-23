@@ -12,7 +12,7 @@ export const processSafetyLightButton = async (mqtt: IMQTTConnection, { deviceDa
     safetyLightSwitch = cache.safetyLightSwitch = new CommandButton(
       mqtt,
       deviceData,
-      'Toggle Safety Lights',
+      { description: 'Toggle Safety Lights' },
       Commands.ToggleSafetyLights,
       user,
       id

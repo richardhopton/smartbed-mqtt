@@ -1,6 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { StatefulEntity } from './base/StatefulEntity';
 import { IDeviceData } from './IDeviceData';
+import { EntityConfig } from './base/Entity';
+import { StatefulEntity } from './base/StatefulEntity';
 
 const supportedMessages = ['ON', 'OFF'];
 export class Switch extends StatefulEntity<boolean> {
@@ -9,11 +10,10 @@ export class Switch extends StatefulEntity<boolean> {
   constructor(
     mqtt: IMQTTConnection,
     deviceData: IDeviceData,
-    entityDesc: string,
-    onChange: (state: boolean) => Promise<void | boolean>,
-    private isConfig = false
+    entityConfig: EntityConfig,
+    onChange: (state: boolean) => Promise<void | boolean>
   ) {
-    super(mqtt, deviceData, entityDesc, 'switch');
+    super(mqtt, deviceData, entityConfig, 'switch');
     this.commandTopic = `${this.baseTopic}/command`;
 
     mqtt.subscribe(this.commandTopic);
@@ -33,7 +33,6 @@ export class Switch extends StatefulEntity<boolean> {
     return {
       ...super.discoveryState(),
       command_topic: this.commandTopic,
-      ...(this.isConfig ? { entity_category: 'config' } : {}),
     };
   }
 }

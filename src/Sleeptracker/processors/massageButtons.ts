@@ -1,5 +1,5 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { buildEntityName } from '@utils/buildEntityName';
+import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { CommandButton } from '../entities/CommandButton';
 import { Bed } from '../types/Bed';
 import { Commands } from '../types/Commands';
@@ -24,7 +24,7 @@ export const setupMassageButtons = async (
       cache.massageHeadStep = new CommandButton(
         mqtt,
         deviceData,
-        buildEntityName('Massage Head Step', sideName),
+        buildEntityConfig('Massage Head Step', sideName),
         Commands.MassageHeadStep,
         user,
         { massageAdjustment: 1, requestStatus: true }
@@ -40,7 +40,7 @@ export const setupMassageButtons = async (
       cache.massageFootStep = new CommandButton(
         mqtt,
         deviceData,
-        buildEntityName('Massage Foot Step', sideName),
+        buildEntityConfig('Massage Foot Step', sideName),
         Commands.MassageFootStep,
         user,
         { massageAdjustment: 1, requestStatus: true }
@@ -56,7 +56,7 @@ export const setupMassageButtons = async (
       cache.massageStep = new CommandButton(
         mqtt,
         deviceData,
-        buildEntityName('Massage Step', sideName),
+        buildEntityConfig('Massage Step', sideName),
         Commands.MassageStep,
         user
       );
@@ -71,7 +71,7 @@ export const setupMassageButtons = async (
       cache.massagePatternStep = new CommandButton(
         mqtt,
         deviceData,
-        buildEntityName('Massage Pattern Step', sideName),
+        buildEntityConfig('Massage Pattern Step', sideName),
         Commands.MassagePatternStep,
         user
       );
@@ -82,7 +82,7 @@ export const setupMassageButtons = async (
       cache.massageTimerStep = new CommandButton(
         mqtt,
         deviceData,
-        buildEntityName('Massage Timer Step', sideName),
+        buildEntityConfig('Massage Timer Step', sideName),
         Commands.MassageTimerStep,
         user
       );

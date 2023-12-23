@@ -4,7 +4,7 @@ import { JsonEnvironmentSensor } from './JsonEnvironmentSensor';
 
 export class CO2Sensor extends JsonEnvironmentSensor {
   constructor(mqtt: IMQTTConnection, deviceData: IDeviceData) {
-    super(mqtt, deviceData, 'CO2 Sensor');
+    super(mqtt, deviceData, { description: 'CO2 Sensor' });
   }
 
   discoveryState() {

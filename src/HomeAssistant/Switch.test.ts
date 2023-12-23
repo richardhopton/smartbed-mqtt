@@ -5,16 +5,10 @@ import { Switch } from './Switch';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
 const onChange = jest.fn();
-const buildSubject = (isConfig = false) =>
-  new Switch(
-    mqtt,
-    testDevice,
-    'Switch',
-    async (state) => {
-      onChange(state);
-    },
-    isConfig
-  );
+const buildSubject = (category?: string) =>
+  new Switch(mqtt, testDevice, { description: 'Switch', category }, async (state) => {
+    onChange(state);
+  });
 
 describe(Switch.name, () => {
   beforeAll(() => jest.useFakeTimers());
@@ -46,8 +40,8 @@ describe(Switch.name, () => {
       });
     });
 
-    it('publishes discovery on construction with entity category', () => {
-      buildSubject(true);
+    it('on construction with entity category', () => {
+      buildSubject('config');
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('homeassistant/switch/device_topic_switch/config', {
         availability_topic: 'device_topic/switch/status',
