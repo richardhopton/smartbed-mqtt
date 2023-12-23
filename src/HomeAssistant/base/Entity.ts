@@ -8,7 +8,7 @@ import { IAvailable } from './IAvailable';
 
 const ONLINE = 'online';
 const OFFLINE = 'offline';
-type ComponentType = 'button' | EntityWithStateComponentType;
+type ComponentType = 'button' | 'cover' | EntityWithStateComponentType;
 
 export type EntityConfig = {
   description: string;
