@@ -1,9 +1,9 @@
 import { Button } from '@ha/Button';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { StringsKey } from '@utils/getString';
+import { Controller } from 'Common/Controller';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from '../types/Commands';
-import { Controller } from '../types/Controller';
 
 interface PresetButtonEntities {
   presetMemory1?: Button;
@@ -49,7 +49,7 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, { entities, deviceData
     let button = cache[key];
     if (!button) {
       button = cache[key] = new Button(mqtt, deviceData, buildEntityConfig(name, category), () => {
-        writeData(new Uint8Array(command));
+        writeData(command);
       });
     }
     button.setOnline();
