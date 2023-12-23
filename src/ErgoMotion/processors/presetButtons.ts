@@ -11,7 +11,7 @@ interface PresetButtonEntities {
   antiSnorePreset?: CommandButton;
 }
 
-export const setupPresetButtons = async (mqtt: IMQTTConnection, { deviceData, id, user, entities }: Bed) => {
+export const setupPresetButtons = (mqtt: IMQTTConnection, { deviceData, id, user, entities }: Bed) => {
   const cache = entities as PresetButtonEntities;
 
   let { flatPreset } = cache;

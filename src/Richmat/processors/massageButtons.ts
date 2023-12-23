@@ -12,7 +12,7 @@ interface MassageButtonEntities {
   massageMode?: Button;
 }
 
-export const setupMassageButtons = async (mqtt: IMQTTConnection, controller: Controller) => {
+export const setupMassageButtons = (mqtt: IMQTTConnection, controller: Controller) => {
   const { entities, deviceData, hasFeature, writeData } = controller;
   const cache = entities as MassageButtonEntities;
   if (hasFeature(Features.MassageHeadStep)) {

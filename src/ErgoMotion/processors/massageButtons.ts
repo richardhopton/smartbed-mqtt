@@ -12,7 +12,7 @@ interface MassageButtonEntities {
   massageAllOff?: CommandButton;
 }
 
-export const setupMassageButtons = async (mqtt: IMQTTConnection, { deviceData, id, user, entities }: Bed) => {
+export const setupMassageButtons = (mqtt: IMQTTConnection, { deviceData, id, user, entities }: Bed) => {
   const cache = entities as MassageButtonEntities;
   if (!cache.massageHeadUp) {
     cache.massageHeadUp = new CommandButton(
