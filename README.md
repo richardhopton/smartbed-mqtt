@@ -9,6 +9,7 @@ This project aims to enable remote control of smart beds from HomeAssistant.
 - Richmat BLE controlled beds [experimental]
 - Linak BLE controlled beds [prototype]
 - Solace BLE controlled beds [prototype]
+- MotoSleep BLE controlled beds [prototype]
 
 # Installation
 
@@ -133,6 +134,31 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
 
 Initial prototyping was only possible due to assistance from Bonopaws on Discord.
+
+# MotoSleep Support (Bluetooth) [experimental]
+
+## Configuring
+
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one MotoSleep controller with `name`, `friendlyName`, and optionally `stayConnected`.
+
+## Current features include:
+
+- Buttons to trigger the presets
+- Buttons to program the presets
+- Button to toggle under bed lights
+- Buttons to step thru the massage for head & foot
+- Buttons to turn off head or foot massage
+- Button to stop all motors & massage
+
+## Possible future features:
+
+- Buttons/Cover to control raising and lowering head/feet/lumbar/neck/tilt
+
+## Notes
+
+Setting `stayConnected` to `true` will stop you from being able to use the app to control the bed if the bed only accepts one Bluetooth connection.
+
+Initial prototyping was only possible due to assistance from waynebowie99 on Discord.
 
 # Support
 
