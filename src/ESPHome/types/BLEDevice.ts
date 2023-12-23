@@ -38,13 +38,13 @@ export class BLEDevice implements IBLEDevice {
   subscribeToCharacteristic = async (handle: number, notify: (data: Uint8Array) => void) => {
     this.connection.on('message.BluetoothGATTNotifyDataResponse', (message) => {
       if (message.address != this.address || message.handle != handle) return;
-      notify(new Uint8Array([...Buffer.from(message.data)]));
+      notify(new Uint8Array([...Buffer.from(message.data, 'base64')]));
     });
     await this.connection.notifyBluetoothGATTCharacteristicService(this.address, handle);
   };
 
   readCharacteristic = async (handle: number) => {
     const response = await this.connection.readBluetoothGATTCharacteristicService(this.address, handle);
-    return new Uint8Array([...Buffer.from(response.data)]);
+    return new Uint8Array([...Buffer.from(response.data, 'base64')]);
   };
 }
