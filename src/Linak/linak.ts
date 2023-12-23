@@ -7,6 +7,7 @@ import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
+import { BedPositionCover } from './entities/BedPositionCover';
 import { BedPositionSensor } from './entities/BedPositionSensor';
 import { getDevices } from './options';
 import { setupLightEntities } from './setupLightsEntities';
@@ -86,12 +87,23 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
     setupPresetButtons(mqtt, controller);
 
     const mapPositionData = (data: Uint8Array) => (data[1] << 8) | data[0];
-    if (notifyHandles.back) {
-      const backPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleBack'), 820, 68);
-      controller.on('back', (data) => backPositionSensor.setPosition(mapPositionData(data)));
+    const { back, leg } = notifyHandles;
+    if (back) {
+      const backPosition = mapPositionData(await bleDevice.readCharacteristic(back));
+      const backPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleBack'), 820, 68)
+        .setPosition(backPosition)
+        .setOnline();
+      const backPositionCover = new BedPositionCover(mqtt, deviceData, { description: 'Back Motor' }, 820)
+        .setPosition(backPosition)
+        .setOnline();
+      controller.on('back', (data) => {
+        const position = mapPositionData(data);
+        backPositionSensor.setPosition(position);
+        backPositionCover.setPosition(position);
+      });
     }
 
-    if (notifyHandles.leg) {
+    if (leg) {
       const legPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleLeg'), 548, 45);
       controller.on('leg', (data) => legPositionSensor.setPosition(mapPositionData(data)));
     }

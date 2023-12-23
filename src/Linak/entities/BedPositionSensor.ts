@@ -35,5 +35,6 @@ export class BedPositionSensor extends JsonSensor<BedPosition> {
     const angle =
       rawPosition > this.maxPosition ? this.maxAngle : round(this.maxAngle * (rawPosition / this.maxPosition), 1);
     this.setState({ rawPosition, angle }).setOnline();
+    return this;
   }
 }
