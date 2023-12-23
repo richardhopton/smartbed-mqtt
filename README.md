@@ -43,7 +43,7 @@ e.g.
    type: tempur
 ```
 
-'sleeptrackerRefreshFrequency' is in minutes.
+`sleeptrackerRefreshFrequency` is in minutes.
 
 ## Current features include:
 
@@ -95,7 +95,7 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 
 ## Notes
 
-Setting `stayConnected` to `true` will stop you from being able to use the app to control the bed.
+Setting `stayConnected` to `true` will stop you from being able to use the app to control the bed if the bed only accepts one Bluetooth connection.
 
 Support for this was only possible due to assistance from getrav on Discord. This was reverse engineered from a Sven & Son bed, so your mileage may vary.
 
@@ -122,7 +122,7 @@ Initial prototyping was only possible due to assistance from jascdk on Discord.
 
 ## Configuring
 
-You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Richmat controller with `name` and `friendlyName`.
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Solace controller with `name` and `friendlyName`.
 
 ## Current features include:
 

@@ -1,3 +1,18 @@
+## v1.1.8
+
+**New Features**
+
+- (Solace) Finalize preset buttons
+- (MotoSleep) Support for MotoSleep beds
+- (Linak) Add preset buttons and light entities
+
+**Bugs Fixed**
+
+- (Linak) Fix command for light toggle
+- (Linak) Fix bed sensor data extraction
+- (Linak) Remove device type configuration
+- (Linak/Solace/Richmat) Disconnect from BLE devices if main service/characteristics not found
+
 ## v1.1.7
 
 **New Features**
