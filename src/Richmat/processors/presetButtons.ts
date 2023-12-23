@@ -15,7 +15,7 @@ interface PresetButtonEntities {
   programAntiSnore?: Button;
 }
 
-export const setupPresetButtons = async (mqtt: IMQTTConnection, controller: Controller) => {
+export const setupPresetButtons = (mqtt: IMQTTConnection, controller: Controller) => {
   const { entities, deviceData, hasFeature, writeData } = controller;
   const cache = entities as PresetButtonEntities;
   if (hasFeature(Features.PresetFlat)) {

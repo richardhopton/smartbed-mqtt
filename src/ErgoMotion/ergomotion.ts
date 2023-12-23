@@ -6,7 +6,7 @@ import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
 import { getUsers } from './options';
 import { setupMassageButtons } from './processors/massageButtons';
 import { setupPresetButtons } from './processors/presetButtons';
-import { processSafetyLightButton } from './processors/safetyLightButton';
+import { setupSafetyLightsButton } from './processors/safetyLightsButton';
 import { getDevices } from './requests/getDevices';
 import { Bed } from './types/Bed';
 
@@ -38,11 +38,11 @@ export const ergomotion = async (mqtt: IMQTTConnection) => {
         };
         logInfo('[ErgoMotion] Setting up bed', id);
 
-        await setupPresetButtons(mqtt, bed);
+        setupPresetButtons(mqtt, bed);
         if (user.remoteStyle == 'L') continue;
 
-        await setupMassageButtons(mqtt, bed);
-        await processSafetyLightButton(mqtt, bed);
+        setupMassageButtons(mqtt, bed);
+        setupSafetyLightsButton(mqtt, bed);
       }
     }
   }
