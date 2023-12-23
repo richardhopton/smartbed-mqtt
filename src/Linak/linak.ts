@@ -3,8 +3,8 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logInfo } from '@utils/logger';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
+import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
-import { buildMQTTDeviceData } from './buildMQTTDeviceData';
 import { BedPositionSensor } from './entities/BedPositionSensor';
 import { getDevices } from './options';
 import { Commands } from './types/Commands';
@@ -18,7 +18,7 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   for (const bleDevice of bleDevices) {
     const { name, address, connect, getServices } = bleDevice;
     const device = devicesMap[name];
-    const deviceData = buildMQTTDeviceData({ ...device, address });
+    const deviceData = buildMQTTDeviceData({ ...device, address }, 'Linak');
     await connect();
     const services = await getServices();
 
