@@ -18,15 +18,23 @@ export const solace = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
   const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap), nameMapper);
   const controllers: Controller[] = [];
   for (const bleDevice of bleDevices) {
-    const { name, address, connect, getServices } = bleDevice;
+    const { name, address, connect, disconnect, getServices } = bleDevice;
     const device = devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Solace');
     await connect();
     const services = await getServices();
     const service = services.find((s) => s.uuid === '0000ffe0-0000-1000-8000-00805f9b34fb');
-    if (!service) continue;
+    if (!service) {
+      logInfo('[Solace] Could not find expected services for device:', name);
+      await disconnect();
+      continue;
+    }
     const characteristic = service.characteristicsList.find((c) => c.uuid === '0000ffe1-0000-1000-8000-00805f9b34fb');
-    if (!characteristic) continue;
+    if (!characteristic) {
+      logInfo('[Solace] Could not find expected characteristic for device:', name);
+      await disconnect();
+      continue;
+    }
 
     controllers.push(new Controller(deviceData, bleDevice, name, characteristic.handle, true));
   }

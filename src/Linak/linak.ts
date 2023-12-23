@@ -16,7 +16,7 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
   const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
   for (const bleDevice of bleDevices) {
-    const { name, address, connect, getServices } = bleDevice;
+    const { name, address, connect, disconnect, getServices } = bleDevice;
     const device = devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Linak');
     await connect();
@@ -25,13 +25,18 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
     const controlService = services.find((s) => s.uuid === '99fa0001-338a-1024-8a49-009c0215f78a');
     if (!controlService) {
       logInfo('[Linak] Could not find expected services for device:', name);
+      await disconnect();
       continue;
     }
 
     const commandCharacteristic = controlService.characteristicsList.find(
       (c) => c.uuid === '99fa0002-338a-1024-8a49-009c0215f78a'
     );
-    if (!commandCharacteristic) continue;
+    if (!commandCharacteristic) {
+      logInfo('[Linak] Could not find expected characteristic for device:', name);
+      await disconnect();
+      continue;
+    }
 
     logInfo('[Linak] Setting up entities for device:', name);
     // under bed light toggle
