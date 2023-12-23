@@ -9,5 +9,5 @@ export enum Commands {
   ProgramMemory3 = 0x66,
   ProgramMemory4 = 0x66,
 
-  UnderBedLightsToggle = 0x3c,
+  UnderBedLightsToggle = 0x94,
 }
