@@ -4,7 +4,8 @@ import { mock } from 'jest-mock-extended';
 import { Entity } from './Entity';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
-const buildSubject = () => new Entity(mqtt, testDevice, 'Binary Sensor', 'binary_sensor');
+const buildSubject = (category?: string) =>
+  new Entity(mqtt, testDevice, { description: 'Binary Sensor', category }, 'binary_sensor');
 
 describe(Entity.name, () => {
   beforeAll(() => jest.useFakeTimers());
@@ -35,6 +36,19 @@ describe(Entity.name, () => {
       });
     });
 
+    it('on construction with entity category', () => {
+      buildSubject('config');
+      jest.runAllTimers();
+      expect(mqtt.publish).toBeCalledWith('homeassistant/binary_sensor/device_topic_binary_sensor/config', {
+        availability_topic: 'device_topic/binary_sensor/status',
+        device: { ...testDevice.device },
+        name: 'Test Name Binary Sensor',
+        payload_available: 'online',
+        payload_not_available: 'offline',
+        unique_id: 'test_name_binary_sensor',
+        entity_category: 'config',
+      });
+    });
     it('when status online is receieved', () => {
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;

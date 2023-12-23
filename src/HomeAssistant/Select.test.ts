@@ -6,17 +6,10 @@ import { Select } from './Select';
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
 const onChange = jest.fn();
 const options = ['one', 'two', 'three'];
-const buildSubject = (isConfig = false) =>
-  new Select(
-    mqtt,
-    testDevice,
-    'Select',
-    options,
-    async (state) => {
-      onChange(state);
-    },
-    isConfig
-  );
+const buildSubject = (category?: string) =>
+  new Select(mqtt, testDevice, { description: 'Select', category }, options, async (state) => {
+    onChange(state);
+  });
 
 describe(Select.name, () => {
   beforeAll(() => jest.useFakeTimers());
@@ -49,8 +42,8 @@ describe(Select.name, () => {
       });
     });
 
-    it('publishes discovery on construction with entity category', () => {
-      buildSubject(true);
+    it('on construction with entity category', () => {
+      buildSubject('config');
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
         availability_topic: 'device_topic/select/status',

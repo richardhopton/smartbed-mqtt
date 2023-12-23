@@ -1,8 +1,8 @@
-import { IStateful } from '@ha/base/IStateful';
 import { IDeviceData } from '@ha/IDeviceData';
 import { Switch } from '@ha/Switch';
+import { IStateful } from '@ha/base/IStateful';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { buildEntityName } from '@utils/buildEntityName';
+import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { SnoreRelief } from '../types/SnoreRelief';
 
 export class SnoreReliefSwitchSet implements IStateful<SnoreRelief> {
@@ -15,19 +15,14 @@ export class SnoreReliefSwitchSet implements IStateful<SnoreRelief> {
     sideName: string,
     onChange: (value: SnoreRelief) => Promise<void>
   ) {
-    this.tilt = new Switch(
-      mqtt,
-      deviceData,
-      buildEntityName('Snore Relief Tilt', sideName),
-      (state) => onChange({ ...this.getState(), snoreReliefTilt: state }),
-      true
+    this.tilt = new Switch(mqtt, deviceData, buildEntityConfig('Snore Relief Tilt', sideName, 'config'), (state) =>
+      onChange({ ...this.getState(), snoreReliefTilt: state })
     );
     this.vibration = new Switch(
       mqtt,
       deviceData,
-      buildEntityName('Snore Relief Vibration', sideName),
-      (state) => onChange({ ...this.getState(), snoreReliefVibration: state }),
-      true
+      buildEntityConfig('Snore Relief Vibration', sideName, 'config'),
+      (state) => onChange({ ...this.getState(), snoreReliefVibration: state })
     );
   }
 

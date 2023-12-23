@@ -10,6 +10,11 @@ const ONLINE = 'online';
 const OFFLINE = 'offline';
 type ComponentType = 'button' | EntityWithStateComponentType;
 
+export type EntityConfig = {
+  description: string;
+  category?: string;
+};
+
 export class Entity implements IAvailable {
   protected baseTopic: string;
   private availabilityTopic: string;
@@ -19,10 +24,10 @@ export class Entity implements IAvailable {
   constructor(
     protected mqtt: IMQTTConnection,
     protected deviceData: IDeviceData,
-    protected entityDesc: string,
+    protected entityConfig: EntityConfig,
     private componentType: ComponentType
   ) {
-    this.entityTag = safeId(this.entityDesc);
+    this.entityTag = safeId(entityConfig.description);
     this.uniqueId = `${safeId(deviceData.device.name)}_${this.entityTag}`;
     this.baseTopic = `${deviceData.deviceTopic}/${this.entityTag}`;
     this.availabilityTopic = `${this.baseTopic}/status`;
@@ -36,7 +41,7 @@ export class Entity implements IAvailable {
   publishDiscovery() {
     const discoveryTopic = `homeassistant/${this.componentType}/${this.deviceData.deviceTopic}_${this.entityTag}/config`;
     const discoveryMessage = {
-      name: `${this.deviceData.device.name} ${this.entityDesc}`,
+      name: `${this.deviceData.device.name} ${this.entityConfig.description}`,
       unique_id: this.uniqueId,
       device: this.deviceData.device,
       ...this.discoveryState(),
@@ -50,6 +55,7 @@ export class Entity implements IAvailable {
       availability_topic: this.availabilityTopic,
       payload_available: ONLINE,
       payload_not_available: OFFLINE,
+      ...(this.entityConfig.category ? { entity_category: this.entityConfig.category } : {}),
     };
   }
 

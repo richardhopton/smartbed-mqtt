@@ -1,18 +1,12 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { Entity } from './base/Entity';
 import { IDeviceData } from './IDeviceData';
+import { Entity, EntityConfig } from './base/Entity';
 
 export class Button extends Entity {
   private commandTopic: string;
 
-  constructor(
-    mqtt: IMQTTConnection,
-    deviceData: IDeviceData,
-    entityDesc: string,
-    onPress: () => void,
-    private isConfig = false
-  ) {
-    super(mqtt, deviceData, entityDesc, 'button');
+  constructor(mqtt: IMQTTConnection, deviceData: IDeviceData, entityConfig: EntityConfig, onPress: () => void) {
+    super(mqtt, deviceData, entityConfig, 'button');
     this.commandTopic = `${this.baseTopic}/command`;
     mqtt.subscribe(this.commandTopic);
     mqtt.on(this.commandTopic, (message) => {
@@ -25,7 +19,6 @@ export class Button extends Entity {
     return {
       ...super.discoveryState(),
       command_topic: this.commandTopic,
-      ...(this.isConfig ? { entity_category: 'config' } : {}),
     };
   }
 }

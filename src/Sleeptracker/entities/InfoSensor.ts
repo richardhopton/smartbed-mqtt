@@ -8,7 +8,7 @@ const fieldsToStrip = ['gmtOffset', 'server_config_url', 'buildMeta'];
 
 export class HelloDataSensor extends JsonSensor<HelloData> {
   constructor(mqtt: IMQTTConnection, deviceData: IDeviceData) {
-    super(mqtt, deviceData, 'Info', 'Serial', true);
+    super(mqtt, deviceData, { description: 'Info', category: 'diagnostics' }, 'Serial');
   }
 
   mapState(state: HelloData | undefined) {

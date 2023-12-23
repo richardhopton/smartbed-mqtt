@@ -5,7 +5,7 @@ import { Button } from './Button';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
 const onPress = jest.fn();
-const buildSubject = (isConfig = false) => new Button(mqtt, testDevice, 'Button', onPress, isConfig);
+const buildSubject = (category?: string) => new Button(mqtt, testDevice, { description: 'Button', category }, onPress);
 
 describe(Button.name, () => {
   beforeAll(() => jest.useFakeTimers());
@@ -37,7 +37,7 @@ describe(Button.name, () => {
     });
 
     it('on construction with config entity category', () => {
-      buildSubject(true);
+      buildSubject('config');
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('homeassistant/button/device_topic_button/config', {
         availability_topic: 'device_topic/button/status',

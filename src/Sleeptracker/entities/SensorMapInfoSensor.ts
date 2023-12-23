@@ -1,12 +1,13 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { JsonSensor } from '@ha/JsonSensor';
+import { EntityConfig } from '@ha/base/Entity';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { cleanJsonState } from '@utils/cleanJsonState';
 import { SleepSensor } from '../types/SleepSensor';
 
 export class SleepSensorInfoSensor extends JsonSensor<SleepSensor> {
-  constructor(mqtt: IMQTTConnection, deviceData: IDeviceData, entityDesc: string) {
-    super(mqtt, deviceData, entityDesc, 'userFirstName', true);
+  constructor(mqtt: IMQTTConnection, deviceData: IDeviceData, config: EntityConfig) {
+    super(mqtt, deviceData, { ...config, category: 'diagnostics' }, 'userFirstName');
   }
 
   mapState(state: SleepSensor | undefined) {

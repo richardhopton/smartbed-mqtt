@@ -1,5 +1,6 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { JsonSensor } from '@ha/JsonSensor';
+import { EntityConfig } from '@ha/base/Entity';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { round } from '../../Utils/round';
 
@@ -12,11 +13,11 @@ export class BedPositionSensor extends JsonSensor<BedPosition> {
   constructor(
     mqtt: IMQTTConnection,
     deviceData: IDeviceData,
-    entityDesc: string,
+    config: EntityConfig,
     private maxPosition: number,
     private maxAngle: number
   ) {
-    super(mqtt, deviceData, entityDesc, 'angle');
+    super(mqtt, deviceData, config, 'angle');
   }
 
   discoveryState() {

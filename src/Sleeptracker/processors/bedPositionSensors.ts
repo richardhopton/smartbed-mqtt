@@ -1,5 +1,5 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { buildEntityName } from '@utils/buildEntityName';
+import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { BedPositionSensor } from '../entities/BedPositionSensor';
 import { Bed } from '../types/Bed';
 import { Controller } from '../types/Controller';
@@ -19,12 +19,12 @@ export const processBedPositionSensors = async (
   const cache = entities as BedPositionEntities;
 
   if (!cache.headPosition) {
-    cache.headPosition = new BedPositionSensor(mqtt, deviceData, buildEntityName('Head Angle', sideName));
+    cache.headPosition = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('Head Angle', sideName));
   }
   cache.headPosition.setBedPosition(snapshot.head.motor, headAngleTicksPerDegree);
 
   if (!cache.footPosition) {
-    cache.footPosition = new BedPositionSensor(mqtt, deviceData, buildEntityName('Foot Angle', sideName));
+    cache.footPosition = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('Foot Angle', sideName));
   }
   cache.footPosition.setBedPosition(snapshot.foot.motor, footAngleTicksPerDegree);
 };
