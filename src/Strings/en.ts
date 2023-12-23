@@ -16,6 +16,7 @@ const strings = {
   PresetTiltForward: 'Preset: Tilt Forward',
   PresetTiltBackward: 'Preset: Tilt Backward',
   PresetAllFlat: 'Preset: All Flat',
+  PresetHome: 'Preset: Home',
   ProgramZeroG: 'Program: Zero G',
   ProgramTV: 'Program: TV',
   ProgramUserFavorite: 'Program: User Favorite',
@@ -33,6 +34,12 @@ const strings = {
   ResetMemory5: 'Reset: Memory 5',
   MassageHeadStep: 'Head Massage Step',
   MassageFootStep: 'Foot Massage Step',
+  MassageHeadUp: 'Head Massage Up',
+  MassageFootUp: 'Foot Massage Up',
+  MassageHeadDown: 'Head Massage Down',
+  MassageFootDown: 'Foot Massage Down',
+  MassageHeadOff: 'Head Massage Off',
+  MassageFootOff: 'Foot Massage Off',
   MassageStep: 'Massage Step',
   MassageTimerStep: 'Massage Timer Step',
   MassageHeadStrength: 'Head Massage Strength',
@@ -46,6 +53,7 @@ const strings = {
   UnderBedLightsToggle: 'Toggle Under Bed Lights',
   MassageToggle: 'Toggle Massage',
   MassageMode: 'Massage Mode',
+  Stop: 'Stop',
 };
 
 export default strings;

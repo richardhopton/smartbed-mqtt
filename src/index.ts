@@ -4,6 +4,7 @@ import { logError, logWarn } from '@utils/logger';
 import { connectToESPHome } from 'ESPHome/connectToESPHome';
 import { ergomotion } from 'ErgoMotion/ergomotion';
 import { linak } from 'Linak/linak';
+import { motosleep } from 'MotoSleep/motosleep';
 import { richmat } from 'Richmat/richmat';
 import { sleeptracker } from 'Sleeptracker/sleeptracker';
 import { solace } from 'Solace/solace';
@@ -42,15 +43,14 @@ const start = async (): Promise<void> => {
   // bluetooth
   const esphome = await connectToESPHome();
   switch (getType()) {
-    case 'richmat': {
+    case 'richmat':
       return void (await richmat(mqtt, esphome));
-    }
-    case 'linak': {
+    case 'linak':
       return void (await linak(mqtt, esphome));
-    }
-    case 'solace': {
+    case 'solace':
       return void (await solace(mqtt, esphome));
-    }
+    case 'motosleep':
+      return void (await motosleep(mqtt, esphome));
   }
 };
 void start();

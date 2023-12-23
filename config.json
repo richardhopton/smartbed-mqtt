@@ -48,6 +48,12 @@
         "friendlyName": "Solace Bed"
       }
     ],
+    "motoSleepDevices": [
+      {
+        "name": "HHC123ABCD",
+        "friendlyName": "MotoSleep Bed"
+      }
+    ],
     "bleProxies": [
       {
         "host": "bluetooth-proxy.local"
@@ -59,7 +65,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergomotion|richmat|linak|solace)",
+    "type": "list(sleeptracker|ergomotion|richmat|linak|solace|motosleep)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -92,6 +98,13 @@
       {
         "name": "str",
         "friendlyName": "str"
+      }
+    ],
+    "motoSleepDevices": [
+      {
+        "name": "str",
+        "friendlyName": "str",
+        "stayConnected": "bool?"
       }
     ],
     "bleProxies": [
