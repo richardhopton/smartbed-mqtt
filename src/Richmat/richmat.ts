@@ -27,6 +27,7 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
     const deviceWrapper = inferDeviceWrapperFromServices(services);
     if (!deviceWrapper) {
       logError('[Richmat] Could not infer device from services:', services);
+      await disconnect();
       continue;
     }
 
