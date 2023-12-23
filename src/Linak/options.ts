@@ -1,11 +1,8 @@
 import { getRootOptions } from '@utils/options';
 
-export type Type = 'standard' | 'advanced';
-
 export interface LinakDevice {
   friendlyName: string;
   name: string;
-  type: Type;
 }
 
 interface OptionsJson {

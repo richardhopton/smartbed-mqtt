@@ -102,7 +102,7 @@ Support for this was only possible due to assistance from getrav on Discord. Thi
 
 ## Configuring
 
-You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Linak controller with `name`, `friendlyName`, and `type`.
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Linak controller with `name` and `friendlyName`.
 
 ## Current features include:
 

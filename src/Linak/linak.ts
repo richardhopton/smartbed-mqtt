@@ -40,8 +40,6 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
     );
     underBedLightsButton.setOnline();
 
-    if (device.type !== 'advanced') continue;
-
     const outputService = services.find((s) => s.uuid === '99fa0020-338a-1024-8a49-009c0215f78a');
     if (!outputService) continue;
 
