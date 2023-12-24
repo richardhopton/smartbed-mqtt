@@ -1,13 +1,15 @@
-export enum Commands {
-  PresetMemory1 = 0x45,
-  PresetMemory2 = 0x31,
-  PresetMemory3 = 0x46,
-  PresetMemory4 = 0x2e,
+export const Commands = {
+  PresetMemory1: [0x45, 0x00],
+  PresetMemory2: [0x31, 0x00],
+  PresetMemory3: [0x46, 0x00],
+  PresetMemory4: [0x2e, 0x00],
 
-  ProgramMemory1 = 0x2b,
-  ProgramMemory2 = 0x69,
-  ProgramMemory3 = 0x66,
-  ProgramMemory4 = 0x66,
+  ProgramMemory1: [0x2b, 0x00],
+  ProgramMemory2: [0x69, 0x00],
+  ProgramMemory3: [0x66, 0x00],
+  ProgramMemory4: [0x66, 0x00],
 
-  UnderBedLightsToggle = 0x94,
-}
+  UnderBedLightsOn: [0x92, 0x00],
+  UnderBedLightsOff: [0x93, 0x00],
+  UnderBedLightsToggle: [0x94, 0x00],
+};
