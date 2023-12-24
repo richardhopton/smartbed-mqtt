@@ -51,6 +51,7 @@ const strings = {
   SafetyLights: 'SafetyLights',
   SafetyLightsToggle: 'Toggle Safety Lights',
   UnderBedLightsToggle: 'Toggle Under Bed Lights',
+  UnderBedLights: 'Under Bed Lights',
   MassageToggle: 'Toggle Massage',
   MassageMode: 'Massage Mode',
   Stop: 'Stop',

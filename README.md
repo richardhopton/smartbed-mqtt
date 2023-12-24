@@ -107,7 +107,9 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 
 ## Current features include:
 
-- Button to toggle under bed lights
+- Buttons to trigger the presets
+- Buttons to program the presets
+- Button & switch for under bed lights
 - Sensor to read the bed angle
 
 ## Notes
