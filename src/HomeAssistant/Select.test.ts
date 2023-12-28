@@ -32,7 +32,7 @@ describe(Select.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
         availability_topic: 'device_topic/select/status',
         device: { ...testDevice.device },
-        name: 'Test Name Select',
+        name: 'Select',
         options,
         payload_available: 'online',
         payload_not_available: 'offline',
@@ -48,7 +48,7 @@ describe(Select.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
         availability_topic: 'device_topic/select/status',
         device: { ...testDevice.device },
-        name: 'Test Name Select',
+        name: 'Select',
         options,
         payload_available: 'online',
         payload_not_available: 'offline',
@@ -71,7 +71,7 @@ describe(Select.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
         availability_topic: 'device_topic/select/status',
         device: { ...testDevice.device },
-        name: 'Test Name Select',
+        name: 'Select',
         options,
         payload_available: 'online',
         payload_not_available: 'offline',

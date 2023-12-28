@@ -28,7 +28,7 @@ describe(BinarySensor.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/binary_sensor/device_topic_binary_sensor/config', {
         availability_topic: 'device_topic/binary_sensor/status',
         device: { ...testDevice.device },
-        name: 'Test Name Binary Sensor',
+        name: 'Binary Sensor',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/binary_sensor/state',
@@ -46,7 +46,7 @@ describe(BinarySensor.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/binary_sensor/device_topic_binary_sensor/config', {
         availability_topic: 'device_topic/binary_sensor/status',
         device: { ...testDevice.device },
-        name: 'Test Name Binary Sensor',
+        name: 'Binary Sensor',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/binary_sensor/state',

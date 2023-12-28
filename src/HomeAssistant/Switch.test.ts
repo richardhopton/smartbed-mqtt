@@ -31,7 +31,7 @@ describe(Switch.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/switch/device_topic_switch/config', {
         availability_topic: 'device_topic/switch/status',
         device: { ...testDevice.device },
-        name: 'Test Name Switch',
+        name: 'Switch',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/switch/state',
@@ -46,7 +46,7 @@ describe(Switch.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/switch/device_topic_switch/config', {
         availability_topic: 'device_topic/switch/status',
         device: { ...testDevice.device },
-        name: 'Test Name Switch',
+        name: 'Switch',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/switch/state',
@@ -68,7 +68,7 @@ describe(Switch.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/switch/device_topic_switch/config', {
         availability_topic: 'device_topic/switch/status',
         device: { ...testDevice.device },
-        name: 'Test Name Switch',
+        name: 'Switch',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/switch/state',
