@@ -26,8 +26,8 @@ export class BLEDevice implements IBLEDevice {
     await this.connection.disconnectBluetoothDeviceService(this.address);
   };
 
-  writeCharacteristic = async (handle: number, bytes: Uint8Array) => {
-    await this.connection.writeBluetoothGATTCharacteristicService(this.address, handle, bytes, true);
+  writeCharacteristic = async (handle: number, bytes: Uint8Array, response = true) => {
+    await this.connection.writeBluetoothGATTCharacteristicService(this.address, handle, bytes, response);
   };
 
   getServices = async () => {
