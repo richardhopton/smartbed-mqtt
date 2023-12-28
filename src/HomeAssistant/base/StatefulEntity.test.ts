@@ -29,7 +29,7 @@ describe(StatefulEntity.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_sensor/config', {
         availability_topic: 'device_topic/sensor/status',
         device: { ...testDevice.device },
-        name: 'Test Name Sensor',
+        name: 'Sensor',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/sensor/state',
@@ -43,7 +43,7 @@ describe(StatefulEntity.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_sensor/config', {
         availability_topic: 'device_topic/sensor/status',
         device: { ...testDevice.device },
-        name: 'Test Name Sensor',
+        name: 'Sensor',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/sensor/state',
@@ -62,7 +62,7 @@ describe(StatefulEntity.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_sensor/config', {
         availability_topic: 'device_topic/sensor/status',
         device: { ...testDevice.device },
-        name: 'Test Name Sensor',
+        name: 'Sensor',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/sensor/state',

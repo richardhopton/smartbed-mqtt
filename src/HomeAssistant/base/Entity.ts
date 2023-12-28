@@ -41,7 +41,7 @@ export class Entity implements IAvailable {
   publishDiscovery() {
     const discoveryTopic = `homeassistant/${this.componentType}/${this.deviceData.deviceTopic}_${this.entityTag}/config`;
     const discoveryMessage = {
-      name: `${this.deviceData.device.name} ${this.entityConfig.description}`,
+      name: this.entityConfig.description,
       unique_id: this.uniqueId,
       device: this.deviceData.device,
       ...this.discoveryState(),

@@ -28,7 +28,7 @@ describe(Button.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/button/device_topic_button/config', {
         availability_topic: 'device_topic/button/status',
         device: { ...testDevice.device },
-        name: 'Test Name Button',
+        name: 'Button',
         payload_available: 'online',
         payload_not_available: 'offline',
         unique_id: 'test_name_button',
@@ -42,7 +42,7 @@ describe(Button.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/button/device_topic_button/config', {
         availability_topic: 'device_topic/button/status',
         device: { ...testDevice.device },
-        name: 'Test Name Button',
+        name: 'Button',
         payload_available: 'online',
         payload_not_available: 'offline',
         unique_id: 'test_name_button',
@@ -64,7 +64,7 @@ describe(Button.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/button/device_topic_button/config', {
         availability_topic: 'device_topic/button/status',
         device: { ...testDevice.device },
-        name: 'Test Name Button',
+        name: 'Button',
         payload_available: 'online',
         payload_not_available: 'offline',
         unique_id: 'test_name_button',

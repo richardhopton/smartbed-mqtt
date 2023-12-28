@@ -29,7 +29,7 @@ describe(JsonSensor.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
         availability_topic: 'device_topic/json_sensor/status',
         device: { ...testDevice.device },
-        name: 'Test Name Json Sensor',
+        name: 'Json Sensor',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/json_sensor/state',
@@ -45,7 +45,7 @@ describe(JsonSensor.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
         availability_topic: 'device_topic/json_sensor/status',
         device: { ...testDevice.device },
-        name: 'Test Name Json Sensor',
+        name: 'Json Sensor',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/json_sensor/state',
@@ -66,7 +66,7 @@ describe(JsonSensor.name, () => {
       expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
         availability_topic: 'device_topic/json_sensor/status',
         device: { ...testDevice.device },
-        name: 'Test Name Json Sensor',
+        name: 'Json Sensor',
         payload_available: 'online',
         payload_not_available: 'offline',
         state_topic: 'device_topic/json_sensor/state',
@@ -83,7 +83,7 @@ describe(JsonSensor.name, () => {
     expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
       availability_topic: 'device_topic/json_sensor/status',
       device: { ...testDevice.device },
-      name: 'Test Name Json Sensor',
+      name: 'Json Sensor',
       payload_available: 'online',
       payload_not_available: 'offline',
       state_topic: 'device_topic/json_sensor/state',
