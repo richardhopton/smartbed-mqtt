@@ -1,7 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { buildDictionary } from '@utils/buildDictionary';
-import { logInfo } from '@utils/logger';
+import { logError, logInfo } from '@utils/logger';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
@@ -66,13 +66,23 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
     if (leg) {
       const legPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleLeg'), 548, 45);
       bleDevice.subscribeToCharacteristic(leg, (data) => legPositionSensor.setPosition(mapPositionData(data)));
-      legPositionSensor.setPosition(mapPositionData(await bleDevice.readCharacteristic(leg)));
+      try {
+        const data = await bleDevice.readCharacteristic(leg);
+        legPositionSensor.setPosition(mapPositionData(data));
+      } catch (e) {
+        logError('[Linak] Failed to read leg position', e);
+      }
     }
 
     if (back) {
       const backPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleBack'), 820, 68);
       bleDevice.subscribeToCharacteristic(back, (data) => backPositionSensor.setPosition(mapPositionData(data)));
-      backPositionSensor.setPosition(mapPositionData(await bleDevice.readCharacteristic(back)));
+      try {
+        const data = await bleDevice.readCharacteristic(back);
+        backPositionSensor.setPosition(mapPositionData(data));
+      } catch (e) {
+        logError('[Linak] Failed to read back position', e);
+      }
     }
   }
 };

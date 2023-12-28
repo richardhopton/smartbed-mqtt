@@ -1,6 +1,7 @@
 import { Button } from '@ha/Button';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { StringsKey } from '@utils/getString';
+import { StringsKey, getString } from '@utils/getString';
+import { logError } from '@utils/logger';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from './types/Commands';
 import { Controller } from './types/Controller';
@@ -30,7 +31,13 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, { entities, deviceData
   ) => {
     let button = cache[key];
     if (!button) {
-      button = cache[key] = new Button(mqtt, deviceData, buildEntityConfig(name, category), () => writeData(command));
+      button = cache[key] = new Button(mqtt, deviceData, buildEntityConfig(name, category), async () => {
+        try {
+          await writeData(command);
+        } catch (e) {
+          logError(`[Linak] Failed to write '${getString(name)}'`, e);
+        }
+      });
     }
     button.setOnline();
   };
