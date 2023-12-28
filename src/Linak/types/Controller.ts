@@ -11,13 +11,11 @@ export class Controller {
     public bleDevice: IBLEDevice,
     public name: string,
     private controlHandle: number,
-    public outputHandles: Dictionary<number>,
-    private stayConnected?: boolean
+    public outputHandles: Dictionary<number>
   ) {}
 
   writeData = async (bytes: number[]) => {
     await this.bleDevice.connect();
     await this.bleDevice.writeCharacteristic(this.controlHandle, new Uint8Array(bytes));
-    if (!this.stayConnected) await this.bleDevice.disconnect();
   };
 }
