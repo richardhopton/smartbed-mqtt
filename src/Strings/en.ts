@@ -32,6 +32,8 @@ const strings = {
   ResetMemory3: 'Reset: Memory 3',
   ResetMemory4: 'Reset: Memory 4',
   ResetMemory5: 'Reset: Memory 5',
+  MassageHead: 'Head Massage',
+  MassageFoot: 'Foot Massage',
   MassageHeadStep: 'Head Massage Step',
   MassageFootStep: 'Foot Massage Step',
   MassageHeadUp: 'Head Massage Up',

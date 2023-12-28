@@ -6,6 +6,7 @@ import { IESPConnection } from 'ESPHome/IESPConnection';
 import { Controller } from './Controller';
 import { getDevices } from './options';
 import { setupLightEntities } from './setupLightEntities';
+import { setupMassageEntities } from './setupMassageEntities';
 import { setupPresetButtons } from './setupPresetButtons';
 
 export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
@@ -41,5 +42,6 @@ export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
     logInfo('[Reverie] Setting up entities for device:', controller.name);
     setupPresetButtons(mqtt, controller);
     setupLightEntities(mqtt, controller);
+    setupMassageEntities(mqtt, controller);
   }
 };

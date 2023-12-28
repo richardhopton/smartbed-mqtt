@@ -14,4 +14,7 @@ export const Commands = {
   ProgramMemory4: [0x55, 0x24],
 
   UnderBedLightsToggle: [0x55, 0x5b],
+
+  MassageHead: (level: number) => [0x55, 0x53, level],
+  MassageFoot: (level: number) => [0x55, 0x54, level],
 };

@@ -14,7 +14,9 @@ export class Controller extends EventEmitter {
     private handle: number
   ) {
     super();
-    this.bleDevice.subscribeToCharacteristic(handle, (bytes) => this.emit('notify', Array.from(bytes)));
+    this.bleDevice.subscribeToCharacteristic(handle, (bytes) => {
+      if (bytes.length === 9) this.emit('notify', Array.from(bytes));
+    });
   }
 
   writeData = async (bytes: number[]) => {
