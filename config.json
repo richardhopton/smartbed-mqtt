@@ -54,6 +54,12 @@
         "friendlyName": "MotoSleep Bed"
       }
     ],
+    "reverieDevices": [
+      {
+        "name": "RPLC",
+        "friendlyName": "Reverie Bed"
+      }
+    ],
     "bleProxies": [
       {
         "host": "bluetooth-proxy.local"
@@ -65,7 +71,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergomotion|richmat|linak|solace|motosleep)",
+    "type": "list(sleeptracker|ergomotion|richmat|linak|solace|motosleep|reverie)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -105,6 +111,12 @@
         "name": "str",
         "friendlyName": "str",
         "stayConnected": "bool?"
+      }
+    ],
+    "reverieDevices": [
+      {
+        "name": "str",
+        "friendlyName": "str"
       }
     ],
     "bleProxies": [

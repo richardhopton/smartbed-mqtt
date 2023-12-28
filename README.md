@@ -162,6 +162,30 @@ Setting `stayConnected` to `true` will stop you from being able to use the app t
 
 Initial prototyping was only possible due to assistance from waynebowie99 on Discord.
 
+# Reverie Support (Bluetooth) [experimental]
+
+## Configuring
+
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Reverie controller with `name` and `friendlyName`.
+
+## Current features include:
+
+- Buttons to trigger the standard presets
+- Buttons to trigger the user presets
+- Buttons to program the user presets
+- Button to toggle under bed lights
+
+## Possible future features:
+
+- Buttons/Cover to control raising and lowering head/feet
+- Controls for the head & foot massage intesity & massage wave
+
+## Notes
+
+This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
+
+Initial prototyping was only possible due to assistance from Vitaliy on Discord.
+
 # Support
 
 For help with setup, or for sharing feedback please join the Discord server https://discord.gg/Hf3kpFjbZs
