@@ -1,11 +1,11 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { mocked, testDevice } from '@utils/testHelpers';
 import { mock } from 'jest-mock-extended';
-import { JsonSensor } from './JsonSensor';
+import { JsonSensor, JsonSensorConfig } from './JsonSensor';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
-const buildSubject = ({ valueField = 'value', category }: { valueField?: string; category?: string } = {}) =>
-  new JsonSensor(mqtt, testDevice, { description: 'Json Sensor', category }, valueField);
+const buildSubject = (config: { category?: string } & JsonSensorConfig = {}) =>
+  new JsonSensor(mqtt, testDevice, { description: 'Json Sensor', ...config });
 
 describe(JsonSensor.name, () => {
   beforeAll(() => jest.useFakeTimers());

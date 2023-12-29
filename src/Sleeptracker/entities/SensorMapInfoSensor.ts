@@ -7,7 +7,7 @@ import { SleepSensor } from '../types/SleepSensor';
 
 export class SleepSensorInfoSensor extends JsonSensor<SleepSensor> {
   constructor(mqtt: IMQTTConnection, deviceData: IDeviceData, config: EntityConfig) {
-    super(mqtt, deviceData, { ...config, category: 'diagnostics' }, 'userFirstName');
+    super(mqtt, deviceData, { ...config, category: 'diagnostics', valueField: 'userFirstName' });
   }
 
   mapState(state: SleepSensor | undefined) {

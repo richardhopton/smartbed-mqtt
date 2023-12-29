@@ -25,12 +25,10 @@ export const processMassageSensors = async (
   const cache = entities as MassageSensorEntities;
   if (massageRoster.head) {
     if (!cache.headMassageStrength) {
-      cache.headMassageStrength = new JsonSensor<MassageStatus>(
-        mqtt,
-        deviceData,
-        buildEntityConfig('Head Massage Strength', sideName),
-        'strength'
-      );
+      cache.headMassageStrength = new JsonSensor<MassageStatus>(mqtt, deviceData, {
+        valueField: 'strength',
+        ...buildEntityConfig('Head Massage Strength', sideName),
+      });
     }
     cache.headMassageStrength.setState(headMassage);
   } else {
@@ -39,12 +37,10 @@ export const processMassageSensors = async (
 
   if (massageRoster.foot) {
     if (!cache.footMassageStrength) {
-      cache.footMassageStrength = new JsonSensor<MassageStatus>(
-        mqtt,
-        deviceData,
-        buildEntityConfig('Foot Massage Strength', sideName),
-        'strength'
-      );
+      cache.footMassageStrength = new JsonSensor<MassageStatus>(mqtt, deviceData, {
+        valueField: 'strength',
+        ...buildEntityConfig('Foot Massage Strength', sideName),
+      });
     }
     cache.footMassageStrength.setState(footMassage);
   } else {
@@ -53,12 +49,10 @@ export const processMassageSensors = async (
 
   if (massageRoster.head || massageRoster.foot) {
     if (!cache.massagePattern) {
-      cache.massagePattern = new JsonSensor<MassagePatternState>(
-        mqtt,
-        deviceData,
-        buildEntityConfig('Massage Pattern', sideName),
-        'name'
-      );
+      cache.massagePattern = new JsonSensor<MassagePatternState>(mqtt, deviceData, {
+        valueField: 'name',
+        ...buildEntityConfig('Massage Pattern', sideName),
+      });
     }
     cache.massagePattern.setState({ pattern: massagePattern, name: MassagePattern[massagePattern] });
   } else {

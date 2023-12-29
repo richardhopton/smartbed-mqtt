@@ -17,7 +17,7 @@ export class BedPositionSensor extends JsonSensor<BedPosition> {
     private maxPosition: number,
     private maxAngle: number
   ) {
-    super(mqtt, deviceData, config, 'angle');
+    super(mqtt, deviceData, { ...config, valueField: 'angle' });
   }
 
   discoveryState() {

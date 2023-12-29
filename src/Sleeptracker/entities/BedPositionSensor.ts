@@ -11,7 +11,7 @@ type BedPosition = MotorStatus & {
 
 export class BedPositionSensor extends JsonSensor<BedPosition> {
   constructor(mqtt: IMQTTConnection, deviceData: IDeviceData, config: EntityConfig) {
-    super(mqtt, deviceData, config, 'angle');
+    super(mqtt, deviceData, { ...config, valueField: 'angle' });
   }
 
   discoveryState() {
