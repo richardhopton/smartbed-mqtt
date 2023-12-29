@@ -40,16 +40,14 @@ describe(StatefulEntity.name, () => {
     it('on construction with entity category', () => {
       buildSubject('config');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
-        availability_topic: 'device_topic/json_sensor/status',
+      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_sensor/config', {
+        availability_topic: 'device_topic/sensor/status',
         device: { ...testDevice.device },
-        name: 'Test Name Json Sensor',
+        name: 'Test Name Sensor',
         payload_available: 'online',
         payload_not_available: 'offline',
-        state_topic: 'device_topic/json_sensor/state',
-        unique_id: 'test_name_json_sensor',
-        json_attributes_topic: 'device_topic/json_sensor/state',
-        value_template: "{{ value_json.value | default('') }}",
+        state_topic: 'device_topic/sensor/state',
+        unique_id: 'test_name_sensor',
         entity_category: 'config',
       });
     });

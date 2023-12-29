@@ -1,14 +1,13 @@
-import { BinarySensor } from '@ha/BinarySensor';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { mocked, testDevice } from '@utils/testHelpers';
 import { mock } from 'jest-mock-extended';
 import { JsonSensor } from './JsonSensor';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
-const buildSubject = (valueField = 'value') =>
-  new JsonSensor(mqtt, testDevice, { description: 'Json Sensor' }, valueField);
+const buildSubject = ({ valueField = 'value', category }: { valueField?: string; category?: string } = {}) =>
+  new JsonSensor(mqtt, testDevice, { description: 'Json Sensor', category }, valueField);
 
-describe(BinarySensor.name, () => {
+describe(JsonSensor.name, () => {
   beforeAll(() => jest.useFakeTimers());
 
   beforeEach(jest.resetAllMocks);
@@ -41,7 +40,7 @@ describe(BinarySensor.name, () => {
     });
 
     it('on construction with entity category', () => {
-      buildSubject('config');
+      buildSubject({ category: 'config' });
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
         availability_topic: 'device_topic/json_sensor/status',
@@ -79,7 +78,7 @@ describe(BinarySensor.name, () => {
   });
 
   it('excludes value_json from value_template if set to null', () => {
-    buildSubject('');
+    buildSubject({ valueField: '' });
     jest.runAllTimers();
     expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
       availability_topic: 'device_topic/json_sensor/status',

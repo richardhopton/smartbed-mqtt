@@ -44,15 +44,6 @@ describe(TcpPayloadBuilder.name, () => {
     const value = Array.from(bytes, function (byte) {
       return ('0' + (byte & 0xff).toString(16)).slice(-2);
     }).join('');
-    expect(value).toEqual('hello');
-    // C0902d dVar = new C0902d(bArr.length + 5, 8, false);
-    // dVar.setXDevice(xDevice);
-    // dVar.setAddress(xDevice.getAddress());
-    // dVar.setPort(xDevice.getPort());
-    // dVar.f315b.addIntBytes(xDevice.getSessionId());
-    // dVar.addMessageId();
-    // dVar.f315b.addByte(b);
-    // dVar.f315b.addBytes(bArr);
-    // return dVar;
+    expect(value).toEqual('8300000015007b000b00aa03000f00122334450000040100100000ea4055');
   });
 });
