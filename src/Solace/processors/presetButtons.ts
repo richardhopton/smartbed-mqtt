@@ -48,9 +48,7 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, { entities, deviceData
   ) => {
     let button = cache[key];
     if (!button) {
-      button = cache[key] = new Button(mqtt, deviceData, buildEntityConfig(name, category), () => {
-        writeData(command);
-      });
+      button = cache[key] = new Button(mqtt, deviceData, buildEntityConfig(name, category), () => writeData(command));
     }
     button.setOnline();
   };
