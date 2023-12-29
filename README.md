@@ -104,14 +104,15 @@ Support for this was only possible due to assistance from getrav on Discord. Thi
 
 ## Configuring
 
-You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Linak controller with `name` and `friendlyName`.
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Linak controller with `name`, `friendlyName`, and optionally `hasMassage`
 
 ## Current features include:
 
 - Buttons to trigger the presets
 - Buttons to program the presets
 - Button & switch for under bed lights
-- Sensor to read the bed angle
+- Sensor to read the back & leg angles
+- Buttons to control massage strengths for head, foot or both, massage mode, and toggle/off
 
 ## Notes
 
