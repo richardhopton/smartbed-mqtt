@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:18-alpine
 
 RUN apk --no-cache add git
 
@@ -14,7 +14,7 @@ COPY tsconfig.json /smartbed-mqtt/
 
 RUN yarn build:ci
 
-FROM node:14-alpine
+FROM node:18-alpine
 
 # Add env
 ENV LANG C.UTF-8
