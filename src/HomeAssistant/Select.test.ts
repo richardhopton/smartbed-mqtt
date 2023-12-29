@@ -7,7 +7,7 @@ const mqtt: IMQTTConnection = mock<IMQTTConnection>();
 const onChange = jest.fn();
 const options = ['one', 'two', 'three'];
 const buildSubject = (category?: string) =>
-  new Select(mqtt, testDevice, { description: 'Select', category }, options, async (state) => {
+  new Select(mqtt, testDevice, { description: 'Select', category, options }, async (state) => {
     onChange(state);
   });
 
