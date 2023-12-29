@@ -3,14 +3,19 @@ import { IDeviceData } from './IDeviceData';
 import { Sensor } from './Sensor';
 import { EntityConfig } from './base/Entity';
 
+export type JsonSensorConfig = {
+  valueField?: string;
+};
+
 export class JsonSensor<T> extends Sensor<T> {
+  private valueField: string;
   constructor(
     mqtt: IMQTTConnection,
     deviceData: IDeviceData,
-    entityConfig: EntityConfig,
-    private valueField: string = 'value'
+    { valueField = 'value', ...config }: JsonSensorConfig & EntityConfig
   ) {
-    super(mqtt, deviceData, entityConfig);
+    super(mqtt, deviceData, config);
+    this.valueField = valueField;
   }
 
   mapState(state: T | undefined): any {
