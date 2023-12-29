@@ -16,6 +16,11 @@ export class CommandButton extends Button {
     credentials: Credentials,
     additionalPayload: Dictionary<any> = {}
   ) {
-    super(mqtt, deviceData, config, () => sendAdjustableBaseCommand(command, credentials, additionalPayload));
+    super(
+      mqtt,
+      deviceData,
+      config,
+      async () => void (await sendAdjustableBaseCommand(command, credentials, additionalPayload))
+    );
   }
 }
