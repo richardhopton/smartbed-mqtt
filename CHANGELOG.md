@@ -1,3 +1,17 @@
+## v1.1.9
+
+**New Features**
+
+- (Reverie) Initial support for some Reverie beds
+- (Linak) Add massage buttons
+
+**Bug Fixes**
+
+- (Linak) Fix commands for presets
+- (Linak) Don't disconnect
+- (HomeAssistant) Remove device name prefix from entity names
+- (HomeAssistant) Delay sending available message a little
+
 ## v1.1.8
 
 **New Features**
