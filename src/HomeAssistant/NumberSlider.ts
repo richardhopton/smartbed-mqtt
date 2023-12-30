@@ -1,4 +1,5 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { logError } from '@utils/logger';
 import { IDeviceData } from './IDeviceData';
 import { EntityConfig } from './base/Entity';
 import { StatefulEntity } from './base/StatefulEntity';
@@ -31,8 +32,12 @@ export class NumberSlider extends StatefulEntity<number> {
     mqtt.on(this.commandTopic, async (message) => {
       const value = parseInt(message);
       if (Number.isNaN(value)) return;
-      let result = await onChange(value);
-      this.setState(result === undefined ? value : result);
+      try {
+        const result = await onChange(value);
+        this.setState(result === undefined ? value : result);
+      } catch (err) {
+        logError(err);
+      }
     });
   }
 

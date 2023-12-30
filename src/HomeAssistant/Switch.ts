@@ -1,4 +1,5 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { logError } from '@utils/logger';
 import { IDeviceData } from './IDeviceData';
 import { EntityConfig } from './base/Entity';
 import { StatefulEntity } from './base/StatefulEntity';
@@ -20,8 +21,12 @@ export class Switch extends StatefulEntity<boolean> {
     mqtt.on(this.commandTopic, async (message) => {
       if (!supportedMessages.includes(message)) return;
       const value = message === 'ON';
-      let result = await onChange(value);
-      this.setState(result === undefined ? value : result);
+      try {
+        const result = await onChange(value);
+        this.setState(result === undefined ? value : result);
+      } catch (err) {
+        logError(err);
+      }
     });
   }
 

@@ -1,4 +1,5 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { logError } from '@utils/logger';
 import { IDeviceData } from './IDeviceData';
 import { EntityConfig } from './base/Entity';
 import { StatefulEntity } from './base/StatefulEntity';
@@ -23,8 +24,12 @@ export class Select extends StatefulEntity<string> {
     mqtt.subscribe(this.commandTopic);
     mqtt.on(this.commandTopic, async (message) => {
       if (!this.options.includes(message)) return;
-      const result = await onChange(message);
-      this.setState(result === undefined ? message : result);
+      try {
+        const result = await onChange(message);
+        this.setState(result === undefined ? message : result);
+      } catch (err) {
+        logError(err);
+      }
     });
   }
 
