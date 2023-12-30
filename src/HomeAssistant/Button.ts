@@ -1,4 +1,5 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { logError } from '@utils/logger';
 import { IDeviceData } from './IDeviceData';
 import { Entity, EntityConfig } from './base/Entity';
 
@@ -16,7 +17,11 @@ export class Button extends Entity {
     mqtt.subscribe(this.commandTopic);
     mqtt.on(this.commandTopic, async (message) => {
       if (message !== 'PRESS') return;
-      await onPress();
+      try {
+        await onPress();
+      } catch (err) {
+        logError(err);
+      }
     });
   }
 
