@@ -3,7 +3,7 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { StringsKey } from '@utils/getString';
 import { Controller } from 'Common/Controller';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
-import { Commands } from '../types/Commands';
+import { Commands } from './Commands';
 
 interface PresetButtonEntities {
   presetMemory1?: Button;

@@ -1,7 +1,7 @@
 import { intToBytes } from '@utils/intToBytes';
 import { shortToBytes } from '@utils/shortToBytes';
 
-export class TcpPayloadBuilder {
+export class PayloadBuilder {
   bytes: number[];
   length: number;
 

@@ -1,9 +1,9 @@
 import { Button } from '@ha/Button';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
-import { Commands } from '../types/Commands';
-import { Controller } from '../types/Controller';
-import { Features } from '../types/Features';
+import { Commands } from './types/Commands';
+import { Controller } from './types/Controller';
+import { Features } from './types/Features';
 
 interface PresetButtonEntities {
   presetFlat?: Button;

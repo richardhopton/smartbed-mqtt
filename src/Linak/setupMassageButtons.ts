@@ -3,8 +3,8 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { StringsKey, getString } from '@utils/getString';
 import { logError } from '@utils/logger';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
-import { Commands } from './types/Commands';
-import { Controller } from './types/Controller';
+import { Commands } from './Commands';
+import { Controller } from './Controller';
 
 interface MassageButtonsEntities {
   massageAllOff?: Button;

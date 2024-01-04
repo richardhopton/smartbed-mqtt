@@ -1,9 +1,9 @@
 import { intToBytes } from '@utils/intToBytes';
 import { Credentials } from '../options';
 import { Commands } from '../types/Commands';
+import { PayloadBuilder } from './PayloadBuilder';
 import { getAuthDetails } from './getAuthDetails';
-import { getConnection } from './tcpConnection';
-import { TcpPayloadBuilder } from './TcpPayloadBuilder';
+import { getConnection } from './getConnection';
 
 export const sendBedCommand = async (command: Commands, user: Credentials, id: number) => {
   const authDetails = await getAuthDetails(user);
@@ -15,7 +15,7 @@ export const sendBedCommand = async (command: Commands, user: Credentials, id: n
 };
 
 const loginPayload = (userId: number, authorize: string) => {
-  return new TcpPayloadBuilder(authorize.length + 10, 1)
+  return new PayloadBuilder(authorize.length + 10, 1)
     .addByte(3)
     .addInt(userId)
     .addShort(authorize.length)
@@ -41,7 +41,7 @@ export const getCommandBytes = (command: Commands) => {
 
 const commandPayload = (id: number, command: Commands) => {
   const commandBytes = getCommandBytes(command);
-  return new TcpPayloadBuilder(commandBytes.length + 7, 7)
+  return new PayloadBuilder(commandBytes.length + 7, 7)
     .addInt(id)
     .addShort(getMessageId())
     .addByte(0)
