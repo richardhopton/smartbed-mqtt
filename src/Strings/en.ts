@@ -11,6 +11,10 @@ const strings = {
   PresetMemory3: 'Preset: Memory 3',
   PresetMemory4: 'Preset: Memory 4',
   PresetMemory5: 'Preset: Memory 5',
+  PresetUnwind: 'Preset: Unwind',
+  PresetSleep: 'Preset: Sleep',
+  PresetWakeUp: 'Preset: Wake Up',
+  PresetRelax: 'Preset: Relax',
   PresetRise: 'Preset: Rise',
   PresetDecline: 'Preset: Decline',
   PresetTiltForward: 'Preset: Tilt Forward',
@@ -27,6 +31,10 @@ const strings = {
   ProgramMemory3: 'Program: Memory 3',
   ProgramMemory4: 'Program: Memory 4',
   ProgramMemory5: 'Program: Memory 5',
+  ProgramUnwind: 'Program: Unwind',
+  ProgramSleep: 'Program: Sleep',
+  ProgramWakeUp: 'Program: Wake Up',
+  ProgramRelax: 'Program: Relax',
   ResetMemory1: 'Reset: Memory 1',
   ResetMemory2: 'Reset: Memory 2',
   ResetMemory3: 'Reset: Memory 3',
@@ -65,6 +73,10 @@ const strings = {
   MassageToggle: 'Toggle Massage',
   MassageMode: 'Massage Mode',
   Stop: 'Stop',
+  Off: 'Off',
+  Low: 'Low',
+  Medium: 'Medium',
+  High: 'High',
 };
 
 export default strings;

@@ -3,6 +3,7 @@ import { loadStrings } from '@utils/getString';
 import { logError, logWarn } from '@utils/logger';
 import { connectToESPHome } from 'ESPHome/connectToESPHome';
 import { ergomotion } from 'ErgoMotion/ergomotion';
+import { leggettplatt } from 'LeggettPlatt/leggettplatt';
 import { linak } from 'Linak/linak';
 import { motosleep } from 'MotoSleep/motosleep';
 import { reverie } from 'Reverie/reverie';
@@ -54,6 +55,8 @@ const start = async (): Promise<void> => {
       return void (await motosleep(mqtt, esphome));
     case 'reverie':
       return void (await reverie(mqtt, esphome));
+    case 'leggettplatt':
+      return void (await leggettplatt(mqtt, esphome));
   }
 };
 void start();

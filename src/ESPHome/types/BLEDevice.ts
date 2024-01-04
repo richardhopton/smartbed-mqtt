@@ -1,4 +1,5 @@
 import { Connection } from '@2colors/esphome-native-api';
+import { BLEManufacturerData } from './BLEAdvertisement';
 import { IBLEDevice } from './IBLEDevice';
 
 export class BLEDevice implements IBLEDevice {
@@ -8,6 +9,7 @@ export class BLEDevice implements IBLEDevice {
     public name: string,
     public address: number,
     private addressType: number,
+    public manufacturerDataList: BLEManufacturerData[],
     private connection: Connection
   ) {
     this.connection.on('message.BluetoothDeviceConnectionResponse', ({ address, connected }) => {

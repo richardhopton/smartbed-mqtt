@@ -11,6 +11,7 @@ This project aims to enable remote control of smart beds from HomeAssistant.
 - Solace BLE controlled beds [experimental]
 - MotoSleep BLE controlled beds [experimental]
 - Reverie BLE controlled beds [prototype]
+- Leggett & Platt BLE controlled beds [prototype]
 
 # Installation
 
@@ -188,6 +189,28 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
 
 Initial prototyping was only possible due to assistance from Vitaliy on Discord.
+
+# Leggett & Platt Support (Bluetooth) [prototype]
+
+## Configuring
+
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Leggett & Platt controller with `name` and `friendlyName`.
+
+## Current features include:
+
+- Buttons to trigger the standard presets
+- Buttons to trigger the user presets
+- Buttons to program the user presets
+- Light to control under bed lights
+- Controls for the head & foot massage intesity & massage wave
+
+## Possible future features:
+
+- Buttons/Cover to control raising and lowering head/feet
+
+## Notes
+
+This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
 
 # Support
 

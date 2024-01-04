@@ -1,8 +1,10 @@
 import { BluetoothGATTService } from '@2colors/esphome-native-api';
+import { BLEManufacturerData } from './BLEAdvertisement';
 
 export interface IBLEDevice {
   name: string;
   address: number;
+  manufacturerDataList: BLEManufacturerData[];
   connect(): Promise<void>;
   disconnect(): Promise<void>;
   writeCharacteristic(handle: number, bytes: Uint8Array, response?: boolean): Promise<void>;
