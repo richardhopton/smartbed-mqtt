@@ -3,9 +3,9 @@
 
 
 "@2colors/esphome-native-api@^1.2.8":
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/@2colors/esphome-native-api/-/esphome-native-api-1.2.8.tgz#f6b4bb75a8300d134155ad8837c3868d729cdeec"
-  integrity sha512-2aVCUPfnj+l/tjHrr/ZL9zALinN69aJxM05jOrdjHqb+0N25eRgCCPGTZLrytUdSMOwSL/1nqKcrBlqC7TVopQ==
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@2colors/esphome-native-api/-/esphome-native-api-1.3.0.tgz#a89a9523278e7d6bf57b8eaf49241d7489cfeb7c"
+  integrity sha512-32Czx93guPOe0tCOad4ugXh544SY7zydKg/K7/qtNRnnSFD1669qUE2/mZwT7CV3Vqoq69dpwdOm9hURRgIeEg==
   dependencies:
     "@richardhopton/noise-c.wasm" "^0.5.0"
     google-protobuf "^3.21.2"
@@ -1494,9 +1494,9 @@ dir-glob@^3.0.1:
     path-type "^4.0.0"
 
 dns-packet@^5.2.2:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/dns-packet/-/dns-packet-5.5.0.tgz#f59cbf3396c130957c56a6ad5fd3959ccdc30065"
-  integrity sha512-USawdAUzRkV6xrqTjiAEp6M9YagZEzWcSUaZTcIFAiyQWW1SoI6KyId8y2+/71wbgHKQAKd+iupLv4YvEwYWvA==
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/dns-packet/-/dns-packet-5.6.1.tgz#ae888ad425a9d1478a0674256ab866de1012cf2f"
+  integrity sha512-l4gcSouhcgIKRvyy99RNVOgxXiicE+2jZoNmaNmZ6JXiGajBOJAesk1OBlJuM5k2c+eudGdLxDqXuPCKIj6kpw==
   dependencies:
     "@leichtgewicht/ip-codec" "^2.0.1"
 

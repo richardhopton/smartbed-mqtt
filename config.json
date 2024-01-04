@@ -61,6 +61,12 @@
         "friendlyName": "Reverie Bed"
       }
     ],
+    "leggettPlattDevices": [
+      {
+        "name": "Smart Bed",
+        "friendlyName": "Leggett Platt Bed"
+      }
+    ],
     "bleProxies": [
       {
         "host": "bluetooth-proxy.local"
@@ -72,7 +78,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergomotion|richmat|linak|solace|motosleep|reverie)",
+    "type": "list(sleeptracker|ergomotion|richmat|linak|solace|motosleep|reverie|leggettplatt)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -116,6 +122,12 @@
       }
     ],
     "reverieDevices": [
+      {
+        "name": "str",
+        "friendlyName": "str"
+      }
+    ],
+    "leggettPlattDevices": [
       {
         "name": "str",
         "friendlyName": "str"
