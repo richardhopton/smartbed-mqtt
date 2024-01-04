@@ -5,7 +5,7 @@ import { Controller } from 'Common/Controller';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { getDevices } from './options';
-import { setupPresetButtons } from './processors/presetButtons';
+import { setupPresetButtons } from './setupPresetButtons';
 
 const nameMapper = (name: string) =>
   name.replace(':', 'A').replace(';', 'B').replace('<', 'C').replace('=', 'D').replace('>', 'E').replace('?', 'F');

@@ -2,8 +2,8 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
-import { LinakDevice } from 'Linak/options';
 import EventEmitter from 'events';
+import { LinakDevice } from './options';
 
 export class Controller extends EventEmitter {
   entities: Dictionary<Entity> = {};

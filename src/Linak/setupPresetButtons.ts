@@ -4,8 +4,8 @@ import { StringsKey, getString } from '@utils/getString';
 import { logError } from '@utils/logger';
 import { wait } from '@utils/wait';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
-import { Commands } from './types/Commands';
-import { Controller } from './types/Controller';
+import { Commands } from './Commands';
+import { Controller } from './Controller';
 
 interface PresetButtonEntities {
   presetMemory1?: Button;

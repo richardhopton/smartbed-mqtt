@@ -4,10 +4,10 @@ import { logError, logInfo } from '@utils/logger';
 import { buildMQTTDeviceData } from './buildMQTTDeviceData';
 import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
 import { getUsers } from './options';
-import { setupMassageButtons } from './processors/massageButtons';
-import { setupPresetButtons } from './processors/presetButtons';
-import { setupSafetyLightsButton } from './processors/safetyLightsButton';
 import { getDevices } from './requests/getDevices';
+import { setupMassageButtons } from './setupMassageButtons';
+import { setupPresetButtons } from './setupPresetButtons';
+import { setupSafetyLightsButton } from './setupSafetyLightsButton';
 import { Bed } from './types/Bed';
 
 const beds: Dictionary<Bed> = {};

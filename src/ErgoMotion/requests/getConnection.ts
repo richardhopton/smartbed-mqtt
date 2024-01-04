@@ -2,7 +2,7 @@ import { Deferred } from '@utils/deferred';
 import { logInfo } from '@utils/logger';
 import { minutes } from '@utils/minutes';
 import { createConnection, Socket } from 'net';
-import { TcpPayloadBuilder } from './TcpPayloadBuilder';
+import { PayloadBuilder } from './PayloadBuilder';
 
 let socket: Socket | null = null;
 let interval: NodeJS.Timer | null = null;
@@ -32,7 +32,7 @@ export const getConnection = async (onNewConnection: (socket: Socket) => void) =
 
     interval = setInterval(() => {
       logInfo('[ErgoMotion TCP] Keep alive');
-      return wrapper.write(new TcpPayloadBuilder(0, 13).build());
+      return wrapper.write(new PayloadBuilder(0, 13).build());
     }, minutes(1));
   }
   return wrapper;

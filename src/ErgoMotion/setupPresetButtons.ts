@@ -1,7 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { CommandButton } from '../entities/CommandButton';
-import { Bed } from '../types/Bed';
-import { Commands } from '../types/Commands';
+import { CommandButton } from './entities/CommandButton';
+import { Bed } from './types/Bed';
+import { Commands } from './types/Commands';
 
 interface PresetButtonEntities {
   flatPreset?: CommandButton;

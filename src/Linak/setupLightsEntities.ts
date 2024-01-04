@@ -2,8 +2,8 @@ import { Button } from '@ha/Button';
 import { Switch } from '@ha/Switch';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
-import { Commands } from './types/Commands';
-import { Controller } from './types/Controller';
+import { Commands } from './Commands';
+import { Controller } from './Controller';
 
 interface UnderBedLightEntities {
   underBedLights?: Switch;

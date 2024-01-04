@@ -5,9 +5,9 @@ import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { inferDeviceWrapperFromServices } from './deviceWrappers/inferDeviceWrapperFromServices';
 import { getDevices } from './options';
-import { setupMassageButtons } from './processors/massageButtons';
-import { setupPresetButtons } from './processors/presetButtons';
-import { setupUnderBedLightButton } from './processors/safetyLightButton';
+import { setupMassageButtons } from './setupMassageButtons';
+import { setupPresetButtons } from './setupPresetButtons';
+import { setupUnderBedLightButton } from './setupUnderBedLightButton';
 import { Controller } from './types/Controller';
 
 export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {

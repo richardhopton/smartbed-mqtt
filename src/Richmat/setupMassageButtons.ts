@@ -3,7 +3,7 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Controller } from 'Richmat/types/Controller';
 import { Features } from 'Richmat/types/Features';
-import { Commands } from '../types/Commands';
+import { Commands } from './types/Commands';
 
 interface MassageButtonEntities {
   massageHeadStep?: Button;

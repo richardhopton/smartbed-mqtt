@@ -5,12 +5,12 @@ import { logInfo } from '@utils/logger';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
+import { Controller } from './Controller';
 import { BedPositionSensor } from './entities/BedPositionSensor';
 import { getDevices } from './options';
 import { setupLightEntities } from './setupLightsEntities';
 import { setupMassageButtons } from './setupMassageButtons';
 import { setupPresetButtons } from './setupPresetButtons';
-import { Controller } from './types/Controller';
 
 export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
