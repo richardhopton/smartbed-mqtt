@@ -6,7 +6,7 @@ import { Device } from '../types/Device';
 
 export class DeviceInfoSensor extends JsonSensor<Device> {
   constructor(mqtt: IMQTTConnection, deviceData: IDeviceData) {
-    super(mqtt, deviceData, { description: 'Device Info', category: 'diagnostics', valueField: 'name' });
+    super(mqtt, deviceData, { description: 'Device Info', category: 'diagnostic', valueField: 'name' });
   }
 
   mapState(state: Device | undefined) {
