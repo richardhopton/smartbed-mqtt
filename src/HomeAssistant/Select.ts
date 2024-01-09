@@ -33,6 +33,16 @@ export class Select extends StatefulEntity<string> {
     });
   }
 
+  getIndex() {
+    const state = this.getState();
+    if (state) return this.options.indexOf(state);
+    return undefined;
+  }
+
+  setIndex(index: number) {
+    this.setState(this.options[index]);
+  }
+
   discoveryState() {
     return {
       ...super.discoveryState(),
