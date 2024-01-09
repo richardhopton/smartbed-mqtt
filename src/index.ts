@@ -5,6 +5,7 @@ import { connectToESPHome } from 'ESPHome/connectToESPHome';
 import { ergomotion } from 'ErgoMotion/ergomotion';
 import { leggettplatt } from 'LeggettPlatt/leggettplatt';
 import { linak } from 'Linak/linak';
+import { logicdata } from 'Logicdata/logicdata';
 import { motosleep } from 'MotoSleep/motosleep';
 import { reverie } from 'Reverie/reverie';
 import { richmat } from 'Richmat/richmat';
@@ -35,12 +36,14 @@ const start = async (): Promise<void> => {
 
   const mqtt = await connectToMQTT();
 
-  //http
+  // http/udp
   switch (getType()) {
     case 'sleeptracker':
       return void (await sleeptracker(mqtt));
     case 'ergomotion':
       return void (await ergomotion(mqtt));
+    case 'logicdata':
+      return void (await logicdata(mqtt));
   }
   // bluetooth
   const esphome = await connectToESPHome();

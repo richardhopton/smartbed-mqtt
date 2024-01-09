@@ -1,6 +1,6 @@
 import { IDeviceData } from '@ha/IDeviceData';
 
-type Device = { friendlyName: string; name: string; address: number };
+type Device = { friendlyName: string; name: string; address: number | string };
 
 export const buildMQTTDeviceData = ({ friendlyName, name, address }: Device, manufacturer: string): IDeviceData => {
   return {

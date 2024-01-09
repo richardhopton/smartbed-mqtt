@@ -8,7 +8,8 @@ export type Type =
   | 'solace'
   | 'motosleep'
   | 'reverie'
-  | 'leggettplatt';
+  | 'leggettplatt'
+  | 'logicdata';
 
 interface OptionsJson {
   type: Type;

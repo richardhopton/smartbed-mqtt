@@ -12,6 +12,7 @@ This project aims to enable remote control of smart beds from HomeAssistant.
 - MotoSleep BLE controlled beds [experimental]
 - Reverie BLE controlled beds [prototype]
 - Leggett & Platt BLE controlled beds [prototype]
+- Logicdata beds [prototype]
 
 # Installation
 
@@ -211,6 +212,27 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 ## Notes
 
 This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
+
+# Logicdata Support (Local) [prototype]
+
+## Configuring
+
+You must specify at least one Logicdata controller with `name` and `friendlyName`, and optionally `ipAddress`. If an `ipAddress` is not specified UDP discovery will be used to get the `ipAddress`.
+
+## Current features include:
+
+- Buttons to trigger the flat preset
+- Buttons to trigger the user presets
+- Buttons to program the user presets
+- Controls for the head, lumbar & leg massage intesity & massage mode
+
+## Possible future features:
+
+- Buttons/Cover to control raising and lowering head/leg
+
+## Notes
+
+This uses local connection via http and udp - please ensure the add-on has access to network devices.
 
 # Support
 
