@@ -2,7 +2,7 @@ import { Dictionary } from '@utils/Dictionary';
 import { getUnixEpoch } from '@utils/getUnixEpoch';
 import { logError } from '@utils/logger';
 import axios from 'axios';
-import { Credentials } from '../options';
+import { ErgoMotionUser } from '../options';
 import defaultHeaders from './shared/defaultHeaders';
 import { urls } from './shared/urls';
 
@@ -14,7 +14,7 @@ interface AuthDetails {
 }
 const authDetailsCache: Dictionary<AuthDetails> = {};
 
-export const getAuthDetails = async ({ email, password }: Credentials) => {
+export const getAuthDetails = async ({ email, password }: ErgoMotionUser) => {
   const { host, authRequestUrl } = urls();
   let authDetails = authDetailsCache[email];
   if (!authDetails) {

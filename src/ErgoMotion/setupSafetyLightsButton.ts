@@ -1,22 +1,8 @@
-import { Button } from '@ha/Button';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { CommandButton } from './entities/CommandButton';
-import { Bed } from './types/Bed';
-import { Commands } from './types/Commands';
+import { buildCachedButton } from 'Common/buildCachedButton';
+import { Commands } from './Commands';
+import { Controller } from './Controller';
 
-export const setupSafetyLightsButton = (mqtt: IMQTTConnection, { deviceData, id, user, entities }: Bed) => {
-  const cache = entities as { safetyLightSwitch?: Button };
-  let { safetyLightSwitch } = cache;
-
-  if (!safetyLightSwitch) {
-    safetyLightSwitch = cache.safetyLightSwitch = new CommandButton(
-      mqtt,
-      deviceData,
-      { description: 'Toggle Safety Lights' },
-      Commands.ToggleSafetyLights,
-      user,
-      id
-    );
-  }
-  safetyLightSwitch.setOnline();
+export const setupSafetyLightsButton = (mqtt: IMQTTConnection, controller: Controller) => {
+  buildCachedButton(mqtt, controller, 'SafetyLightsToggle', Commands.ToggleSafetyLights);
 };

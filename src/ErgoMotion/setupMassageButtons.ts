@@ -1,86 +1,13 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { CommandButton } from './entities/CommandButton';
-import { Bed } from './types/Bed';
-import { Commands } from './types/Commands';
+import { buildCachedButton } from 'Common/buildCachedButton';
+import { Commands } from './Commands';
+import { Controller } from './Controller';
 
-interface MassageButtonEntities {
-  massageHeadUp?: CommandButton;
-  massageHeadDown?: CommandButton;
-  massageFootUp?: CommandButton;
-  massageFootDown?: CommandButton;
-  massageStep?: CommandButton;
-  massageAllOff?: CommandButton;
-}
-
-export const setupMassageButtons = (mqtt: IMQTTConnection, { deviceData, id, user, entities }: Bed) => {
-  const cache = entities as MassageButtonEntities;
-  if (!cache.massageHeadUp) {
-    cache.massageHeadUp = new CommandButton(
-      mqtt,
-      deviceData,
-      { description: 'Massage Head Up' },
-      Commands.MassageHeadUp,
-      user,
-      id
-    );
-  }
-  cache.massageHeadUp.setOnline();
-  if (!cache.massageHeadDown) {
-    cache.massageHeadDown = new CommandButton(
-      mqtt,
-      deviceData,
-      { description: 'Massage Head Down' },
-      Commands.MassageHeadDown,
-      user,
-      id
-    );
-  }
-  cache.massageHeadDown.setOnline();
-
-  if (!cache.massageFootUp) {
-    cache.massageFootUp = new CommandButton(
-      mqtt,
-      deviceData,
-      { description: 'Massage Foot Up' },
-      Commands.MassageFootUp,
-      user,
-      id
-    );
-  }
-  cache.massageFootUp.setOnline();
-  if (!cache.massageFootDown) {
-    cache.massageFootDown = new CommandButton(
-      mqtt,
-      deviceData,
-      { description: 'Massage Foot Down' },
-      Commands.MassageFootDown,
-      user,
-      id
-    );
-  }
-  cache.massageFootDown.setOnline();
-
-  if (!cache.massageStep) {
-    cache.massageStep = new CommandButton(
-      mqtt,
-      deviceData,
-      { description: 'Massage Step' },
-      Commands.MassageStep,
-      user,
-      id
-    );
-  }
-  cache.massageStep.setOnline();
-
-  if (!cache.massageAllOff) {
-    cache.massageAllOff = new CommandButton(
-      mqtt,
-      deviceData,
-      { description: 'Massage Timer Step' },
-      Commands.MassageTimerStep,
-      user,
-      id
-    );
-  }
-  cache.massageAllOff.setOnline();
+export const setupMassageButtons = (mqtt: IMQTTConnection, controller: Controller) => {
+  buildCachedButton(mqtt, controller, 'MassageHeadUp', Commands.MassageHeadUp);
+  buildCachedButton(mqtt, controller, 'MassageHeadDown', Commands.MassageHeadDown);
+  buildCachedButton(mqtt, controller, 'MassageFootUp', Commands.MassageFootUp);
+  buildCachedButton(mqtt, controller, 'MassageFootDown', Commands.MassageFootDown);
+  buildCachedButton(mqtt, controller, 'MassageStep', Commands.MassageStep);
+  buildCachedButton(mqtt, controller, 'MassageTimerStep', Commands.MassageTimerStep);
 };

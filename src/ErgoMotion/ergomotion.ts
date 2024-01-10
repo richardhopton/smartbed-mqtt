@@ -1,17 +1,16 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { logError, logInfo } from '@utils/logger';
-import { buildMQTTDeviceData } from './buildMQTTDeviceData';
-import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
+import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
+import { Controller } from './Controller';
 import { getUsers } from './options';
 import { getDevices } from './requests/getDevices';
+import { setupDeviceInfoSensor } from './setupDeviceInfoSensor';
 import { setupMassageButtons } from './setupMassageButtons';
 import { setupPresetButtons } from './setupPresetButtons';
 import { setupSafetyLightsButton } from './setupSafetyLightsButton';
-import { Bed } from './types/Bed';
 
-const beds: Dictionary<Bed> = {};
-
+const controllers: Dictionary<Controller> = {};
 export const ergomotion = async (mqtt: IMQTTConnection) => {
   const users = getUsers();
   if (!users.length) return logInfo('[ErgoMotion] No users configured');
@@ -19,31 +18,30 @@ export const ergomotion = async (mqtt: IMQTTConnection) => {
   for (const user of users) {
     const devices = await getDevices(user);
     if (!devices || devices.length === 0) {
-      return logError('[ErgoMotion] Could not load devices');
+      logError('[ErgoMotion] Could not load devices for user', user.email);
+      continue;
     }
 
     for (const device of devices) {
-      const { id } = device;
-      let bed = beds[id];
+      const { id, name } = device;
+      if (controllers[id]) continue;
 
-      if (!bed) {
-        const deviceData = buildMQTTDeviceData(device);
-        bed = beds[id] = {
-          id,
-          deviceData,
-          user,
-          entities: {
-            deviceInfo: new DeviceInfoSensor(mqtt, deviceData).setState(device),
-          },
-        };
-        logInfo('[ErgoMotion] Setting up bed', id);
-
-        setupPresetButtons(mqtt, bed);
-        if (user.remoteStyle == 'L') continue;
-
-        setupMassageButtons(mqtt, bed);
-        setupSafetyLightsButton(mqtt, bed);
-      }
+      const deviceData = buildMQTTDeviceData({ friendlyName: name, address: id, name: '' }, 'ErgoMotion');
+      controllers[id] = new Controller(deviceData, device, user);
     }
+  }
+
+  for (const controller of Object.values(controllers)) {
+    const {
+      device,
+      user: { remoteStyle },
+    } = controller;
+    logInfo('[ErgoMotion] Setting up bed', device.id);
+    setupDeviceInfoSensor(mqtt, controller);
+    setupPresetButtons(mqtt, controller);
+    if (remoteStyle == 'L') continue;
+
+    setupMassageButtons(mqtt, controller);
+    setupSafetyLightsButton(mqtt, controller);
   }
 };
