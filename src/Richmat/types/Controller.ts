@@ -2,13 +2,14 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { wait } from '@utils/wait';
+import { IController } from 'Common/IController';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import { IDeviceWrapper } from '../deviceWrappers/IDeviceWrapper';
 import { RichmatDevice } from '../options';
 import { Features } from './Features';
 import { remoteFeatures } from './remoteFeatures';
 
-export class Controller {
+export class Controller implements IController<number> {
   entities: Dictionary<Entity> = {};
   features: number;
   name: string;
