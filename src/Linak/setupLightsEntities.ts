@@ -1,13 +1,12 @@
-import { Button } from '@ha/Button';
 import { Switch } from '@ha/Switch';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { buildCachedButton } from 'Common/buildCachedButton';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from './Commands';
 import { Controller } from './Controller';
 
 interface UnderBedLightEntities {
   underBedLights?: Switch;
-  underBedLightsToggle?: Button;
 }
 
 export const setupLightEntities = (mqtt: IMQTTConnection, controller: Controller) => {
@@ -22,14 +21,5 @@ export const setupLightEntities = (mqtt: IMQTTConnection, controller: Controller
   }
   underBedLights.setOnline();
 
-  let { underBedLightsToggle } = cache;
-  if (!underBedLightsToggle) {
-    underBedLightsToggle = cache.underBedLightsToggle = new Button(
-      mqtt,
-      deviceData,
-      buildEntityConfig('UnderBedLightsToggle'),
-      () => writeData(Commands.UnderBedLightsToggle)
-    );
-  }
-  underBedLightsToggle.setOnline();
+  buildCachedButton(mqtt, controller, 'UnderBedLightsToggle', Commands.UnderBedLightsToggle);
 };

@@ -2,8 +2,9 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
+import { IController } from './IController';
 
-export class Controller {
+export class Controller implements IController<number[]> {
   entities: Dictionary<Entity> = {};
 
   constructor(

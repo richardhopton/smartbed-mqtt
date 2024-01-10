@@ -1,11 +1,12 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
+import { IController } from 'Common/IController';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import EventEmitter from 'events';
 import { LinakDevice } from './options';
 
-export class Controller extends EventEmitter {
+export class Controller extends EventEmitter implements IController<number[]> {
   entities: Dictionary<Entity> = {};
 
   constructor(

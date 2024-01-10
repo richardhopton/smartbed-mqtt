@@ -1,0 +1,9 @@
+import { IDeviceData } from '@ha/IDeviceData';
+import { Entity } from '@ha/base/Entity';
+import { Dictionary } from '@utils/Dictionary';
+
+export interface IController<TCommand> {
+  entities: Dictionary<Entity>;
+  deviceData: IDeviceData;
+  writeData: (command: TCommand) => Promise<void>;
+}
