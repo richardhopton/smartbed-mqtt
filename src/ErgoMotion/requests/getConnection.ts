@@ -7,13 +7,21 @@ import { PayloadBuilder } from './PayloadBuilder';
 let socket: Socket | null = null;
 let interval: NodeJS.Timer | null = null;
 
-const wrapper = {
-  write: (buffer: Uint8Array) => {
-    return socket?.write(buffer) || false;
-  },
+interface IConnection {
+  write: (buffer: Uint8Array) => Promise<void>;
+}
+
+const wrapper: IConnection = {
+  write: async (buffer: Uint8Array) =>
+    new Promise<void>((res, rej) =>
+      socket?.write(buffer, (err) => {
+        if (err) res();
+        else rej();
+      })
+    ),
 };
 
-export const getConnection = async (onNewConnection: (socket: Socket) => void) => {
+export const getConnection = async (onNewConnection: (connection: IConnection) => Promise<void>) => {
   if (!socket) {
     socket = createConnection({ host: 'cm.xlink.cn', port: 23778 });
     socket.on('close', () => {
@@ -27,12 +35,12 @@ export const getConnection = async (onNewConnection: (socket: Socket) => void) =
     socket.once('data', (data) => {
       deferred.resolve(data);
     });
-    onNewConnection(socket);
+    await onNewConnection(wrapper);
     await deferred;
 
-    interval = setInterval(() => {
+    interval = setInterval(async () => {
       logInfo('[ErgoMotion TCP] Keep alive');
-      return wrapper.write(new PayloadBuilder(0, 13).build());
+      await wrapper.write(new PayloadBuilder(0, 13).build());
     }, minutes(1));
   }
   return wrapper;

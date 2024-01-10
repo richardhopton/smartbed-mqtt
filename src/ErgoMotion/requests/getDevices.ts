@@ -1,14 +1,14 @@
 import { logError } from '@utils/logger';
 import axios from 'axios';
-import { Credentials } from '../options';
-import { Device } from '../types/Device';
+import { ErgoMotionUser } from '../options';
 import { getAuthDetails } from './getAuthDetails';
 import defaultHeaders from './shared/defaultHeaders';
 import { urls } from './shared/urls';
+import { Device } from './types/Device';
 
 type Response = { list: Device[] };
 
-export const getDevices = async (credentials: Credentials) => {
+export const getDevices = async (credentials: ErgoMotionUser) => {
   const authDetails = await getAuthDetails(credentials);
   if (!authDetails) return [];
 

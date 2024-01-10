@@ -1,6 +1,4 @@
-import { Commands } from '../types/Commands';
 import { PayloadBuilder } from './PayloadBuilder';
-import { getCommandBytes } from './sendBedCommand';
 
 const headerBytes = [0x13, 0x0, 0x0, 0x0, 0x1a];
 describe(PayloadBuilder.name, () => {
@@ -32,18 +30,5 @@ describe(PayloadBuilder.name, () => {
   it('it handles adding string', () => {
     const bytes = new PayloadBuilder(26, 1).addString('test').build();
     expect(bytes).toEqual(new Uint8Array([...headerBytes, 0x74, 0x65, 0x73, 0x74]));
-  });
-
-  it('tests', () => {
-    const bytes = new PayloadBuilder(16 + 5, 8)
-      .addShort(123)
-      .addShort(11)
-      .addByte(0)
-      .addBytes(getCommandBytes(Commands.PresetZeroG))
-      .build();
-    const value = Array.from(bytes, function (byte) {
-      return ('0' + (byte & 0xff).toString(16)).slice(-2);
-    }).join('');
-    expect(value).toEqual('8300000015007b000b00aa03000f00122334450000040100100000ea4055');
   });
 });

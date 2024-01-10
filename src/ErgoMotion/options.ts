@@ -2,14 +2,14 @@ import { getRootOptions } from '@utils/options';
 
 export type RemoteStyle = 'L' | 'M' | 'H';
 
-export interface Credentials {
+export interface ErgoMotionUser {
   email: string;
   password: string;
   remoteStyle: RemoteStyle;
 }
 
 interface OptionsJson {
-  ergoMotionCredentials: Credentials[];
+  ergoMotionCredentials: ErgoMotionUser[];
 }
 
 const options: OptionsJson = getRootOptions();
