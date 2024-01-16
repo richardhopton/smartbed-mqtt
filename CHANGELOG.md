@@ -1,3 +1,15 @@
+## v1.1.10
+
+**New Features**
+
+- (Leggett & Platt) Initial support for Leggett & Platt beds
+- (Logicdata) Initial support for Logicdata beds
+
+**Bug Fixes**
+
+- (Sleeptracker) Fix entity categories
+- (HomeAssistant) Stop handlers from crashing add-on
+
 ## v1.1.9
 
 **New Features**
