@@ -213,6 +213,8 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 
 This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
 
+Initial prototyping was only possible due to assistance from MarcusW on Discord.
+
 # Logicdata Support (Local) [prototype]
 
 ## Configuring
@@ -233,6 +235,8 @@ You must specify at least one Logicdata controller with `name` and `friendlyName
 ## Notes
 
 This uses local connection via http and udp - please ensure the add-on has access to network devices.
+
+Initial prototyping was only possible due to assistance from James on Discord.
 
 # Support
 
