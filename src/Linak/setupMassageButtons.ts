@@ -4,18 +4,18 @@ import { Commands } from './Commands';
 import { Controller } from './Controller';
 
 export const setupMassageButtons = (mqtt: IMQTTConnection, controller: Controller) => {
-  buildCachedButton(mqtt, controller, 'MassageAllOff', Commands.MassageAllOff);
-  buildCachedButton(mqtt, controller, 'MassageAllToggle', Commands.MassageAllToggle);
-  buildCachedButton(mqtt, controller, 'MassageAllUp', Commands.MassageAllUp);
-  buildCachedButton(mqtt, controller, 'MassageAllDown', Commands.MassageAllDown);
+  buildCachedButton('Linak', mqtt, controller, 'MassageAllOff', Commands.MassageAllOff);
+  buildCachedButton('Linak', mqtt, controller, 'MassageAllToggle', Commands.MassageAllToggle);
+  buildCachedButton('Linak', mqtt, controller, 'MassageAllUp', Commands.MassageAllUp);
+  buildCachedButton('Linak', mqtt, controller, 'MassageAllDown', Commands.MassageAllDown);
 
-  buildCachedButton(mqtt, controller, 'MassageHeadToggle', Commands.MassageHeadToggle);
-  buildCachedButton(mqtt, controller, 'MassageHeadUp', Commands.MassageHeadUp);
-  buildCachedButton(mqtt, controller, 'MassageHeadDown', Commands.MassageHeadDown);
+  buildCachedButton('Linak', mqtt, controller, 'MassageHeadToggle', Commands.MassageHeadToggle);
+  buildCachedButton('Linak', mqtt, controller, 'MassageHeadUp', Commands.MassageHeadUp);
+  buildCachedButton('Linak', mqtt, controller, 'MassageHeadDown', Commands.MassageHeadDown);
 
-  buildCachedButton(mqtt, controller, 'MassageFootToggle', Commands.MassageFootToggle);
-  buildCachedButton(mqtt, controller, 'MassageFootUp', Commands.MassageFootUp);
-  buildCachedButton(mqtt, controller, 'MassageFootDown', Commands.MassageFootDown);
+  buildCachedButton('Linak', mqtt, controller, 'MassageFootToggle', Commands.MassageFootToggle);
+  buildCachedButton('Linak', mqtt, controller, 'MassageFootUp', Commands.MassageFootUp);
+  buildCachedButton('Linak', mqtt, controller, 'MassageFootDown', Commands.MassageFootDown);
 
-  buildCachedButton(mqtt, controller, 'MassageModeStep', Commands.MassageModeStep);
+  buildCachedButton('Linak', mqtt, controller, 'MassageModeStep', Commands.MassageModeStep);
 };

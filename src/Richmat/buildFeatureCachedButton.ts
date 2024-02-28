@@ -12,5 +12,5 @@ export const buildFeatureCachedButton = (
   command: number,
   category?: string
 ) => {
-  if (hasFeature(feature)) buildCachedButton(mqtt, controller, name, command, category);
+  if (hasFeature(feature)) buildCachedButton('Richmat', mqtt, controller, name, command, category);
 };

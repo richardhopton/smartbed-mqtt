@@ -4,12 +4,12 @@ import { Commands } from './Commands';
 import { Controller } from './Controller';
 
 export const setupPresetButtons = (mqtt: IMQTTConnection, { user: { remoteStyle }, ...controller }: Controller) => {
-  buildCachedButton(mqtt, controller, 'PresetFlat', Commands.PresetFlat);
-  buildCachedButton(mqtt, controller, 'PresetZeroG', Commands.PresetZeroG);
+  buildCachedButton('ErgoMotion', mqtt, controller, 'PresetFlat', Commands.PresetFlat);
+  buildCachedButton('ErgoMotion', mqtt, controller, 'PresetZeroG', Commands.PresetZeroG);
 
   if (remoteStyle === 'L') return;
 
-  buildCachedButton(mqtt, controller, 'PresetTV', Commands.PresetTV);
-  buildCachedButton(mqtt, controller, 'PresetUserFavorite', Commands.PresetUserFavorite);
-  buildCachedButton(mqtt, controller, 'PresetAntiSnore', Commands.PresetAntiSnore);
+  buildCachedButton('ErgoMotion', mqtt, controller, 'PresetTV', Commands.PresetTV);
+  buildCachedButton('ErgoMotion', mqtt, controller, 'PresetUserFavorite', Commands.PresetUserFavorite);
+  buildCachedButton('ErgoMotion', mqtt, controller, 'PresetAntiSnore', Commands.PresetAntiSnore);
 };

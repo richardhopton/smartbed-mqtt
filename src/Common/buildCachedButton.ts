@@ -6,6 +6,7 @@ import { IController } from './IController';
 import { buildEntityConfig } from './buildEntityConfig';
 
 export const buildCachedButton = <TCommand>(
+  context: string,
   mqtt: IMQTTConnection,
   controller: IController<TCommand>,
   name: StringsKey,
@@ -19,7 +20,7 @@ export const buildCachedButton = <TCommand>(
       try {
         await writeData(command);
       } catch (e) {
-        logError(`[Linak] Failed to write '${getString(name)}'`, e);
+        logError(`[${context}] Failed to write '${getString(name)}'`, e);
       }
     });
   }

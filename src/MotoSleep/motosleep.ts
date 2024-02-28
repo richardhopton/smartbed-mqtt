@@ -45,7 +45,7 @@ export const motosleep = async (mqtt: IMQTTConnection, esphome: IESPConnection) 
     logInfo('[MotoSleep] Setting up entities for device:', name);
     const commands = buildCommands(name);
     for (const { name, command, category } of commands.filter((c) => !c.repeat)) {
-      buildCachedButton(mqtt, controller, name, command, category);
+      buildCachedButton('MotoSleep', mqtt, controller, name, command, category);
     }
   }
 };

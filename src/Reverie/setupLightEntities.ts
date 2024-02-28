@@ -4,5 +4,5 @@ import { Commands } from './Commands';
 import { Controller } from './Controller';
 
 export const setupLightEntities = (mqtt: IMQTTConnection, controller: Controller) => {
-  buildCachedButton(mqtt, controller, 'UnderBedLightsToggle', Commands.UnderBedLightsToggle);
+  buildCachedButton('Reverie', mqtt, controller, 'UnderBedLightsToggle', Commands.UnderBedLightsToggle);
 };
