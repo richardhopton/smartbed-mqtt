@@ -21,5 +21,5 @@ export const setupLightEntities = (mqtt: IMQTTConnection, controller: Controller
   }
   underBedLights.setOnline();
 
-  buildCachedButton(mqtt, controller, 'UnderBedLightsToggle', Commands.UnderBedLightsToggle);
+  buildCachedButton('Linak', mqtt, controller, 'UnderBedLightsToggle', Commands.UnderBedLightsToggle);
 };
