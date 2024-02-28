@@ -16,6 +16,8 @@ export const connect = (connection: Connection) => {
       try {
         connection.once('error', handler);
         connection.connect();
+        connection.off('error', handler);
+        connection.once('error', errorHandler);
       } catch (err) {
         errorHandler(err);
       }
