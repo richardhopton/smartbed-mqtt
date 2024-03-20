@@ -52,6 +52,7 @@ const strings = {
   MassageFootOff: 'Foot Massage Off',
   MassageStep: 'Massage Step',
   MassageWave: 'Massage Wave',
+  MassageWaveStep: 'Massage Wave Step',
   MassageModeStep: 'Massage Mode Step',
   MassageHeadToggle: 'Head Massage Toggle',
   MassageFootToggle: 'Foot Massage Toggle',

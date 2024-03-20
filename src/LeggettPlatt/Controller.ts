@@ -14,7 +14,7 @@ export class Controller extends EventEmitter implements IController<number[]> {
     public bleDevice: IBLEDevice,
     public device: LeggettPlattDevice,
     private controlHandle: number,
-    public outputHandles: Dictionary<number>
+    public outputHandles: Dictionary<number> = {}
   ) {
     super();
     Object.entries(outputHandles).map(([key, handle]) => {
