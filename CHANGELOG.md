@@ -1,3 +1,15 @@
+## v1.1.11
+
+**New Features**
+
+- (Leggett & Platt) Initial support for Okin variants
+- (ESPHome) Detect if the ESPHome BT Proxy has proxy configured
+
+**Bug Fixes**
+
+- (Reverie) Fix bad messages in the logs that said Richmat
+- (ESPHome) Update native api to fix some uuid issues
+
 ## v1.1.10
 
 **New Features**
