@@ -64,14 +64,14 @@ export class ESPConnection implements IESPConnection {
     const complete = new Deferred<void>();
     const listenerBuilder = (connection: Connection) => ({
       connection,
-      listener: ({ name, address, addressType, manufacturerDataList }: BLEAdvertisement) => {
+      listener: ({ name, address, addressType, manufacturerDataList, serviceUuidsList }: BLEAdvertisement) => {
         if (!name) return;
         if (nameMapper) name = nameMapper(name);
         if (!deviceNames.includes(name)) return;
 
         logInfo('[ESPHome] Found device:', name);
         deviceNames.splice(deviceNames.indexOf(name), 1);
-        bleDevices.push(new BLEDevice(name, address, addressType, manufacturerDataList, connection));
+        bleDevices.push(new BLEDevice(name, address, addressType, manufacturerDataList, serviceUuidsList, connection));
 
         if (deviceNames.length) return;
         complete.resolve();

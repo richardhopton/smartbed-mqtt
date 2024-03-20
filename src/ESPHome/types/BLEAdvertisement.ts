@@ -10,5 +10,6 @@ export type BLEAdvertisement = {
   address: number;
   rssi: number;
   manufacturerDataList: BLEManufacturerData[];
+  serviceUuidsList: string[];
   addressType: number;
 };

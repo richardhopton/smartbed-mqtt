@@ -10,6 +10,7 @@ export class BLEDevice implements IBLEDevice {
     public address: number,
     private addressType: number,
     public manufacturerDataList: BLEManufacturerData[],
+    public serviceUuidsList: string[],
     private connection: Connection
   ) {
     this.connection.on('message.BluetoothDeviceConnectionResponse', ({ address, connected }) => {
