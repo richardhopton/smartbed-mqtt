@@ -58,6 +58,8 @@ export class ESPConnection implements IESPConnection {
   }
 
   async getBLEDevices(deviceNames: string[], nameMapper?: (name: string) => string): Promise<IBLEDevice[]> {
+    logInfo('[ESPHome] Searching for device(s):', deviceNames);
+
     const bleDevices: IBLEDevice[] = [];
     const complete = new Deferred<void>();
     const listenerBuilder = (connection: Connection) => ({
