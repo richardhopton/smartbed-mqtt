@@ -1,7 +1,7 @@
 import { Button } from '@ha/Button';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { Controller } from '../Controller';
 import { Commands } from './Commands';
-import { Controller } from './Controller';
 
 interface DebugEntities {
   refreshState?: Button;

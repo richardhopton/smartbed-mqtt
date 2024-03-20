@@ -1,8 +1,8 @@
 import { Select } from '@ha/Select';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { getString } from '@utils/getString';
+import { Controller } from '../Controller';
 import { Commands } from './Commands';
-import { Controller } from './Controller';
 
 interface MassageEntities {
   massageHead?: Select;

@@ -1,8 +1,8 @@
 import { Light, LightState } from '@ha/Light';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { getString } from '@utils/getString';
+import { Controller } from '../Controller';
 import { Commands } from './Commands';
-import { Controller } from './Controller';
 
 const WHITE = { r: 255, g: 255, b: 255 };
 const DEFAULT_STATE = { color: WHITE, brightness: 255 };
