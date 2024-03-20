@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@2colors/esphome-native-api@^1.2.8":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@2colors/esphome-native-api/-/esphome-native-api-1.3.0.tgz#a89a9523278e7d6bf57b8eaf49241d7489cfeb7c"
-  integrity sha512-32Czx93guPOe0tCOad4ugXh544SY7zydKg/K7/qtNRnnSFD1669qUE2/mZwT7CV3Vqoq69dpwdOm9hURRgIeEg==
+"@2colors/esphome-native-api@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@2colors/esphome-native-api/-/esphome-native-api-1.3.1.tgz#9e7914dd5422b027735500fcac9e5fc03f74abb8"
+  integrity sha512-jDhL+31DCY2oY2s70QlRavdIIPtrIvDJlrvQsZPFxt9ORezGlgRc2lwRLGBrsxFPwoBPFm64cTX4FmpVmKB6VQ==
   dependencies:
     "@richardhopton/noise-c.wasm" "^0.5.0"
     google-protobuf "^3.21.2"
