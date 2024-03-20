@@ -6,10 +6,12 @@ import { IESPConnection } from 'ESPHome/IESPConnection';
 import { Controller } from './Controller';
 import { controllerBuilder as gen2ControllerBuilder } from './Gen2/controllerBuilder';
 import { isSupported as isGen2Supported } from './Gen2/isSupported';
+import { controllerBuilder as okinControllerBuilder } from './Okin/controllerBuilder';
+import { isSupported as isOkinSupported } from './Okin/isSupported';
 import { getDevices } from './options';
 
-const checks = [isGen2Supported];
-const controllerBuilders = [gen2ControllerBuilder];
+const checks = [isGen2Supported, isOkinSupported];
+const controllerBuilders = [gen2ControllerBuilder, okinControllerBuilder];
 
 export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
