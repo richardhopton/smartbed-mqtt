@@ -4,6 +4,7 @@ import { IBLEDevice } from './IBLEDevice';
 
 export class BLEDevice implements IBLEDevice {
   private connected = false;
+  private paired = false;
 
   constructor(
     public name: string,
@@ -19,9 +20,15 @@ export class BLEDevice implements IBLEDevice {
     });
   }
 
+  pair = async () => {
+    const { paired } = await this.connection.pairBluetoothDeviceService(this.address);
+    this.paired = paired;
+  };
+
   connect = async () => {
     await this.connection.connectBluetoothDeviceService(this.address, this.addressType);
     this.connected = true;
+    if (this.paired) await this.pair();
   };
 
   disconnect = async () => {
