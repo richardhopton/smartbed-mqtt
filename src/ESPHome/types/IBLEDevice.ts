@@ -6,6 +6,7 @@ export interface IBLEDevice {
   address: number;
   manufacturerDataList: BLEManufacturerData[];
   serviceUuidsList: string[];
+  pair(): Promise<void>;
   connect(): Promise<void>;
   disconnect(): Promise<void>;
   writeCharacteristic(handle: number, bytes: Uint8Array, response?: boolean): Promise<void>;

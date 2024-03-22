@@ -18,6 +18,8 @@ export const controllerBuilder = (
   services: BluetoothGATTService[]
 ) => {
   const { name } = bleDevice;
+  bleDevice.pair();
+
   const service = services.find((s) => s.uuid === '62741523-52f9-8864-b1ab-3b3a8d65950b');
   if (!service) {
     logInfo('[LeggettPlatt] Could not find expected services for device:', name);
