@@ -4,5 +4,5 @@ import { Commands } from './Commands';
 import { Controller } from './Controller';
 
 export const setupSafetyLightsButton = (mqtt: IMQTTConnection, controller: Controller) => {
-  buildCachedButton('ErgoMotion', mqtt, controller, 'SafetyLightsToggle', Commands.ToggleSafetyLights);
+  buildCachedButton('ErgoWifi', mqtt, controller, 'SafetyLightsToggle', Commands.ToggleSafetyLights);
 };

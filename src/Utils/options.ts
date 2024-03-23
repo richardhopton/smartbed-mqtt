@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 export type Type =
   | 'sleeptracker'
   | 'ergomotion'
+  | 'ergowifi'
   | 'richmat'
   | 'linak'
   | 'solace'

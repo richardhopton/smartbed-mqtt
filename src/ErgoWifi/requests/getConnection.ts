@@ -39,7 +39,7 @@ export const getConnection = async (onNewConnection: (connection: IConnection) =
     await deferred;
 
     interval = setInterval(async () => {
-      logInfo('[ErgoMotion TCP] Keep alive');
+      logInfo('[ErgoWifi TCP] Keep alive');
       await wrapper.write(new PayloadBuilder(0, 13).build());
     }, minutes(1));
   }

@@ -23,7 +23,7 @@
         "type": "tempur"
       }
     ],
-    "ergoMotionCredentials": [
+    "ergoWifiCredentials": [
       {
         "email": "me@example.org",
         "password": "some strong password"
@@ -85,7 +85,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergomotion|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata)",
+    "type": "list(sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -98,6 +98,13 @@
       {
         "email": "email",
         "password": "password"
+      }
+    ],
+    "ergoWifiCredentials": [
+      {
+        "email": "email",
+        "password": "password",
+        "remoteStyle": "list(L|M|H)?"
       }
     ],
     "richmatDevices": [

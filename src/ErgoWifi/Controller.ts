@@ -3,7 +3,7 @@ import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { intToBytes } from '@utils/intToBytes';
 import { IController } from 'Common/IController';
-import { ErgoMotionUser } from './options';
+import { ErgoWifiUser } from './options';
 import { PayloadBuilder } from './requests/PayloadBuilder';
 import { getAuthDetails } from './requests/getAuthDetails';
 import { getConnection } from './requests/getConnection';
@@ -31,15 +31,14 @@ const getMessageId = () => {
 const commandPayload = (id: number, command: number) => {
   const commandBytes = [0x4, 0x1, ...intToBytes(command).reverse()];
   const checksum = commandBytes.reduce((acc, curr) => (acc += curr), 0);
-  const bytes = [0xaa, 0x3, 0x0, 0x0f, 0x0, 0x12, 0x23, 0x34, 0x45, 0x0, 0x0, ...commandBytes, ~checksum, 0x40, 0x55];
-
+  const bytes = [0xaa, 0x3, 0x0, 0xf, 0x0, 0x12, 0x23, 0x34, 0x45, 0x0, 0x0, ...commandBytes, ~checksum, 0x40, 0x55];
   return new PayloadBuilder(bytes.length + 7, 7).addInt(id).addShort(getMessageId()).addByte(0).addBytes(bytes).build();
 };
 
 export class Controller implements IController<number> {
   entities: Dictionary<Entity> = {};
 
-  constructor(public deviceData: IDeviceData, public device: Device, public user: ErgoMotionUser) {}
+  constructor(public deviceData: IDeviceData, public device: Device, public user: ErgoWifiUser) {}
 
   writeData = async (data: number) => {
     const authDetails = await getAuthDetails(this.user);
