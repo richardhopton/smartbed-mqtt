@@ -11,14 +11,14 @@ import { setupPresetButtons } from './setupPresetButtons';
 import { setupSafetyLightsButton } from './setupSafetyLightsButton';
 
 const controllers: Dictionary<Controller> = {};
-export const ergomotion = async (mqtt: IMQTTConnection) => {
+export const ergowifi = async (mqtt: IMQTTConnection) => {
   const users = getUsers();
-  if (!users.length) return logInfo('[ErgoMotion] No users configured');
+  if (!users.length) return logInfo('[ErgoWifi] No users configured');
 
   for (const user of users) {
     const devices = await getDevices(user);
     if (!devices || devices.length === 0) {
-      logError('[ErgoMotion] Could not load devices for user', user.email);
+      logError('[ErgoWifi] Could not load devices for user', user.email);
       continue;
     }
 
@@ -26,7 +26,7 @@ export const ergomotion = async (mqtt: IMQTTConnection) => {
       const { id, name } = device;
       if (controllers[id]) continue;
 
-      const deviceData = buildMQTTDeviceData({ friendlyName: name, address: id, name: '' }, 'ErgoMotion');
+      const deviceData = buildMQTTDeviceData({ friendlyName: name, address: id, name: '' }, 'ErgoWifi');
       controllers[id] = new Controller(deviceData, device, user);
     }
   }
@@ -36,7 +36,7 @@ export const ergomotion = async (mqtt: IMQTTConnection) => {
       device,
       user: { remoteStyle },
     } = controller;
-    logInfo('[ErgoMotion] Setting up bed', device.id);
+    logInfo('[ErgoWifi] Setting up bed', device.id);
     setupDeviceInfoSensor(mqtt, controller);
     setupPresetButtons(mqtt, controller);
     if (remoteStyle == 'L') continue;
