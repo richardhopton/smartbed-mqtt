@@ -29,6 +29,13 @@
         "password": "some strong password"
       }
     ],
+    "ergoMotionDevices": [
+      {
+        "friendlyName": "ErgoMotion Bed",
+        "ipAddress": "192.168.0.127",
+        "remoteStyle": "M"
+      }
+    ],
     "richmatDevices": [
       {
         "name": "QRRM12345",
@@ -85,7 +92,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata)",
+    "type": "list(sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata|ergomotion)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -104,6 +111,13 @@
       {
         "email": "email",
         "password": "password",
+        "remoteStyle": "list(L|M|H)?"
+      }
+    ],
+    "ergoMotionDevices": [
+      {
+        "friendlyName": "str",
+        "ipAddress": "str",
         "remoteStyle": "list(L|M|H)?"
       }
     ],
