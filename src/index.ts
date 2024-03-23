@@ -2,6 +2,7 @@ import { connectToMQTT } from '@mqtt/connectToMQTT';
 import { loadStrings } from '@utils/getString';
 import { logError, logWarn } from '@utils/logger';
 import { connectToESPHome } from 'ESPHome/connectToESPHome';
+import { ergomotion } from 'ErgoMotion/ergomotion';
 import { ergowifi } from 'ErgoWifi/ergowifi';
 import { leggettplatt } from 'LeggettPlatt/leggettplatt';
 import { linak } from 'Linak/linak';
@@ -44,6 +45,8 @@ const start = async (): Promise<void> => {
       return void (await ergowifi(mqtt));
     case 'logicdata':
       return void (await logicdata(mqtt));
+    case 'ergomotion':
+      return void (await ergomotion(mqtt));
   }
   // bluetooth
   const esphome = await connectToESPHome();
