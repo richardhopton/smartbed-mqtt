@@ -3,7 +3,7 @@ import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { intToBytes } from '@utils/intToBytes';
 import { IController } from 'Common/IController';
-import { ErgoWifiUser } from './options';
+import { Credentials } from './options';
 import { PayloadBuilder } from './requests/PayloadBuilder';
 import { getAuthDetails } from './requests/getAuthDetails';
 import { getConnection } from './requests/getConnection';
@@ -38,7 +38,7 @@ const commandPayload = (id: number, command: number) => {
 export class Controller implements IController<number> {
   entities: Dictionary<Entity> = {};
 
-  constructor(public deviceData: IDeviceData, public device: Device, public user: ErgoWifiUser) {}
+  constructor(public deviceData: IDeviceData, public device: Device, public user: Credentials) {}
 
   writeCommand = async (data: number) => {
     const authDetails = await getAuthDetails(this.user);

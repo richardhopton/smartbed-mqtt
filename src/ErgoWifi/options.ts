@@ -2,9 +2,12 @@ import { getRootOptions } from '@utils/options';
 
 export type RemoteStyle = 'L' | 'M' | 'H';
 
-export interface ErgoWifiUser {
+export interface Credentials {
   email: string;
   password: string;
+}
+
+export interface ErgoWifiUser extends Credentials {
   remoteStyle: RemoteStyle;
 }
 

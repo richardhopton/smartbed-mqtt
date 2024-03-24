@@ -1,6 +1,6 @@
 import { logError } from '@utils/logger';
 import axios from 'axios';
-import { ErgoWifiUser } from '../options';
+import { Credentials } from '../options';
 import { getAuthDetails } from './getAuthDetails';
 import defaultHeaders from './shared/defaultHeaders';
 import { urls } from './shared/urls';
@@ -8,7 +8,7 @@ import { Device } from './types/Device';
 
 type Response = { list: Device[] };
 
-export const getDevices = async (credentials: ErgoWifiUser) => {
+export const getDevices = async (credentials: Credentials) => {
   const authDetails = await getAuthDetails(credentials);
   if (!authDetails) return [];
 
