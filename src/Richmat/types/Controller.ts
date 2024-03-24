@@ -28,7 +28,7 @@ export class Controller implements IController<number> {
     return (this.features & feature) === feature;
   };
 
-  writeData = async (byte: number) => {
+  writeCommand = async (byte: number) => {
     await this.bleDevice.connect();
     const { writeHandle, getBytes } = this.wrapper;
     await this.bleDevice.writeCharacteristic(writeHandle, getBytes(byte));

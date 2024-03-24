@@ -21,7 +21,7 @@ interface PresetButtonEntities {
   programMemory4?: Button;
 }
 
-export const setupPresetButtons = (mqtt: IMQTTConnection, { entities, deviceData, writeData }: Controller) => {
+export const setupPresetButtons = (mqtt: IMQTTConnection, { entities, deviceData, writeCommand }: Controller) => {
   const cache = entities as PresetButtonEntities;
 
   const buildCachedButton = (
@@ -36,7 +36,7 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, { entities, deviceData
         try {
           let count = repeat ? 100 : 1;
           while (true) {
-            await writeData(command);
+            await writeCommand(command);
             if (count === 0) break;
             await wait(300);
             count--;

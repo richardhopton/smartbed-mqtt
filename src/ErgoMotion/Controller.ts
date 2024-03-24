@@ -22,7 +22,7 @@ export class Controller extends EventEmitter implements IController<number> {
     this.socket.on('data', (data) => this.emit('data', data));
   }
 
-  writeData = (command: number) =>
+  writeCommand = (command: number) =>
     new Promise<void>((res, rej) => {
       this.socket.write(new Uint8Array(commandPayload(command)), (err) => {
         if (err) rej(err);

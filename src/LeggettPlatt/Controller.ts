@@ -24,7 +24,7 @@ export class Controller extends EventEmitter implements IController<number[]> {
     });
   }
 
-  writeData = async (bytes: number[]) => {
+  writeCommand = async (bytes: number[]) => {
     await this.bleDevice.connect();
     await this.bleDevice.writeCharacteristic(this.controlHandle, new Uint8Array(bytes));
   };

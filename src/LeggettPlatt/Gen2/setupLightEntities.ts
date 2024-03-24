@@ -12,7 +12,7 @@ interface LightEntities {
 }
 
 export const setupLightEntities = (mqtt: IMQTTConnection, controller: Controller) => {
-  const { deviceData, entities, writeData } = controller;
+  const { deviceData, entities, writeCommand } = controller;
   const cache = entities as LightEntities;
 
   if (!cache.underBedLights) {
@@ -28,12 +28,12 @@ export const setupLightEntities = (mqtt: IMQTTConnection, controller: Controller
         const oldState: LightState = light.getState() || {};
         const newState = { ...DEFAULT_STATE, ...oldState, ...state };
         try {
-          if (!newState.status) return void (await writeData(Commands.RGBOff));
+          if (!newState.status) return void (await writeCommand(Commands.RGBOff));
           const {
             color: { r, g, b },
             brightness,
           } = newState;
-          await writeData(Commands.RGBSet(r, g, b, brightness));
+          await writeCommand(Commands.RGBSet(r, g, b, brightness));
         } finally {
           return newState;
         }

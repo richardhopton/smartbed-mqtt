@@ -7,15 +7,15 @@ interface DebugEntities {
   refreshState?: Button;
 }
 
-export const setupDebugEntities = (mqtt: IMQTTConnection, { entities, deviceData, writeData }: Controller) => {
+export const setupDebugEntities = (mqtt: IMQTTConnection, { entities, deviceData, writeCommand }: Controller) => {
   const cache = entities as DebugEntities;
 
   if (!cache.refreshState) {
     cache.refreshState = new Button(mqtt, deviceData, { description: 'Refresh State' }, async () => {
-      await writeData(Commands.GetState);
+      await writeCommand(Commands.GetState);
     });
   }
   cache.refreshState.setOnline();
 
-  writeData(Commands.GetState);
+  writeCommand(Commands.GetState);
 };

@@ -11,7 +11,7 @@ interface MassageEntities {
 }
 
 export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controller) => {
-  const { deviceData, entities, writeData } = controller;
+  const { deviceData, entities, writeCommand } = controller;
   const cache = entities as MassageEntities;
 
   if (!cache.massageHead) {
@@ -25,7 +25,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controll
       },
       async (state) => {
         const index = options.indexOf(state);
-        await writeData(Commands.MassageHeadStrength(index));
+        await writeCommand(Commands.MassageHeadStrength(index));
         return state;
       }
     ));
@@ -52,7 +52,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controll
       },
       async (state) => {
         const index = options.indexOf(state);
-        await writeData(Commands.MassageFootStrength(index));
+        await writeCommand(Commands.MassageFootStrength(index));
         return state;
       }
     ));
@@ -80,11 +80,11 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controll
       async (state) => {
         const index = options.indexOf(state);
         if (index == 0) {
-          await writeData(Commands.MassageWaveOff);
+          await writeCommand(Commands.MassageWaveOff);
         } else {
           const currentState = select.getState();
-          if (options.indexOf(currentState || options[0])) await writeData(Commands.MassageWaveOn);
-          await writeData(Commands.MassageWaveLevel(index));
+          if (options.indexOf(currentState || options[0])) await writeCommand(Commands.MassageWaveOn);
+          await writeCommand(Commands.MassageWaveLevel(index));
         }
         return state;
       }
