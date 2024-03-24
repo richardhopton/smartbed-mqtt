@@ -20,7 +20,7 @@ export class Controller extends EventEmitter implements IController<number[]> {
     });
   }
 
-  writeData = async (bytes: number[]) => {
+  writeCommand = async (bytes: number[]) => {
     if (bytes.length === 0) return;
     const checksum = bytes.reduce((acc, cur) => acc ^ cur, 0);
     await this.bleDevice.connect();

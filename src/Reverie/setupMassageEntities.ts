@@ -11,14 +11,14 @@ interface MassageEntities {
 }
 
 export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controller) => {
-  const { entities, deviceData, writeData } = controller;
+  const { entities, deviceData, writeCommand } = controller;
   const cache = entities as MassageEntities;
   if (!cache.massageHead) {
     cache.massageHead = new NumberSlider(
       mqtt,
       deviceData,
       { min: 0, max: 10, ...buildEntityConfig('MassageHead') },
-      async (state) => await writeData(Commands.MassageHead(state))
+      async (state) => await writeCommand(Commands.MassageHead(state))
     );
     controller.on('notify', (bytes: number[]) => {
       cache.massageHead?.setState(bytes[4]);
@@ -30,7 +30,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controll
       mqtt,
       deviceData,
       { min: 0, max: 10, ...buildEntityConfig('MassageFoot') },
-      async (state) => await writeData(Commands.MassageFoot(state))
+      async (state) => await writeCommand(Commands.MassageFoot(state))
     );
     controller.on('notify', (bytes: number[]) => {
       cache.massageFoot?.setState(bytes[5]);
@@ -42,7 +42,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controll
       mqtt,
       deviceData,
       { min: 1, max: 4, ...buildEntityConfig('MassageWave') },
-      async (state) => await writeData(Commands.MassageWave(state))
+      async (state) => await writeCommand(Commands.MassageWave(state))
     );
   }
   cache.massageWave.setOnline();

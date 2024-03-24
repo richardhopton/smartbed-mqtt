@@ -13,7 +13,7 @@ export class Controller extends EventEmitter implements IController<number[]> {
     this.socket = createSocket('udp4');
   }
 
-  writeData = (bytes: number[]) =>
+  writeCommand = (bytes: number[]) =>
     new Promise<void>((res, rej) => {
       const onMessage = (message: Buffer) => {
         this.socket.off('message', onMessage);

@@ -40,7 +40,7 @@ export class Controller implements IController<number> {
 
   constructor(public deviceData: IDeviceData, public device: Device, public user: ErgoWifiUser) {}
 
-  writeData = async (data: number) => {
+  writeCommand = async (data: number) => {
     const authDetails = await getAuthDetails(this.user);
     if (!authDetails) return;
 

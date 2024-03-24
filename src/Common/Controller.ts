@@ -15,7 +15,7 @@ export class Controller implements IController<number[]> {
     private stayConnected?: boolean
   ) {}
 
-  writeData = async (bytes: number[]) => {
+  writeCommand = async (bytes: number[]) => {
     await this.bleDevice.connect();
     await this.bleDevice.writeCharacteristic(this.handle, new Uint8Array(bytes));
     if (!this.stayConnected) await this.bleDevice.disconnect();

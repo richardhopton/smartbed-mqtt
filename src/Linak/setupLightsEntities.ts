@@ -10,13 +10,13 @@ interface UnderBedLightEntities {
 }
 
 export const setupLightEntities = (mqtt: IMQTTConnection, controller: Controller) => {
-  const { entities, deviceData, writeData } = controller;
+  const { entities, deviceData, writeCommand } = controller;
   const cache = entities as UnderBedLightEntities;
 
   let { underBedLights } = cache;
   if (!underBedLights) {
     underBedLights = cache.underBedLights = new Switch(mqtt, deviceData, buildEntityConfig('UnderBedLights'), (state) =>
-      writeData(state ? Commands.UnderBedLightsOn : Commands.UnderBedLightsOff)
+      writeCommand(state ? Commands.UnderBedLightsOn : Commands.UnderBedLightsOff)
     );
   }
   underBedLights.setOnline();
