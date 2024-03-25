@@ -2,10 +2,10 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logInfo } from '@utils/logger';
+import { BleController } from 'Common/BleController';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
-import { Controller } from './Controller';
 import { BedPositionSensor } from './entities/BedPositionSensor';
 import { getDevices } from './options';
 import { setupLightEntities } from './setupLightsEntities';
@@ -39,18 +39,18 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
       continue;
     }
 
-    const outputHandles: Dictionary<number> = {};
+    const notifyHandles: Dictionary<number> = {};
     const outputService = services.find((s) => s.uuid === '99fa0020-338a-1024-8a49-009c0215f78a');
     if (outputService) {
       const backCharacteristic = outputService.characteristicsList.find(
         (c) => c.uuid === '99fa0028-338a-1024-8a49-009c0215f78a'
       );
-      if (backCharacteristic) outputHandles['back'] = backCharacteristic.handle;
+      if (backCharacteristic) notifyHandles['back'] = backCharacteristic.handle;
 
       const legCharacteristic = outputService.characteristicsList.find(
         (c) => c.uuid === '99fa0027-338a-1024-8a49-009c0215f78a'
       );
-      if (legCharacteristic) outputHandles['leg'] = legCharacteristic.handle;
+      if (legCharacteristic) notifyHandles['leg'] = legCharacteristic.handle;
 
       // const { motorCount = 2 } = device;
       // if (motorCount > 2) {
@@ -67,7 +67,13 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
       // }
     }
     const isAdvanced = !!outputService;
-    const controller = new Controller(deviceData, bleDevice, device, isAdvanced, characteristic.handle, outputHandles);
+    const controller = new BleController(
+      deviceData,
+      bleDevice,
+      characteristic.handle,
+      (bytes: number[]) => bytes,
+      notifyHandles
+    );
     logInfo('[Linak] Setting up entities for device:', name);
     setupLightEntities(mqtt, controller);
 
@@ -77,12 +83,12 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
     setupPresetButtons(mqtt, controller);
 
     const mapPositionData = (data: Uint8Array) => (data[1] << 8) | data[0];
-    if (outputHandles.back) {
+    if (notifyHandles.back) {
       const backPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleBack'), 820, 68);
       controller.on('back', (data) => backPositionSensor.setPosition(mapPositionData(data)));
     }
 
-    if (outputHandles.leg) {
+    if (notifyHandles.leg) {
       const legPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleLeg'), 548, 45);
       controller.on('leg', (data) => legPositionSensor.setPosition(mapPositionData(data)));
     }

@@ -1,9 +1,9 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { IController } from 'Common/IController';
 import { buildCachedButton } from 'Common/buildCachedButton';
 import { Commands } from './Commands';
-import { Controller } from './Controller';
 
-export const setupMassageButtons = (mqtt: IMQTTConnection, controller: Controller) => {
+export const setupMassageButtons = (mqtt: IMQTTConnection, controller: IController<number[]>) => {
   buildCachedButton('Linak', mqtt, controller, 'MassageAllOff', Commands.MassageAllOff);
   buildCachedButton('Linak', mqtt, controller, 'MassageAllToggle', Commands.MassageAllToggle);
   buildCachedButton('Linak', mqtt, controller, 'MassageAllUp', Commands.MassageAllUp);
