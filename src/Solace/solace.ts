@@ -1,7 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logInfo } from '@utils/logger';
-import { Controller } from 'Common/Controller';
+import { BleController } from 'Common/BleController';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { getDevices } from './options';
@@ -35,7 +35,14 @@ export const solace = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
       continue;
     }
 
-    const controller = new Controller(deviceData, bleDevice, name, characteristic.handle, true);
+    const controller = new BleController(
+      deviceData,
+      bleDevice,
+      characteristic.handle,
+      (bytes: number[]) => bytes,
+      {},
+      true
+    );
     logInfo('[Solace] Setting up entities for device:', name);
     setupPresetButtons(mqtt, controller);
   }
