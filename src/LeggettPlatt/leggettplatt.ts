@@ -40,7 +40,7 @@ export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnectio
 
     const services = await getServices();
 
-    if (!controllerBuilder(mqtt, deviceData, bleDevice, device, services)) {
+    if (!controllerBuilder(mqtt, deviceData, bleDevice, services)) {
       await disconnect();
       continue;
     }

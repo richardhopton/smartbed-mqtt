@@ -1,7 +1,8 @@
 import { Light, LightState } from '@ha/Light';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { getString } from '@utils/getString';
-import { Controller } from '../Controller';
+import { IController } from 'Common/IController';
+import { IEventSource } from 'Common/IEventSource';
 import { Commands } from './Commands';
 
 const WHITE = { r: 255, g: 255, b: 255 };
@@ -11,7 +12,7 @@ interface LightEntities {
   underBedLights?: Light;
 }
 
-export const setupLightEntities = (mqtt: IMQTTConnection, controller: Controller) => {
+export const setupLightEntities = (mqtt: IMQTTConnection, controller: IController<number[]> & IEventSource) => {
   const { deviceData, entities, writeCommand } = controller;
   const cache = entities as LightEntities;
 

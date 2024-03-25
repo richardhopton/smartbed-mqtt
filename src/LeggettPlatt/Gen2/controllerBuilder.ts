@@ -3,9 +3,8 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { logInfo } from '@utils/logger';
+import { BleController } from 'Common/BleController';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
-import { Controller } from 'LeggettPlatt/Controller';
-import { LeggettPlattDevice } from 'LeggettPlatt/options';
 import { setupDebugEntities } from './setupDebugEntities';
 import { setupLightEntities } from './setupLightEntities';
 import { setupMassageEntities } from './setupMassageEntities';
@@ -15,7 +14,6 @@ export const controllerBuilder = (
   mqtt: IMQTTConnection,
   deviceData: IDeviceData,
   bleDevice: IBLEDevice,
-  device: LeggettPlattDevice,
   services: BluetoothGATTService[]
 ) => {
   const { name } = bleDevice;
@@ -33,11 +31,17 @@ export const controllerBuilder = (
     return undefined;
   }
 
-  const outputHandles: Dictionary<number> = {};
+  const notifyHandles: Dictionary<number> = {};
   const readCharacteristic = service.characteristicsList.find((c) => c.uuid === '45e25103-3171-4cfc-ae89-1d83cf8d8071');
-  if (readCharacteristic) outputHandles['read'] = readCharacteristic.handle;
+  if (readCharacteristic) notifyHandles['read'] = readCharacteristic.handle;
 
-  const controller = new Controller(deviceData, bleDevice, device, writeCharacteristic.handle, outputHandles);
+  const controller = new BleController(
+    deviceData,
+    bleDevice,
+    writeCharacteristic.handle,
+    (bytes: number[]) => bytes,
+    notifyHandles
+  );
 
   logInfo('[LeggettPlatt] Setting up entities for LP Gen2 device:', name);
   setupPresetButtons(mqtt, controller);
