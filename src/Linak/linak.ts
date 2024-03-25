@@ -18,10 +18,9 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
 
   const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
   const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
-  const controllers: Controller[] = [];
   for (const bleDevice of bleDevices) {
     const { name, address, connect, disconnect, getServices } = bleDevice;
-    const device = devicesMap[name];
+    const { hasMassage, ...device } = devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Linak');
     await connect();
     const services = await getServices();
@@ -67,18 +66,8 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
       //   if (feetCharacteristic) outputHandles['feet'] = feetCharacteristic.handle;
       // }
     }
-    controllers.push(
-      new Controller(deviceData, bleDevice, device, !!outputService, characteristic.handle, outputHandles)
-    );
-  }
-
-  for (const controller of controllers) {
-    const {
-      device: { name, hasMassage = false },
-      deviceData,
-      outputHandles,
-      isAdvanced,
-    } = controller;
+    const isAdvanced = !!outputService;
+    const controller = new Controller(deviceData, bleDevice, device, isAdvanced, characteristic.handle, outputHandles);
     logInfo('[Linak] Setting up entities for device:', name);
     setupLightEntities(mqtt, controller);
 
@@ -88,13 +77,12 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
     setupPresetButtons(mqtt, controller);
 
     const mapPositionData = (data: Uint8Array) => (data[1] << 8) | data[0];
-    const { back, leg } = outputHandles;
-    if (back) {
+    if (outputHandles.back) {
       const backPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleBack'), 820, 68);
       controller.on('back', (data) => backPositionSensor.setPosition(mapPositionData(data)));
     }
 
-    if (leg) {
+    if (outputHandles.leg) {
       const legPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleLeg'), 548, 45);
       controller.on('leg', (data) => legPositionSensor.setPosition(mapPositionData(data)));
     }

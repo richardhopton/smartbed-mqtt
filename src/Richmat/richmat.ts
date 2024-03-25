@@ -16,7 +16,6 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
 
   const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
   const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
-  const controllers: Controller[] = [];
   for (const bleDevice of bleDevices) {
     const { name, address, connect, getServices, disconnect } = bleDevice;
     const device = devicesMap[name];
@@ -31,11 +30,8 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
       continue;
     }
 
-    controllers.push(new Controller(deviceData, bleDevice, device, deviceWrapper));
-  }
-
-  for (const controller of controllers) {
-    logInfo('[Richmat] Setting up entities for device:', controller.name);
+    const controller = new Controller(deviceData, bleDevice, device, deviceWrapper);
+    logInfo('[Richmat] Setting up entities for device:', name);
     setupPresetButtons(mqtt, controller);
     setupMassageButtons(mqtt, controller);
     setupUnderBedLightButton(mqtt, controller);

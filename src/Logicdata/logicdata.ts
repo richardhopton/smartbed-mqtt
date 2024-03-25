@@ -14,8 +14,6 @@ export const logicdata = async (mqtt: IMQTTConnection) => {
   const devicesToDiscover = devices.filter((device) => !device.ipAddress);
   const discoveredDevices = await discoverUDPDevices(devicesToDiscover.map((d) => d.name));
   const devicesMap = buildDictionary(discoveredDevices, (device) => ({ key: device.name, value: device }));
-  const controllers: Controller[] = [];
-
   for (const { name, ...device } of devices) {
     if (!device.ipAddress) {
       const updDevice = devicesMap[name];
@@ -31,11 +29,7 @@ export const logicdata = async (mqtt: IMQTTConnection) => {
     }
 
     const deviceData = buildMQTTDeviceData({ friendlyName, name, address }, 'Logicdata');
-    controllers.push(new Controller(deviceData, name, ipAddress));
-  }
-
-  for (const controller of controllers) {
-    const { name } = controller;
+    const controller = new Controller(deviceData, name, ipAddress);
     logInfo('[Logicdata] Setting up entities for device:', name);
     setupPresetButtons(mqtt, controller);
     setupMassageEntities(mqtt, controller);
