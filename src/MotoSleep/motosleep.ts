@@ -14,7 +14,6 @@ export const motosleep = async (mqtt: IMQTTConnection, esphome: IESPConnection) 
 
   const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
   const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
-  const controllers: Controller[] = [];
   for (const bleDevice of bleDevices) {
     const { name, address, connect, disconnect, getServices } = bleDevice;
     const device = devicesMap[name];
@@ -37,11 +36,7 @@ export const motosleep = async (mqtt: IMQTTConnection, esphome: IESPConnection) 
       continue;
     }
 
-    controllers.push(new Controller(deviceData, bleDevice, name, characteristic.handle, device.stayConnected));
-  }
-
-  for (const controller of controllers) {
-    const { name } = controller;
+    const controller = new Controller(deviceData, bleDevice, name, characteristic.handle, device.stayConnected);
     logInfo('[MotoSleep] Setting up entities for device:', name);
     const commands = buildCommands(name);
     for (const { name, command, category } of commands.filter((c) => !c.repeat)) {
