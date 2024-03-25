@@ -1,7 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logInfo } from '@utils/logger';
-import { Controller } from 'Common/Controller';
+import { BleController } from 'Common/BleController';
 import { buildCachedButton } from 'Common/buildCachedButton';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
@@ -36,7 +36,14 @@ export const motosleep = async (mqtt: IMQTTConnection, esphome: IESPConnection) 
       continue;
     }
 
-    const controller = new Controller(deviceData, bleDevice, name, characteristic.handle, device.stayConnected);
+    const controller = new BleController(
+      deviceData,
+      bleDevice,
+      characteristic.handle,
+      (bytes: number[]) => bytes,
+      {},
+      device.stayConnected
+    );
     logInfo('[MotoSleep] Setting up entities for device:', name);
     const commands = buildCommands(name);
     for (const { name, command, category } of commands.filter((c) => !c.repeat)) {
