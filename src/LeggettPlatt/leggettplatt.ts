@@ -1,6 +1,6 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
-import { logInfo } from '@utils/logger';
+import { logInfo, logWarn } from '@utils/logger';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { controllerBuilder as gen2ControllerBuilder } from './Gen2/controllerBuilder';
@@ -24,7 +24,15 @@ export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnectio
     const controllerBuilder = checks
       .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
       .filter((check) => check)[0];
-    if (controllerBuilder === undefined) continue;
+    if (controllerBuilder === undefined) {
+      const { manufacturerDataList, serviceUuidsList } = bleDevice;
+      logWarn(
+        '[LeggettPlatt] Device not supported, please contact me on Discord',
+        name,
+        JSON.stringify({ name, address, manufacturerDataList, serviceUuidsList })
+      );
+      continue;
+    }
 
     const device = devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'LeggettPlatt');
@@ -32,8 +40,7 @@ export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnectio
 
     const services = await getServices();
 
-    const controller = controllerBuilder(mqtt, deviceData, bleDevice, device, services);
-    if (!controller) {
+    if (!controllerBuilder(mqtt, deviceData, bleDevice, device, services)) {
       await disconnect();
       continue;
     }
