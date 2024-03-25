@@ -1,6 +1,6 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { Commands } from 'Common/Commands';
 import { buildCachedButton } from 'Common/buildCachedButton';
-import { Commands } from './Commands';
 import { Controller } from './Controller';
 import { RemoteStyle } from './options';
 
@@ -10,7 +10,7 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, controller: Controller
 
   if (remoteStyle === 'L') return;
 
-  buildCachedButton('ErgoWifi', mqtt, controller, 'PresetTV', Commands.PresetTV);
-  buildCachedButton('ErgoWifi', mqtt, controller, 'PresetUserFavorite', Commands.PresetUserFavorite);
+  buildCachedButton('ErgoWifi', mqtt, controller, 'PresetUserFavorite', Commands.PresetMemory1);
+  buildCachedButton('ErgoWifi', mqtt, controller, 'PresetTV', Commands.PresetMemory2);
   buildCachedButton('ErgoWifi', mqtt, controller, 'PresetAntiSnore', Commands.PresetAntiSnore);
 };
