@@ -3,9 +3,9 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { StringsKey, getString } from '@utils/getString';
 import { logError } from '@utils/logger';
 import { wait } from '@utils/wait';
+import { IController } from 'Common/IController';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from './Commands';
-import { Controller } from './Controller';
 
 interface PresetButtonEntities {
   presetMemory1?: Button;
@@ -21,7 +21,10 @@ interface PresetButtonEntities {
   programMemory4?: Button;
 }
 
-export const setupPresetButtons = (mqtt: IMQTTConnection, { entities, deviceData, writeCommand }: Controller) => {
+export const setupPresetButtons = (
+  mqtt: IMQTTConnection,
+  { entities, deviceData, writeCommand }: IController<number[]>
+) => {
   const cache = entities as PresetButtonEntities;
 
   const buildCachedButton = (

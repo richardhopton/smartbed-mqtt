@@ -1,15 +1,15 @@
 import { Switch } from '@ha/Switch';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { IController } from 'Common/IController';
 import { buildCachedButton } from 'Common/buildCachedButton';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from './Commands';
-import { Controller } from './Controller';
 
 interface UnderBedLightEntities {
   underBedLights?: Switch;
 }
 
-export const setupLightEntities = (mqtt: IMQTTConnection, controller: Controller) => {
+export const setupLightEntities = (mqtt: IMQTTConnection, controller: IController<number[]>) => {
   const { entities, deviceData, writeCommand } = controller;
   const cache = entities as UnderBedLightEntities;
 
