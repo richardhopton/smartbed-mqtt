@@ -1,7 +1,8 @@
 import { Select } from '@ha/Select';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { getString } from '@utils/getString';
-import { Controller } from '../Controller';
+import { IController } from 'Common/IController';
+import { IEventSource } from 'Common/IEventSource';
 import { Commands } from './Commands';
 
 interface MassageEntities {
@@ -10,7 +11,7 @@ interface MassageEntities {
   massageWave?: Select;
 }
 
-export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controller) => {
+export const setupMassageEntities = (mqtt: IMQTTConnection, controller: IController<number[]> & IEventSource) => {
   const { deviceData, entities, writeCommand } = controller;
   const cache = entities as MassageEntities;
 
