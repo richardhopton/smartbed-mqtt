@@ -23,9 +23,10 @@ export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnectio
   for (const bleDevice of bleDevices) {
     const { name, address, connect, disconnect, getServices } = bleDevice;
 
-    const index = checks.map((check, index) => (check(bleDevice) ? index : undefined)).filter((check) => check)[0];
-    if (index === undefined) continue;
-    const controllerBuilder = controllerBuilders[index];
+    const controllerBuilder = checks
+      .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
+      .filter((check) => check)[0];
+    if (controllerBuilder === undefined) continue;
 
     const device = devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'LeggettPlatt');
