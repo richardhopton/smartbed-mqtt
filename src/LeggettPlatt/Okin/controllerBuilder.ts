@@ -40,7 +40,7 @@ export const controllerBuilder = (
 
   const controller = new Controller(deviceData, bleDevice, device, writeCharacteristic.handle, outputHandles);
 
-  logInfo('[LeggettPlatt] Setting up entities for LP Gen2 device:', name);
+  logInfo('[LeggettPlatt] Setting up entities for LP Okin device:', name);
   setupPresetButtons(mqtt, controller);
   setupLightEntities(mqtt, controller);
   setupMassageEntities(mqtt, controller);
