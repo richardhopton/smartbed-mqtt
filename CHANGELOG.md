@@ -1,3 +1,19 @@
+## v1.1.12
+
+**Breaking Changes**
+
+- (ErgoWifi) Previous Ergomotion support has been renamed to ErgoWifi
+
+**New Features**
+
+- (ErgoMotion) Initial support for local TCP beds
+- (ESPHome) Support pairing with BLE Devices
+
+**Bug Fixes**
+
+- (Leggett & Platt) Fix Gen2 support
+- (Leggett & Platt) Reinstate not supported message
+
 ## v1.1.11
 
 **New Features**
