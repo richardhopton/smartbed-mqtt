@@ -58,19 +58,24 @@ export class ESPConnection implements IESPConnection {
   }
 
   async getBLEDevices(deviceNames: string[], nameMapper?: (name: string) => string): Promise<IBLEDevice[]> {
-    logInfo('[ESPHome] Searching for device(s):', deviceNames);
-
+    logInfo(`[ESPHome] Searching for device(s): ${deviceNames.join(', ')}`);
+    deviceNames = deviceNames.map((name) => name.toLowerCase());
     const bleDevices: IBLEDevice[] = [];
     const complete = new Deferred<void>();
     const listenerBuilder = (connection: Connection) => ({
       connection,
       listener: ({ name, address, addressType, manufacturerDataList, serviceUuidsList }: BLEAdvertisement) => {
-        if (!name) return;
-        if (nameMapper) name = nameMapper(name);
-        if (!deviceNames.includes(name)) return;
-
-        logInfo('[ESPHome] Found device:', name);
-        deviceNames.splice(deviceNames.indexOf(name), 1);
+        const mac = address.toString(16);
+        if (deviceNames.includes(mac)) {
+          deviceNames.splice(deviceNames.indexOf(mac), 1);
+        } else {
+          if (!name) return;
+          if (nameMapper) name = nameMapper(name);
+          const lowerName = name.toLowerCase();
+          if (!deviceNames.includes(lowerName)) return;
+          deviceNames.splice(deviceNames.indexOf(lowerName), 1);
+        }
+        logInfo(`[ESPHome] Found device: ${name} (${mac})`);
         bleDevices.push(new BLEDevice(name, address, addressType, manufacturerDataList, serviceUuidsList, connection));
 
         if (deviceNames.length) return;
@@ -82,7 +87,7 @@ export class ESPConnection implements IESPConnection {
       connection.on('message.BluetoothLEAdvertisementResponse', listener).subscribeBluetoothAdvertisementService();
     }
     await complete;
-    if (deviceNames.length) logWarn('[ESPHome] Cound not find address for device(s):', deviceNames);
+    if (deviceNames.length) logWarn(`[ESPHome] Cound not find address for device(s): ${deviceNames.join(', ')}`);
     return bleDevices;
   }
 }
