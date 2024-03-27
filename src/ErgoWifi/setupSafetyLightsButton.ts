@@ -1,8 +1,8 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Commands } from 'Common/Commands';
+import { IController } from 'Common/IController';
 import { buildCachedButton } from 'Common/buildCachedButton';
-import { Controller } from './Controller';
 
-export const setupSafetyLightsButton = (mqtt: IMQTTConnection, controller: Controller) => {
+export const setupSafetyLightsButton = (mqtt: IMQTTConnection, controller: IController<number>) => {
   buildCachedButton('ErgoWifi', mqtt, controller, 'SafetyLightsToggle', Commands.ToggleSafetyLights);
 };

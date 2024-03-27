@@ -1,9 +1,9 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { IController } from 'Common/IController';
 import { buildCachedButton } from 'Common/buildCachedButton';
 import { Commands } from './Commands';
-import { Controller } from './Controller';
 
-export const setupPresetButtons = (mqtt: IMQTTConnection, controller: Controller) => {
+export const setupPresetButtons = (mqtt: IMQTTConnection, controller: IController<number[]>) => {
   buildCachedButton('Logicdata', mqtt, controller, 'PresetFlat', Commands.Flat);
   buildCachedButton('Logicdata', mqtt, controller, 'PresetMemory1', Commands.PresetMemory1);
   buildCachedButton('Logicdata', mqtt, controller, 'PresetMemory2', Commands.PresetMemory2);
