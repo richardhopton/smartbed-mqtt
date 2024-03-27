@@ -1,18 +1,29 @@
 # Smart Bed MQTT
 
-This project aims to enable remote control of smart beds from HomeAssistant.
+This project aims to enable remote control of adjustable smart beds from HomeAssistant.
 
 ## Support is for:
 
-- Sleeptracker AI controlled beds such as the Tempur Ergo/Extend, BeautyRest SmartMotion, and Serta Perfect Smart Bases
-- ErgoMotion controlled beds that use the ErgoWifi app [experimental]
-- Richmat BLE controlled beds [experimental]
-- Linak BLE controlled beds [prototype]
-- Solace BLE controlled beds [experimental]
-- MotoSleep BLE controlled beds [experimental]
-- Reverie BLE controlled beds [prototype]
-- Leggett & Platt BLE controlled beds [prototype]
-- Logicdata beds [prototype]
+### Cloud based
+
+- [Sleeptracker AI](#sleeptracker-ai-support-cloud) (Tempur Ergo/Extend, BeautyRest SmartMotion, and Serta Perfect Smart Base)
+- [ErgoWifi](#ergowifi-support-cloud) [experimental]
+
+### Local Wifi
+
+- [ErgoMotion](#ergomotion-support-local-tcp) [experimental]
+- [Logicdata](#logicdata-support-local-http--udp) [prototype]
+
+### Local Bluetooth Low Energy (BLE)
+
+<em>NOTE: The following requires an [ESPHome BLE Proxy](#ble-proxy)</em>
+
+- [Richmat](#richmat-support-ble) [experimental]
+- [Linak](#linak-support-ble) [prototype]
+- [Solace](#solace-support-ble) [experimental]
+- [MotoSleep](#motosleep-support-ble) [experimental]
+- [Reverie](#reverie-support-ble) [prototype]
+- [Leggett & Platt](#leggett--platt-support-ble) (Okin & Richmat variants) [prototype]
 
 # Installation
 
@@ -30,9 +41,9 @@ An MQTT broker is required. The [Mosquitto official Add-On](https://github.com/h
 
 ## BLE proxy
 
-For BLE controlled beds an ESP32 running ESPHome's bluetooth proxy is required. Due to limitations in ESPHome, specifically since 2023.7 only one connection can use the bluetooth proxy of an ESP32 at a time, the BLE proxy will need to not be added (or disabled if already added) to HomeAssistant. Use the [ESPHome Ready-Made Projects](https://esphome.io/projects/?type=bluetooth) page to create an ESPHome bluetooth proxy and join it to your network.
+For BLE controlled beds a dedicated ESP32 running ESPHome's bluetooth proxy is required. Due to limitations in ESPHome, specifically since 2023.7 only one connection can use the bluetooth proxy of an ESP32 at a time, the BLE proxy will need to not be added (or disabled if already added) to HomeAssistant. Use the [ESPHome Ready-Made Projects](https://esphome.io/projects/?type=bluetooth) page to create an ESPHome bluetooth proxy and join it to your network.
 
-# Sleeptracker Support (Cloud)
+# Sleeptracker AI Support (Cloud)
 
 ## Configuration
 
@@ -79,15 +90,56 @@ e.g.
 
 This uses the same api used by the iOS and Android apps, so it is possible that this will break if the apps are changed. I will attempt to maintain it where feasible, but also open to PRs.
 
-# ErgoMotion Support (Cloud) [experimental]
-
-Very experimental
-
-## Notes
+# ErgoWifi Support (Cloud)
 
 This uses the Chinese cloud called xlink - there is no guarantees that this will work.
 
-# Richmat Support (Bluetooth) [experimental]
+## Current features include:
+
+- Buttons to trigger the presets
+- Button for under bed lights
+- Buttons to step thru the massage strengths for head & foot, massage mode, and toggle
+
+# ErgoMotion Support (Local TCP)
+
+You must specify an `ipAddress` (or DNS name), `friendlyName`, and `remoteStyle`
+
+## Current features include:
+
+- Buttons to trigger the presets
+- Button for under bed lights
+- Buttons to step thru the massage strengths for head & foot, massage mode, and toggle
+
+## Notes
+
+This uses local connection via tcp - please ensure the add-on has access to network devices.
+
+Initial prototyping was only possible due to assistance from Wozman on Discord.
+
+# Logicdata Support (Local HTTP & UDP)
+
+## Configuring
+
+You must specify at least one Logicdata controller with `name` and `friendlyName`, and optionally `ipAddress`. If an `ipAddress` is not specified UDP discovery will be used to get the `ipAddress`.
+
+## Current features include:
+
+- Buttons to trigger the flat preset
+- Buttons to trigger the user presets
+- Buttons to program the user presets
+- Controls for the head, lumbar & leg massage intesity & massage mode
+
+## Possible future features:
+
+- Buttons/Cover to control raising and lowering head/leg
+
+## Notes
+
+This uses local connection via http and udp - please ensure the add-on has access to network devices.
+
+Initial prototyping was only possible due to assistance from James on Discord.
+
+# Richmat Support (BLE)
 
 ## Configuring
 
@@ -106,7 +158,7 @@ Setting `stayConnected` to `true` will stop you from being able to use the app t
 
 Support for this was only possible due to assistance from getrav on Discord. This was reverse engineered from a Sven & Son bed, so your mileage may vary.
 
-# Linak Support (Bluetooth) [prototype]
+# Linak Support (BLE)
 
 ## Configuring
 
@@ -126,7 +178,7 @@ This remains connected to the bed controller and due to the bed only accepting o
 
 Initial prototyping was only possible due to assistance from jascdk on Discord.
 
-# Solace Support (Bluetooth) [experimental]
+# Solace Support (BLE)
 
 ## Configuring
 
@@ -145,7 +197,7 @@ This remains connected to the bed controller and due to the bed only accepting o
 
 Initial prototyping was only possible due to assistance from Bonopaws on Discord.
 
-# MotoSleep Support (Bluetooth) [experimental]
+# MotoSleep Support (BLE)
 
 ## Configuring
 
@@ -170,7 +222,7 @@ Setting `stayConnected` to `true` will stop you from being able to use the app t
 
 Initial prototyping was only possible due to assistance from waynebowie99 on Discord.
 
-# Reverie Support (Bluetooth) [experimental]
+# Reverie Support (BLE)
 
 ## Configuring
 
@@ -195,11 +247,11 @@ This remains connected to the bed controller and due to the bed only accepting o
 
 Initial prototyping was only possible due to assistance from Vitaliy on Discord.
 
-# Leggett & Platt Support (Bluetooth) [prototype]
+# Leggett & Platt Support (BLE)
 
 ## Configuring
 
-You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Leggett & Platt controller with `name` and `friendlyName`.
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Leggett & Platt controller with `name` and `friendlyName`. This supports Gen2 (Richmat) and Okin variants that can be controlled by the LP Control app.
 
 ## Current features include:
 
@@ -218,29 +270,6 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
 
 Initial prototyping was only possible due to assistance from MarcusW on Discord.
-
-# Logicdata Support (Local) [prototype]
-
-## Configuring
-
-You must specify at least one Logicdata controller with `name` and `friendlyName`, and optionally `ipAddress`. If an `ipAddress` is not specified UDP discovery will be used to get the `ipAddress`.
-
-## Current features include:
-
-- Buttons to trigger the flat preset
-- Buttons to trigger the user presets
-- Buttons to program the user presets
-- Controls for the head, lumbar & leg massage intesity & massage mode
-
-## Possible future features:
-
-- Buttons/Cover to control raising and lowering head/leg
-
-## Notes
-
-This uses local connection via http and udp - please ensure the add-on has access to network devices.
-
-Initial prototyping was only possible due to assistance from James on Discord.
 
 # Support
 
