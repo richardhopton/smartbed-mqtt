@@ -4,7 +4,7 @@ import { Dictionary } from '@utils/Dictionary';
 import { intToBytes } from '@utils/intToBytes';
 import { IController } from 'Common/IController';
 import EventEmitter from 'events';
-import { Socket, createConnection } from 'net';
+import { createConnection } from 'net';
 import { ErgoMotionDevice } from './options';
 
 const commandPayload = (command: number) => {
@@ -15,18 +15,22 @@ const commandPayload = (command: number) => {
 
 export class Controller extends EventEmitter implements IController<number> {
   entities: Dictionary<Entity> = {};
-  socket: Socket;
   constructor(public deviceData: IDeviceData, public device: ErgoMotionDevice) {
     super();
-    this.socket = createConnection(5000, device.ipAddress);
-    this.socket.on('data', (data) => this.emit('data', data));
   }
 
   writeCommand = (command: number) =>
     new Promise<void>((res, rej) => {
-      this.socket.write(new Uint8Array(commandPayload(command)), (err) => {
+      const socket = createConnection(5000, this.device.ipAddress);
+      const onMessage = (data: Buffer) => {
+        socket.off('data', onMessage);
+        this.emit('data', data);
+        socket.destroy();
+        res();
+      };
+      socket.on('data', onMessage);
+      socket.write(new Uint8Array(commandPayload(command)), (err) => {
         if (err) rej(err);
-        else res();
       });
     });
 }
