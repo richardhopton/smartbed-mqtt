@@ -1,8 +1,9 @@
 import { NumberSlider } from '@ha/NumberSlider';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { IController } from 'Common/IController';
+import { IEventSource } from 'Common/IEventSource';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from './Commands';
-import { Controller } from './Controller';
 
 interface MassageEntities {
   massageHead?: NumberSlider;
@@ -10,7 +11,7 @@ interface MassageEntities {
   massageWave?: NumberSlider;
 }
 
-export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controller) => {
+export const setupMassageEntities = (mqtt: IMQTTConnection, controller: IController<number[]> & IEventSource) => {
   const { entities, deviceData, writeCommand } = controller;
   const cache = entities as MassageEntities;
   if (!cache.massageHead) {
@@ -20,7 +21,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controll
       { min: 0, max: 10, ...buildEntityConfig('MassageHead') },
       async (state) => await writeCommand(Commands.MassageHead(state))
     );
-    controller.on('notify', (bytes: number[]) => {
+    controller.on('notify', (bytes) => {
       cache.massageHead?.setState(bytes[4]);
     });
   }
@@ -32,7 +33,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, controller: Controll
       { min: 0, max: 10, ...buildEntityConfig('MassageFoot') },
       async (state) => await writeCommand(Commands.MassageFoot(state))
     );
-    controller.on('notify', (bytes: number[]) => {
+    controller.on('notify', (bytes) => {
       cache.massageFoot?.setState(bytes[5]);
     });
   }
