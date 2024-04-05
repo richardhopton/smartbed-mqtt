@@ -2,7 +2,7 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logInfo } from '@utils/logger';
-import { BleController } from 'Common/BleController';
+import { BLEController } from 'Common/BLEController';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
@@ -67,7 +67,7 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
       // }
     }
     const isAdvanced = !!outputService;
-    const controller = new BleController(
+    const controller = new BLEController(
       deviceData,
       bleDevice,
       characteristic.handle,
