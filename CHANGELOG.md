@@ -1,3 +1,19 @@
+## v1.1.13
+
+**Breaking Changes**
+
+- (ErgoWifi) Remove old config options
+
+**New Features**
+
+- (ESPHome) Support finding beds using mac address instead of name
+
+**Bug Fixes**
+
+- (HomeAssistant) Don't allow invalid device topics (fixes ErgoMotion issue)
+- (ErgoMotion) Use connection for one command only
+- (HomeAssistant) Remove deprecated discovery property for light entities
+
 ## v1.1.12
 
 **Breaking Changes**
