@@ -1,7 +1,6 @@
 import { BluetoothGATTService } from '@2colors/esphome-native-api';
 import { IDeviceData } from '@ha/IDeviceData';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { Dictionary } from '@utils/Dictionary';
 import { intToBytes } from '@utils/intToBytes';
 import { logInfo } from '@utils/logger';
 import { BLEController } from 'Common/BLEController';
@@ -35,11 +34,7 @@ export const controllerBuilder = (
     return undefined;
   }
 
-  const notifyHandles: Dictionary<number> = {};
-  const readCharacteristic = service.characteristicsList.find((c) => c.uuid === '62741625-52f9-8864-b1ab-3b3a8d65950b');
-  if (readCharacteristic) notifyHandles['read'] = readCharacteristic.handle;
-
-  const controller = new BLEController(deviceData, bleDevice, writeCharacteristic.handle, buildCommand, notifyHandles);
+  const controller = new BLEController(deviceData, bleDevice, writeCharacteristic.handle, buildCommand);
 
   logInfo('[LeggettPlatt] Setting up entities for LP Okin device:', name);
   setupPresetButtons(mqtt, controller);
