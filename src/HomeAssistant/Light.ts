@@ -61,7 +61,6 @@ export class Light extends StatefulEntity<LightState> {
       ...super.discoveryState(),
       schema: 'json',
       brightness: this.supportsBrightness,
-      color_mode: this.supportsRGB,
       command_topic: this.commandTopic,
       supported_color_modes: [this.supportedColorMode],
     };
