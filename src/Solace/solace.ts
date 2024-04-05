@@ -1,7 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logInfo } from '@utils/logger';
-import { BleController } from 'Common/BleController';
+import { BLEController } from 'Common/BLEController';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { getDevices } from './options';
@@ -35,7 +35,7 @@ export const solace = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
       continue;
     }
 
-    const controller = new BleController(
+    const controller = new BLEController(
       deviceData,
       bleDevice,
       characteristic.handle,

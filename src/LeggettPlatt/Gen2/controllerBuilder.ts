@@ -3,7 +3,7 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { logInfo } from '@utils/logger';
-import { BleController } from 'Common/BleController';
+import { BLEController } from 'Common/BLEController';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import { setupDebugEntities } from './setupDebugEntities';
 import { setupLightEntities } from './setupLightEntities';
@@ -35,7 +35,7 @@ export const controllerBuilder = (
   const readCharacteristic = service.characteristicsList.find((c) => c.uuid === '45e25103-3171-4cfc-ae89-1d83cf8d8071');
   if (readCharacteristic) notifyHandles['read'] = readCharacteristic.handle;
 
-  const controller = new BleController(
+  const controller = new BLEController(
     deviceData,
     bleDevice,
     writeCharacteristic.handle,

@@ -6,7 +6,7 @@ import EventEmitter from 'events';
 import { IController } from './IController';
 import { IEventSource } from './IEventSource';
 
-export class BleController<TCommand> extends EventEmitter implements IEventSource, IController<TCommand> {
+export class BLEController<TCommand> extends EventEmitter implements IEventSource, IController<TCommand> {
   entities: Dictionary<Entity> = {};
   get notifyNames() {
     return Object.keys(this.notifyHandles);
@@ -20,6 +20,7 @@ export class BleController<TCommand> extends EventEmitter implements IEventSourc
     private stayConnected?: boolean
   ) {
     super();
+    this.stayConnected ||= notifyHandles.length > 0;
     Object.entries(notifyHandles).map(([key, handle]) => {
       this.bleDevice.subscribeToCharacteristic(handle, (data) => {
         this.emit(key, data);
