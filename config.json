@@ -23,7 +23,6 @@
         "type": "tempur"
       }
     ],
-    "ergoMotionCredentials": [],
     "ergoWifiCredentials": [
       {
         "email": "me@example.org",
@@ -100,12 +99,6 @@
         "email": "email",
         "password": "password",
         "type": "list(tempur|beautyrest|serta)?"
-      }
-    ],
-    "ergoMotionCredentials": [
-      {
-        "email": "email",
-        "password": "password"
       }
     ],
     "ergoWifiCredentials": [

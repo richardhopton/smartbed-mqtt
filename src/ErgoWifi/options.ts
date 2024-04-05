@@ -12,14 +12,13 @@ export interface ErgoWifiUser extends Credentials {
 }
 
 interface OptionsJson {
-  ergoMotionCredentials: ErgoWifiUser[];
   ergoWifiCredentials: ErgoWifiUser[];
 }
 
 const options: OptionsJson = getRootOptions();
 
 export const getUsers = () => {
-  const credentials = options.ergoWifiCredentials || options.ergoMotionCredentials;
+  const credentials = options.ergoWifiCredentials;
   if (Array.isArray(credentials)) {
     return credentials;
   }
