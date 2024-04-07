@@ -1,6 +1,6 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
-import { logInfo } from '@utils/logger';
+import { logError, logInfo } from '@utils/logger';
 import { BLEController } from 'Common/BLEController';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
@@ -15,10 +15,12 @@ export const solace = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
   if (!devices.length) return logInfo('[Solace] No devices configured');
 
   const devicesMap = buildDictionary(devices, (device) => ({ key: nameMapper(device.name), value: device }));
-  const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap), nameMapper);
+  const deviceNames = Object.keys(devicesMap);
+  if (deviceNames.length !== devices.length) return logError('[Solace] Duplicate name detected in configuration');
+  const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
-    const { name, address, connect, disconnect, getServices } = bleDevice;
-    const device = devicesMap[name];
+    const { name, mac, address, connect, disconnect, getServices } = bleDevice;
+    const device = devicesMap[mac] || devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Solace');
     await connect();
     const services = await getServices();

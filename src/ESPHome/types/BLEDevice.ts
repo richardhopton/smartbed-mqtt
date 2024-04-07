@@ -8,6 +8,7 @@ export class BLEDevice implements IBLEDevice {
 
   constructor(
     public name: string,
+    public mac: string,
     public address: number,
     private addressType: number,
     public manufacturerDataList: BLEManufacturerData[],

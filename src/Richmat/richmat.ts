@@ -15,10 +15,12 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
   if (!devices.length) return logInfo('[Richmat] No devices configured');
 
   const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
-  const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
+  const deviceNames = Object.keys(devicesMap);
+  if (deviceNames.length !== devices.length) return logError('[Richmat] Duplicate name detected in configuration');
+  const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
-    const { name, address, connect, getServices, disconnect } = bleDevice;
-    const device = devicesMap[name];
+    const { name, mac, address, connect, getServices, disconnect } = bleDevice;
+    const device = devicesMap[mac] || devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Richmat');
     await connect();
     const services = await getServices();

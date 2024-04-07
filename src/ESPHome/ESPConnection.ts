@@ -62,21 +62,27 @@ export class ESPConnection implements IESPConnection {
     deviceNames = deviceNames.map((name) => name.toLowerCase());
     const bleDevices: IBLEDevice[] = [];
     const complete = new Deferred<void>();
+    const seenAddresses: number[] = [];
     const listenerBuilder = (connection: Connection) => ({
       connection,
       listener: ({ name, address, addressType, manufacturerDataList, serviceUuidsList }: BLEAdvertisement) => {
-        const mac = address.toString(16);
-        if (deviceNames.includes(mac)) {
-          deviceNames.splice(deviceNames.indexOf(mac), 1);
-        } else {
+        if (seenAddresses.includes(address)) return;
+        seenAddresses.push(address);
+
+        const mac = address.toString(16).padStart(12, '0');
+        let index = deviceNames.indexOf(mac);
+        if (index === -1) {
           if (!name) return;
           if (nameMapper) name = nameMapper(name);
           const lowerName = name.toLowerCase();
-          if (!deviceNames.includes(lowerName)) return;
-          deviceNames.splice(deviceNames.indexOf(lowerName), 1);
+          index = deviceNames.indexOf(lowerName);
+          if (index === -1) return;
         }
+        deviceNames.splice(index, 1);
         logInfo(`[ESPHome] Found device: ${name} (${mac})`);
-        bleDevices.push(new BLEDevice(name, address, addressType, manufacturerDataList, serviceUuidsList, connection));
+        bleDevices.push(
+          new BLEDevice(name, mac, address, addressType, manufacturerDataList, serviceUuidsList, connection)
+        );
 
         if (deviceNames.length) return;
         complete.resolve();

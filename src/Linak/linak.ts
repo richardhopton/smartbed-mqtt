@@ -1,7 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { buildDictionary } from '@utils/buildDictionary';
-import { logInfo } from '@utils/logger';
+import { logError, logInfo } from '@utils/logger';
 import { BLEController } from 'Common/BLEController';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
@@ -17,10 +17,12 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   if (!devices.length) return logInfo('[Linak] No devices configured');
 
   const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
-  const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
+  const deviceNames = Object.keys(devicesMap);
+  if (deviceNames.length !== devices.length) return logError('[Linak] Duplicate name detected in configuration');
+  const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
-    const { name, address, connect, disconnect, getServices } = bleDevice;
-    const { hasMassage, ...device } = devicesMap[name];
+    const { name, mac, address, connect, disconnect, getServices } = bleDevice;
+    const { hasMassage, ...device } = devicesMap[mac] || devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Linak');
     await connect();
     const services = await getServices();
