@@ -3,6 +3,7 @@ import { BLEManufacturerData } from './BLEAdvertisement';
 
 export interface IBLEDevice {
   name: string;
+  mac: string;
   address: number;
   manufacturerDataList: BLEManufacturerData[];
   serviceUuidsList: string[];

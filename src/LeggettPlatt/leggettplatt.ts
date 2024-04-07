@@ -1,6 +1,6 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
-import { logInfo, logWarn } from '@utils/logger';
+import { logError, logInfo, logWarn } from '@utils/logger';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { controllerBuilder as gen2ControllerBuilder } from './Gen2/controllerBuilder';
@@ -17,9 +17,11 @@ export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnectio
   if (!devices.length) return logInfo('[LeggettPlatt] No devices configured');
 
   const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
-  const bleDevices = await esphome.getBLEDevices(Object.keys(devicesMap));
+  const deviceNames = Object.keys(devicesMap);
+  if (deviceNames.length !== devices.length) return logError('[LeggettPlatt] Duplicate name detected in configuration');
+  const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
-    const { name, address, connect, disconnect, getServices } = bleDevice;
+    const { name, mac, address, connect, disconnect, getServices } = bleDevice;
 
     const controllerBuilder = checks
       .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
@@ -34,7 +36,7 @@ export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnectio
       continue;
     }
 
-    const device = devicesMap[name];
+    const device = devicesMap[mac] || devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'LeggettPlatt');
     await connect();
 
