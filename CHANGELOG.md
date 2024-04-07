@@ -1,3 +1,10 @@
+## v1.1.15
+
+**Bug Fixes**
+
+- (HomeAssistant) Stop resending state & online messages if state didn't change
+- (ESPHome) Ignore nameless advertisements
+
 ## v1.1.14
 
 **Bug Fixes**
