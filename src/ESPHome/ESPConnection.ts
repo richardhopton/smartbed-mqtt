@@ -66,18 +66,16 @@ export class ESPConnection implements IESPConnection {
     const listenerBuilder = (connection: Connection) => ({
       connection,
       listener: ({ name, address, addressType, manufacturerDataList, serviceUuidsList }: BLEAdvertisement) => {
-        if (seenAddresses.includes(address)) return;
+        if (seenAddresses.includes(address) || !name) return;
         seenAddresses.push(address);
 
+        if (nameMapper) name = nameMapper(name);
         const mac = address.toString(16).padStart(12, '0');
+
         let index = deviceNames.indexOf(mac);
-        if (index === -1) {
-          if (!name) return;
-          if (nameMapper) name = nameMapper(name);
-          const lowerName = name.toLowerCase();
-          index = deviceNames.indexOf(lowerName);
-          if (index === -1) return;
-        }
+        if (index === -1) index = deviceNames.indexOf(name.toLowerCase());
+        if (index === -1) return;
+
         deviceNames.splice(index, 1);
         logInfo(`[ESPHome] Found device: ${name} (${mac})`);
         bleDevices.push(
