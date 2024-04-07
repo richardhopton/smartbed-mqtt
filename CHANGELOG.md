@@ -1,3 +1,9 @@
+## v1.1.14
+
+**Bug Fixes**
+
+- (ESPHome) Fix address based BLE discovery
+
 ## v1.1.13
 
 **Breaking Changes**
