@@ -1,9 +1,9 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logError, logInfo } from '@utils/logger';
+import { BLEController } from 'Common/BLEController';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
-import { Controller } from './Controller';
 import { getDevices } from './options';
 import { setupLightEntities } from './setupLightEntities';
 import { setupMassageEntities } from './setupMassageEntities';
@@ -36,7 +36,10 @@ export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
       continue;
     }
 
-    const controller = new Controller(deviceData, bleDevice, name, characteristic.handle);
+    const { handle } = characteristic;
+    const controller = new BLEController(deviceData, bleDevice, handle, (bytes: number[]) => bytes, {
+      notify: handle,
+    });
     logInfo('[Reverie] Setting up entities for device:', name);
     setupPresetButtons(mqtt, controller);
     setupLightEntities(mqtt, controller);
