@@ -12,3 +12,5 @@ export enum Features {
   MassageMode = 1024,
   MassageToggle = 2048,
 }
+
+export type HasFeature = (feature: Features) => boolean;

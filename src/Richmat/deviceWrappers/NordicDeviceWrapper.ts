@@ -7,8 +7,8 @@ export class NordicDeviceWrapper implements IDeviceWrapper {
   }
 
   controllerType = 'Nordic';
-  getBytes(command: number): Uint8Array {
-    return new Uint8Array([command]);
+  getBytes(command: number) {
+    return [command];
   }
   writeHandle: number;
 }

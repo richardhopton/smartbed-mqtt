@@ -1,10 +1,14 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { IController } from 'Common/IController';
 import { buildCommandsButton } from 'Common/buildCommandsButton';
-import { Features } from 'Richmat/types/Features';
+import { Features, HasFeature } from 'Richmat/types/Features';
 import { Commands } from './types/Commands';
-import { Controller } from './types/Controller';
 
-export const setupUnderBedLightButton = (mqtt: IMQTTConnection, { hasFeature, ...controller }: Controller) => {
+export const setupUnderBedLightButton = (
+  mqtt: IMQTTConnection,
+  controller: IController<number>,
+  hasFeature: HasFeature
+) => {
   if (hasFeature(Features.UnderBedLightsToggle))
     buildCommandsButton('Richmat', mqtt, controller, 'UnderBedLightsToggle', [
       Commands.UnderBedLightsToggle,
