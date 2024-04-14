@@ -16,5 +16,5 @@ export const setupPresetButtons = (
 
   buildCachedButton('ErgoWifi', mqtt, controller, 'PresetUserFavorite', Commands.PresetMemory1);
   buildCachedButton('ErgoWifi', mqtt, controller, 'PresetTV', Commands.PresetMemory2);
-  buildCachedButton('ErgoWifi', mqtt, controller, 'PresetAntiSnore', Commands.PresetAntiSnore);
+  buildCachedButton('ErgoWifi', mqtt, controller, 'PresetAntiSnore', Commands.PresetMemory3);
 };
