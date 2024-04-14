@@ -22,7 +22,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, controller: IControl
       async (state) => await writeCommand(Commands.MassageHead(state))
     );
     controller.on('notify', (bytes) => {
-      cache.massageHead?.setState(bytes[4]);
+      if (bytes.length === 9) cache.massageHead?.setState(bytes[4]);
     });
   }
   cache.massageHead.setOnline();
@@ -34,7 +34,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, controller: IControl
       async (state) => await writeCommand(Commands.MassageFoot(state))
     );
     controller.on('notify', (bytes) => {
-      cache.massageFoot?.setState(bytes[5]);
+      if (bytes.length === 9) cache.massageFoot?.setState(bytes[5]);
     });
   }
   cache.massageFoot.setOnline();
