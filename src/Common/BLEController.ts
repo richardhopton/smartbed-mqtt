@@ -2,6 +2,7 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { Timer } from '@utils/Timer';
+import { loopWithWait } from '@utils/loopWithWait';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import EventEmitter from 'events';
 import { IController } from './IController';
@@ -31,12 +32,19 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     });
   }
 
-  writeCommand = async (command: TCommand, duration?: number, frequency?: number) => {
-    await this.timer?.cancel();
+  writeCommand = (command: TCommand, duration?: number, frequency?: number) =>
+    this.writeCommands([command], duration, frequency);
 
+  writeCommands = async (commands: TCommand[], duration?: number, frequency?: number) => {
+    const commandList = commands.map(this.commandBuilder).filter((command) => command.length > 0);
+    if (commandList.length === 0) return;
+    await this.timer?.cancel();
     await this.bleDevice.connect();
     this.timer = new Timer(
-      async () => await this.write(command),
+      async () =>
+        await loopWithWait(commandList, (command) =>
+          this.bleDevice.writeCharacteristic(this.handle, new Uint8Array(command))
+        ),
       duration,
       frequency,
       async () => {
@@ -46,7 +54,4 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     );
     await this.timer.done;
   };
-
-  private write = (command: TCommand) =>
-    this.bleDevice.writeCharacteristic(this.handle, new Uint8Array(this.commandBuilder(command)));
 }

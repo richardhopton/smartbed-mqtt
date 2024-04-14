@@ -3,6 +3,7 @@ import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { Timer } from '@utils/Timer';
 import { intToBytes } from '@utils/intToBytes';
+import { loopWithWait } from '@utils/loopWithWait';
 import { IController } from 'Common/IController';
 import EventEmitter from 'events';
 import { createConnection } from 'net';
@@ -47,4 +48,6 @@ export class Controller extends EventEmitter implements IController<number> {
         if (err) rej(err);
       });
     });
+
+  writeCommands = (commands: number[]) => loopWithWait(commands, this.writeCommand);
 }

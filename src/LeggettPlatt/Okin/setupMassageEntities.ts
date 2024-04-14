@@ -1,16 +1,16 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Commands } from 'Common/Commands';
 import { IController } from 'Common/IController';
-import { buildCachedButton } from 'Common/buildCachedButton';
+import { buildCommandButton } from 'Common/buildCommandButton';
 
 export const setupMassageEntities = (mqtt: IMQTTConnection, controller: IController<number>) => {
-  buildCachedButton('LeggettPlatt', mqtt, controller, 'MassageStep', Commands.MassageStep);
+  buildCommandButton('LeggettPlatt', mqtt, controller, 'MassageStep', Commands.MassageStep);
 
-  buildCachedButton('LeggettPlatt', mqtt, controller, 'MassageHeadUp', Commands.MassageHeadUp);
-  buildCachedButton('LeggettPlatt', mqtt, controller, 'MassageHeadDown', Commands.MassageHeadDown);
+  buildCommandButton('LeggettPlatt', mqtt, controller, 'MassageHeadUp', Commands.MassageHeadUp);
+  buildCommandButton('LeggettPlatt', mqtt, controller, 'MassageHeadDown', Commands.MassageHeadDown);
 
-  buildCachedButton('LeggettPlatt', mqtt, controller, 'MassageFootUp', Commands.MassageFootUp);
-  buildCachedButton('LeggettPlatt', mqtt, controller, 'MassageFootDown', Commands.MassageFootDown);
+  buildCommandButton('LeggettPlatt', mqtt, controller, 'MassageFootUp', Commands.MassageFootUp);
+  buildCommandButton('LeggettPlatt', mqtt, controller, 'MassageFootDown', Commands.MassageFootDown);
 
-  buildCachedButton('LeggettPlatt', mqtt, controller, 'MassageWaveStep', Commands.MassageWaveStep);
+  buildCommandButton('LeggettPlatt', mqtt, controller, 'MassageWaveStep', Commands.MassageWaveStep);
 };

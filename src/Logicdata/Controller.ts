@@ -2,6 +2,7 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { Timer } from '@utils/Timer';
+import { loopWithWait } from '@utils/loopWithWait';
 import { IController } from 'Common/IController';
 import { Socket, createSocket } from 'dgram';
 import EventEmitter from 'events';
@@ -16,18 +17,7 @@ export class Controller extends EventEmitter implements IController<number[]> {
     this.socket = createSocket('udp4');
   }
 
-  writeCommand = async (command: number[], duration?: number, frequency?: number) => {
-    await this.timer?.cancel();
-
-    this.timer = new Timer(
-      async () => await this.write(command),
-      duration,
-      frequency,
-      () => (this.timer = undefined)
-    );
-  };
-
-  private write = (command: number[]) =>
+  writeCommand = (command: number[]) =>
     new Promise<void>((res, rej) => {
       const onMessage = (message: Buffer) => {
         this.socket.off('message', onMessage);
@@ -38,4 +28,15 @@ export class Controller extends EventEmitter implements IController<number[]> {
         if (err) rej(err);
       });
     });
+
+  writeCommands = async (commands: number[][], duration?: number, frequency?: number) => {
+    await this.timer?.cancel();
+
+    this.timer = new Timer(
+      async () => await loopWithWait(commands, (command) => this.writeCommand(command)),
+      duration,
+      frequency,
+      () => (this.timer = undefined)
+    );
+  };
 }

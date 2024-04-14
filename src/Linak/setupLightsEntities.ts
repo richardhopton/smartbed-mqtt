@@ -1,7 +1,7 @@
 import { Switch } from '@ha/Switch';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { IController } from 'Common/IController';
-import { buildCachedButton } from 'Common/buildCachedButton';
+import { buildCommandButton } from 'Common/buildCommandButton';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from './Commands';
 
@@ -21,5 +21,5 @@ export const setupLightEntities = (mqtt: IMQTTConnection, controller: IControlle
   }
   underBedLights.setOnline();
 
-  buildCachedButton('Linak', mqtt, controller, 'UnderBedLightsToggle', Commands.UnderBedLightsToggle);
+  buildCommandButton('Linak', mqtt, controller, 'UnderBedLightsToggle', Commands.UnderBedLightsToggle);
 };

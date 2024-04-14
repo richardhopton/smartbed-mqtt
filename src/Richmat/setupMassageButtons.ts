@@ -1,12 +1,16 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { Controller } from 'Richmat/types/Controller';
+import { buildCommandsButton } from 'Common/buildCommandsButton';
 import { Features } from 'Richmat/types/Features';
-import { buildFeatureCachedButton } from './buildFeatureCachedButton';
 import { Commands } from './types/Commands';
+import { Controller } from './types/Controller';
 
-export const setupMassageButtons = (mqtt: IMQTTConnection, controller: Controller) => {
-  buildFeatureCachedButton(Features.MassageHeadStep, mqtt, controller, 'MassageHeadStep', Commands.MassageHeadStep);
-  buildFeatureCachedButton(Features.MassageFootStep, mqtt, controller, 'MassageFootStep', Commands.MassageFootStep);
-  buildFeatureCachedButton(Features.MassageToggle, mqtt, controller, 'MassageToggle', Commands.MassageToggle);
-  buildFeatureCachedButton(Features.MassageMode, mqtt, controller, 'MassageMode', Commands.MassagePatternStep);
+export const setupMassageButtons = (mqtt: IMQTTConnection, { hasFeature, ...controller }: Controller) => {
+  if (hasFeature(Features.MassageHeadStep))
+    buildCommandsButton('Richmat', mqtt, controller, 'MassageHeadStep', [Commands.MassageHeadStep, Commands.End]);
+  if (hasFeature(Features.MassageFootStep))
+    buildCommandsButton('Richmat', mqtt, controller, 'MassageFootStep', [Commands.MassageFootStep, Commands.End]);
+  if (hasFeature(Features.MassageToggle))
+    buildCommandsButton('Richmat', mqtt, controller, 'MassageToggle', [Commands.MassageToggle, Commands.End]);
+  if (hasFeature(Features.MassageMode))
+    buildCommandsButton('Richmat', mqtt, controller, 'MassageMode', [Commands.MassagePatternStep, Commands.End]);
 };

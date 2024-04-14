@@ -6,4 +6,5 @@ export interface IController<TCommand> {
   entities: Dictionary<Entity>;
   deviceData: IDeviceData;
   writeCommand: (command: TCommand, duration?: number, frequency?: number) => Promise<void>;
+  writeCommands: (commands: TCommand[], duration?: number, frequency?: number) => Promise<void>;
 }
