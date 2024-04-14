@@ -1,6 +1,7 @@
 import { connectToMQTT } from '@mqtt/connectToMQTT';
 import { loadStrings } from '@utils/getString';
 import { logError, logWarn } from '@utils/logger';
+import { getType } from '@utils/options';
 import { connectToESPHome } from 'ESPHome/connectToESPHome';
 import { ergomotion } from 'ErgoMotion/ergomotion';
 import { ergowifi } from 'ErgoWifi/ergowifi';
@@ -12,7 +13,6 @@ import { reverie } from 'Reverie/reverie';
 import { richmat } from 'Richmat/richmat';
 import { sleeptracker } from 'Sleeptracker/sleeptracker';
 import { solace } from 'Solace/solace';
-import { getType } from './Utils/options';
 
 const processExit = (exitCode?: number) => {
   if (exitCode && exitCode > 0) {
