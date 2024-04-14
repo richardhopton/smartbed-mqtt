@@ -14,4 +14,6 @@ export enum Commands {
   MassageToggle = 0x5d,
 
   UnderBedLightsToggle = 0x3c,
+
+  End = 0x6e,
 }

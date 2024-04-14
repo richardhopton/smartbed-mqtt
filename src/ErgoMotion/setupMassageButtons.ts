@@ -1,13 +1,13 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Commands } from 'Common/Commands';
 import { IController } from 'Common/IController';
-import { buildCachedButton } from 'Common/buildCachedButton';
+import { buildCommandButton } from 'Common/buildCommandButton';
 
 export const setupMassageButtons = (mqtt: IMQTTConnection, controller: IController<number>) => {
-  buildCachedButton('ErgoMotion', mqtt, controller, 'MassageHeadUp', Commands.MassageHeadUp);
-  buildCachedButton('ErgoMotion', mqtt, controller, 'MassageHeadDown', Commands.MassageHeadDown);
-  buildCachedButton('ErgoMotion', mqtt, controller, 'MassageFootUp', Commands.MassageFootUp);
-  buildCachedButton('ErgoMotion', mqtt, controller, 'MassageFootDown', Commands.MassageFootDown);
-  buildCachedButton('ErgoMotion', mqtt, controller, 'MassageStep', Commands.MassageStep);
-  buildCachedButton('ErgoMotion', mqtt, controller, 'MassageTimerStep', Commands.MassageTimerStep);
+  buildCommandButton('ErgoMotion', mqtt, controller, 'MassageHeadUp', Commands.MassageHeadUp);
+  buildCommandButton('ErgoMotion', mqtt, controller, 'MassageHeadDown', Commands.MassageHeadDown);
+  buildCommandButton('ErgoMotion', mqtt, controller, 'MassageFootUp', Commands.MassageFootUp);
+  buildCommandButton('ErgoMotion', mqtt, controller, 'MassageFootDown', Commands.MassageFootDown);
+  buildCommandButton('ErgoMotion', mqtt, controller, 'MassageStep', Commands.MassageStep);
+  buildCommandButton('ErgoMotion', mqtt, controller, 'MassageTimerStep', Commands.MassageTimerStep);
 };

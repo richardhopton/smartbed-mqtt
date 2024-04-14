@@ -2,11 +2,12 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { Timer } from '@utils/Timer';
-import { wait } from '@utils/wait';
+import { loopWithWait } from '@utils/loopWithWait';
 import { IController } from 'Common/IController';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import { IDeviceWrapper } from '../deviceWrappers/IDeviceWrapper';
 import { RichmatDevice } from '../options';
+import { Commands } from './Commands';
 import { Features } from './Features';
 import { remoteFeatures } from './remoteFeatures';
 
@@ -30,12 +31,17 @@ export class Controller implements IController<number> {
     return (this.features & feature) === feature;
   };
 
-  writeCommand = async (command: number, duration?: number, frequency?: number) => {
+  writeCommand = (command: number, duration?: number, frequency?: number) =>
+    this.writeCommands([command, Commands.End], duration, frequency);
+
+  writeCommands = async (commands: number[], duration?: number, frequency?: number) => {
     await this.timer?.cancel();
 
+    const { writeHandle, getBytes } = this.wrapper;
     await this.bleDevice.connect();
     this.timer = new Timer(
-      async () => await this.write(command),
+      async () =>
+        await loopWithWait(commands, (command) => this.bleDevice.writeCharacteristic(writeHandle, getBytes(command))),
       duration,
       frequency,
       async () => {
@@ -43,13 +49,5 @@ export class Controller implements IController<number> {
         this.timer = undefined;
       }
     );
-  };
-
-  private write = async (command: number) => {
-    const { writeHandle, getBytes } = this.wrapper;
-    await this.bleDevice.writeCharacteristic(writeHandle, getBytes(command));
-    await wait(50);
-    await this.bleDevice.writeCharacteristic(writeHandle, getBytes(0x6e));
-    if (!this.device.stayConnected) await this.bleDevice.disconnect();
   };
 }
