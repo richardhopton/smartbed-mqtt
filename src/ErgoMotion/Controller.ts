@@ -1,6 +1,7 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
+import { Timer } from '@utils/Timer';
 import { intToBytes } from '@utils/intToBytes';
 import { IController } from 'Common/IController';
 import EventEmitter from 'events';
@@ -15,11 +16,24 @@ const commandPayload = (command: number) => {
 
 export class Controller extends EventEmitter implements IController<number> {
   entities: Dictionary<Entity> = {};
+  private timer?: Timer = undefined;
+
   constructor(public deviceData: IDeviceData, public device: ErgoMotionDevice) {
     super();
   }
 
-  writeCommand = (command: number) =>
+  writeCommand = async (command: number, duration?: number, frequency?: number) => {
+    await this.timer?.cancel();
+
+    this.timer = new Timer(
+      async () => await this.write(command),
+      duration,
+      frequency,
+      () => (this.timer = undefined)
+    );
+  };
+
+  private write = (command: number) =>
     new Promise<void>((res, rej) => {
       const socket = createConnection(5000, this.device.ipAddress);
       const onMessage = (data: Buffer) => {
