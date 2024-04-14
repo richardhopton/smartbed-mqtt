@@ -11,14 +11,16 @@ export const buildCachedButton = <TCommand>(
   controller: IController<TCommand>,
   name: StringsKey,
   command: TCommand,
-  category?: string
+  category?: string,
+  duration?: number,
+  frequency?: number
 ) => {
   const { entities, deviceData, writeCommand } = controller;
   let button = entities[name];
   if (!button) {
     button = entities[name] = new Button(mqtt, deviceData, buildEntityConfig(name, category), async () => {
       try {
-        await writeCommand(command);
+        await writeCommand(command, duration, frequency);
       } catch (e) {
         logError(`[${context}] Failed to write '${getString(name)}'`, e);
       }
