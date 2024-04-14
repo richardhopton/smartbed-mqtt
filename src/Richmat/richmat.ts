@@ -1,16 +1,21 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
-import { logError, logInfo } from '@utils/logger';
-import { BLEController } from 'Common/BLEController';
+import { logError, logInfo, logWarn } from '@utils/logger';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
-import { inferDeviceWrapperFromServices } from './deviceWrappers/inferDeviceWrapperFromServices';
+import { Features } from './Features';
+import { controllerBuilder as nordicControllerBuilder } from './Nordic/controllerBuilder';
+import { isSupported as isNordicSupported } from './Nordic/isSupported';
+import { controllerBuilder as wiLinkeControllerBuilder } from './WiLinke/controllerBuilder';
+import { isSupported as isWiLinkeSupported } from './WiLinke/isSupported';
 import { getDevices } from './options';
+import { remoteFeatures } from './remoteFeatures';
 import { setupMassageButtons } from './setupMassageButtons';
 import { setupPresetButtons } from './setupPresetButtons';
 import { setupUnderBedLightButton } from './setupUnderBedLightButton';
-import { Features } from './types/Features';
-import { remoteFeatures } from './types/remoteFeatures';
+
+const checks = [isNordicSupported, isWiLinkeSupported];
+const controllerBuilders = [nordicControllerBuilder, wiLinkeControllerBuilder];
 
 export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
@@ -22,22 +27,36 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
     const { name, mac, address, connect, getServices, disconnect } = bleDevice;
+
+    const controllerBuilder = checks
+      .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
+      .filter((check) => check)[0];
+    if (controllerBuilder === undefined) {
+      const { manufacturerDataList, serviceUuidsList } = bleDevice;
+      logWarn(
+        '[Richmat] Device not supported, please contact me on Discord',
+        name,
+        JSON.stringify({ name, address, manufacturerDataList, serviceUuidsList })
+      );
+      continue;
+    }
+
     const { remoteCode, ...device } = devicesMap[mac] || devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Richmat');
     await connect();
+
     const services = await getServices();
     if (!device.stayConnected) await disconnect();
-    const deviceWrapper = inferDeviceWrapperFromServices(services);
-    if (!deviceWrapper) {
-      logError('[Richmat] Could not infer device from services:', services);
-      await disconnect();
+
+    const controller = controllerBuilder(deviceData, bleDevice, services);
+    if (!controller) {
+      if (device.stayConnected) await disconnect();
       continue;
     }
 
     const features = remoteFeatures[remoteCode];
     const hasFeature = (feature: Features) => (features & feature) === feature;
-    const { writeHandle, getBytes } = deviceWrapper;
-    const controller = new BLEController(deviceData, bleDevice, writeHandle, getBytes);
+
     logInfo('[Richmat] Setting up entities for device:', name);
     setupPresetButtons(mqtt, controller, hasFeature);
     setupMassageButtons(mqtt, controller, hasFeature);

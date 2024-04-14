@@ -1,8 +1,8 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { IController } from 'Common/IController';
 import { buildCommandsButton } from 'Common/buildCommandsButton';
-import { Commands } from './types/Commands';
-import { Features, HasFeature } from './types/Features';
+import { Commands } from './Commands';
+import { Features, HasFeature } from './Features';
 
 export const setupPresetButtons = (mqtt: IMQTTConnection, controller: IController<number>, hasFeature: HasFeature) => {
   if (hasFeature(Features.PresetFlat))
