@@ -2,7 +2,6 @@ import { Button } from '@ha/Button';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { StringsKey, getString } from '@utils/getString';
 import { logError } from '@utils/logger';
-import { wait } from '@utils/wait';
 import { IController } from 'Common/IController';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from './Commands';
@@ -37,13 +36,7 @@ export const setupPresetButtons = (
     if (!button) {
       button = cache[key] = new Button(mqtt, deviceData, buildEntityConfig(name, category), async () => {
         try {
-          let count = repeat ? 100 : 1;
-          while (true) {
-            await writeCommand(command);
-            if (count === 0) break;
-            await wait(300);
-            count--;
-          }
+          await writeCommand(command, repeat && 30_000, repeat && 300);
         } catch (e) {
           logError(`[Linak] Failed to write '${getString(name)}'`, e);
         }

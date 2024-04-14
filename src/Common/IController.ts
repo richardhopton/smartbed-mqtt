@@ -5,5 +5,5 @@ import { Dictionary } from '@utils/Dictionary';
 export interface IController<TCommand> {
   entities: Dictionary<Entity>;
   deviceData: IDeviceData;
-  writeCommand: (command: TCommand) => Promise<void>;
+  writeCommand: (command: TCommand, duration?: number, frequency?: number) => Promise<void>;
 }

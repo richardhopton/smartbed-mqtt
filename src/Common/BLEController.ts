@@ -1,6 +1,7 @@
 import { IDeviceData } from '@ha/IDeviceData';
 import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
+import { Timer } from '@utils/Timer';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import EventEmitter from 'events';
 import { IController } from './IController';
@@ -11,6 +12,8 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
   get notifyNames() {
     return Object.keys(this.notifyHandles);
   }
+  private timer?: Timer = undefined;
+
   constructor(
     public deviceData: IDeviceData,
     private bleDevice: IBLEDevice,
@@ -28,13 +31,22 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     });
   }
 
-  writeCommand = async (command: TCommand) => {
-    this.write(this.commandBuilder(command));
+  writeCommand = async (command: TCommand, duration?: number, frequency?: number) => {
+    await this.timer?.cancel();
+
+    await this.bleDevice.connect();
+    this.timer = new Timer(
+      async () => await this.write(command),
+      duration,
+      frequency,
+      async () => {
+        if (this.stayConnected) await this.bleDevice.disconnect();
+        this.timer = undefined;
+      }
+    );
+    await this.timer.done;
   };
 
-  private write = async (bytes: number[]) => {
-    await this.bleDevice.connect();
-    await this.bleDevice.writeCharacteristic(this.handle, new Uint8Array(bytes));
-    if (!this.stayConnected) await this.bleDevice.disconnect();
-  };
+  private write = (command: TCommand) =>
+    this.bleDevice.writeCharacteristic(this.handle, new Uint8Array(this.commandBuilder(command)));
 }
