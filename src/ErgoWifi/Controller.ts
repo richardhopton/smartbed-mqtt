@@ -3,6 +3,7 @@ import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { Timer } from '@utils/Timer';
 import { intToBytes } from '@utils/intToBytes';
+import { loopWithWait } from '@utils/loopWithWait';
 import { IController } from 'Common/IController';
 import { Credentials } from './options';
 import { PayloadBuilder } from './requests/PayloadBuilder';
@@ -42,7 +43,10 @@ export class Controller implements IController<number> {
 
   constructor(public deviceData: IDeviceData, public device: Device, public user: Credentials) {}
 
-  writeCommand = async (command: number, duration?: number, frequency?: number) => {
+  writeCommand = async (command: number, duration?: number, frequency?: number) =>
+    this.writeCommands([command], duration, frequency);
+
+  writeCommands = async (commands: number[], duration?: number, frequency?: number) => {
     await this.timer?.cancel();
 
     const authDetails = await getAuthDetails(this.user);
@@ -50,9 +54,9 @@ export class Controller implements IController<number> {
 
     const { userId, authorize } = authDetails;
     const socket = await getConnection((socket) => socket.write(loginPayload(userId, authorize)));
-
     this.timer = new Timer(
-      async () => await socket.write(commandPayload(this.device.id, command)),
+      async () =>
+        await loopWithWait(commands, async (command) => await socket.write(commandPayload(this.device.id, command))),
       duration,
       frequency,
       () => (this.timer = undefined)
