@@ -2,7 +2,7 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { JsonSensor } from '@ha/JsonSensor';
 import { EntityConfig } from '@ha/base/Entity';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { round } from '../../Utils/round';
+import { round } from '@utils/round';
 
 type BedPosition = {
   rawPosition: number;
