@@ -11,5 +11,5 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, { device: { remoteStyl
 
   buildCachedButton('ErgoMotion', mqtt, controller, 'PresetUserFavorite', Commands.PresetMemory1);
   buildCachedButton('ErgoMotion', mqtt, controller, 'PresetTV', Commands.PresetMemory2);
-  buildCachedButton('ErgoMotion', mqtt, controller, 'PresetAntiSnore', Commands.PresetAntiSnore);
+  buildCachedButton('ErgoMotion', mqtt, controller, 'PresetAntiSnore', Commands.PresetMemory3);
 };

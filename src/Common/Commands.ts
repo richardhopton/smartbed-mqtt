@@ -3,7 +3,8 @@ export enum Commands {
   PresetZeroG = 0x1000,
   PresetMemory1 = 0x2000,
   PresetMemory2 = 0x4000,
-  PresetAntiSnore = 0x8000,
+  PresetMemory3 = 0x8000,
+  PresetMemory4 = 0x10000,
 
   HeadUpIncrement = 0x1,
   HeadDownIncrement = 0x2,
