@@ -1,10 +1,10 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { IController } from 'Common/IController';
 import { buildCommandsButton } from 'Common/buildCommandsButton';
-import { Features } from 'Richmat/types/Features';
+import { Features, HasFeature } from 'Richmat/types/Features';
 import { Commands } from './types/Commands';
-import { Controller } from './types/Controller';
 
-export const setupMassageButtons = (mqtt: IMQTTConnection, { hasFeature, ...controller }: Controller) => {
+export const setupMassageButtons = (mqtt: IMQTTConnection, controller: IController<number>, hasFeature: HasFeature) => {
   if (hasFeature(Features.MassageHeadStep))
     buildCommandsButton('Richmat', mqtt, controller, 'MassageHeadStep', [Commands.MassageHeadStep, Commands.End]);
   if (hasFeature(Features.MassageFootStep))

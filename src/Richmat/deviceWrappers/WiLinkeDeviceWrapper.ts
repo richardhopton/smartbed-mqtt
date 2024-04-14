@@ -7,8 +7,8 @@ export class WiLinkeDeviceWrapper implements IDeviceWrapper {
   }
 
   controllerType = 'WiLinke';
-  getBytes(command: number): Uint8Array {
-    return new Uint8Array([110, 1, 0, command, command + 111]);
+  getBytes(command: number) {
+    return [110, 1, 0, command, command + 111];
   }
   writeHandle: number;
 }
