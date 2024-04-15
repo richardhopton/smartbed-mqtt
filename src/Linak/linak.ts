@@ -2,6 +2,7 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logError, logInfo } from '@utils/logger';
+import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
 import { BLEController } from 'Common/BLEController';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
@@ -94,5 +95,8 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
       const legPositionSensor = new BedPositionSensor(mqtt, deviceData, buildEntityConfig('AngleLeg'), 548, 45);
       controller.on('leg', (data) => legPositionSensor.setPosition(mapPositionData(data)));
     }
+
+    const deviceInfo = await bleDevice.getDeviceInfo();
+    if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
   }
 };
