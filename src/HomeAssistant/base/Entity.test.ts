@@ -49,12 +49,12 @@ describe(Entity.name, () => {
         entity_category: 'config',
       });
     });
-    it('when status online is receieved', () => {
+    it('when status online is receieved', async () => {
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
-      onFunc('online');
+      await onFunc('online');
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('homeassistant/binary_sensor/device_topic_binary_sensor/config', {
         availability_topic: 'device_topic/binary_sensor/status',

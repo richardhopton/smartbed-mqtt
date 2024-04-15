@@ -51,7 +51,7 @@ describe(Button.name, () => {
       });
     });
 
-    it('when status online is receieved', () => {
+    it('when status online is receieved', async () => {
       buildSubject();
       jest.runAllTimers();
 
@@ -59,7 +59,7 @@ describe(Button.name, () => {
       if (!onFunc) return;
 
       jest.resetAllMocks();
-      onFunc('online');
+      await onFunc('online');
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('homeassistant/button/device_topic_button/config', {
         availability_topic: 'device_topic/button/status',

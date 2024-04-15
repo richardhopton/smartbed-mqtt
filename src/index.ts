@@ -32,8 +32,8 @@ process.on('uncaughtException', (err) => {
   processExit(2);
 });
 
-const start = async (): Promise<void> => {
-  loadStrings();
+const start = async () => {
+  await loadStrings();
 
   const mqtt = await connectToMQTT();
 

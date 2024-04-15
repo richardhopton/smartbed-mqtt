@@ -35,9 +35,8 @@ export const setupLightEntities = (mqtt: IMQTTConnection, controller: IControlle
             brightness,
           } = newState;
           await writeCommand(Commands.RGBSet(r, g, b, brightness));
-        } finally {
-          return newState;
-        }
+        } catch {}
+        return newState;
       }
     ).setOnline());
     controller.on('read', (data: Uint8Array) => {

@@ -22,7 +22,7 @@ export class BLEDevice implements IBLEDevice {
   ) {
     this.connection.on('message.BluetoothDeviceConnectionResponse', ({ address, connected }) => {
       if (this.address !== address || this.connected === connected) return;
-      this.connect();
+      void this.connect();
     });
   }
 

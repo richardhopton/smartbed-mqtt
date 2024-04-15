@@ -67,12 +67,12 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, { entities, deviceDa
     return commandBuilder(zone, level);
   };
 
-  const resetWhenLevelsAreZero = ({ head, lumbar, leg }: { head?: number; lumbar?: number; leg?: number }) => {
+  const resetWhenLevelsAreZero = async ({ head, lumbar, leg }: { head?: number; lumbar?: number; leg?: number }) => {
     if (head === undefined) head = cache.massageHead?.getState();
     if (lumbar === undefined) lumbar = cache.massageLumbar?.getState();
     if (leg === undefined) leg = cache.massageLeg?.getState();
     if (head === 0 && lumbar === 0 && leg === 0) {
-      resetState();
+      await resetState();
     }
   };
 
@@ -83,7 +83,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, { entities, deviceDa
       { min: 0, max: 10, ...buildEntityConfig('MassageHead') },
       async (level) => {
         await writeCommand(getLevelCommand(MassageZone.Head, level));
-        resetWhenLevelsAreZero({ head: level });
+        await resetWhenLevelsAreZero({ head: level });
       }
     );
   }
@@ -96,7 +96,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, { entities, deviceDa
       { min: 0, max: 10, ...buildEntityConfig('MassageLumbar') },
       async (level) => {
         await writeCommand(getLevelCommand(MassageZone.Lumbar, level));
-        resetWhenLevelsAreZero({ lumbar: level });
+        await resetWhenLevelsAreZero({ lumbar: level });
       }
     );
   }
@@ -109,7 +109,7 @@ export const setupMassageEntities = (mqtt: IMQTTConnection, { entities, deviceDa
       { min: 0, max: 10, ...buildEntityConfig('MassageLeg') },
       async (level) => {
         await writeCommand(getLevelCommand(MassageZone.Leg, level));
-        resetWhenLevelsAreZero({ leg: level });
+        await resetWhenLevelsAreZero({ leg: level });
       }
     );
   }

@@ -56,14 +56,14 @@ describe(Switch.name, () => {
       });
     });
 
-    it('when status online is receieved', () => {
+    it('when status online is receieved', async () => {
       buildSubject();
       jest.runAllTimers();
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
-      onFunc('online');
+      await onFunc('online');
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('homeassistant/switch/device_topic_switch/config', {
         availability_topic: 'device_topic/switch/status',
@@ -118,14 +118,14 @@ describe(Switch.name, () => {
       expect(mqtt.publish).toBeCalledWith('device_topic/switch/state', expectedPublish);
     });
 
-    it('ignores unexpected payloads', () => {
+    it('ignores unexpected payloads', async () => {
       buildSubject();
       expect(mqtt.publish).not.toBeCalledWith('device_topic/switch/state');
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
-      onFunc('UNSUPPORTED');
+      await onFunc('UNSUPPORTED');
       expect(onChange).not.toBeCalled();
       jest.runAllTimers();
       expect(mqtt.publish).not.toBeCalledWith('device_topic/switch/state', expect.anything());

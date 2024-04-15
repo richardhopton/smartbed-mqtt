@@ -56,12 +56,12 @@ describe(JsonSensor.name, () => {
       });
     });
 
-    it('when status online is receieved', () => {
+    it('when status online is receieved', async () => {
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
-      onFunc('online');
+      await onFunc('online');
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
         availability_topic: 'device_topic/json_sensor/status',

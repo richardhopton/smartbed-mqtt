@@ -26,7 +26,7 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     super();
     this.stayConnected ||= notifyHandles.length > 0;
     Object.entries(notifyHandles).map(([key, handle]) => {
-      this.bleDevice.subscribeToCharacteristic(handle, (data) => {
+      void this.bleDevice.subscribeToCharacteristic(handle, (data) => {
         this.emit(key, data);
       });
     });

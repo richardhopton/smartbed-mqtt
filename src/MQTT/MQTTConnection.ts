@@ -45,7 +45,7 @@ export class MQTTConnection extends EventEmitter implements IMQTTConnection {
   }
 
   unsubscribe(topic: string) {
-    var index = this.subscribedTopics.indexOf(topic);
+    const index = this.subscribedTopics.indexOf(topic);
     if (index !== -1) {
       this.client.unsubscribe(topic);
       this.subscribedTopics.splice(index, 1);
