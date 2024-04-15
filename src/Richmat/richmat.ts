@@ -1,6 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logError, logInfo, logWarn } from '@utils/logger';
+import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { Features } from './Features';
@@ -61,5 +62,8 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
     setupPresetButtons(mqtt, controller, hasFeature);
     setupMassageButtons(mqtt, controller, hasFeature);
     setupUnderBedLightButton(mqtt, controller, hasFeature);
+
+    const deviceInfo = await bleDevice.getDeviceInfo();
+    if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
   }
 };

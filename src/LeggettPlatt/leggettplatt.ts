@@ -1,6 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logError, logInfo, logWarn } from '@utils/logger';
+import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { controllerBuilder as gen2ControllerBuilder } from './Gen2/controllerBuilder';
@@ -42,9 +43,13 @@ export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnectio
 
     const services = await getServices();
 
-    if (!controllerBuilder(mqtt, deviceData, bleDevice, services)) {
+    const controller = controllerBuilder(mqtt, deviceData, bleDevice, services);
+    if (!controller) {
       await disconnect();
       continue;
     }
+
+    const deviceInfo = await bleDevice.getDeviceInfo();
+    if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
   }
 };
