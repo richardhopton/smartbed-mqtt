@@ -1,6 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
 import { logError, logInfo } from '@utils/logger';
+import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
 import { BLEController } from 'Common/BLEController';
 import { buildCommandButton } from 'Common/buildCommandButton';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
@@ -51,5 +52,8 @@ export const motosleep = async (mqtt: IMQTTConnection, esphome: IESPConnection) 
     for (const { name, command, category } of commands.filter((c) => !c.repeat)) {
       buildCommandButton('MotoSleep', mqtt, controller, name, command, category);
     }
+
+    const deviceInfo = await bleDevice.getDeviceInfo();
+    if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
   }
 };
