@@ -20,5 +20,5 @@ export const setupDebugEntities = (
   }
   cache.refreshState.setOnline();
 
-  writeCommand(Commands.GetState);
+  void writeCommand(Commands.GetState);
 };

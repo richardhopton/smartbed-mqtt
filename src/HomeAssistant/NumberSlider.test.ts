@@ -81,14 +81,14 @@ describe(NumberSlider.name, () => {
       });
     });
 
-    it('when status online is receieved', () => {
+    it('when status online is receieved', async () => {
       buildSubject();
       jest.runAllTimers();
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
-      onFunc('online');
+      await onFunc('online');
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('homeassistant/number/device_topic_number_slider/config', {
         availability_topic: 'device_topic/number_slider/status',
@@ -146,14 +146,14 @@ describe(NumberSlider.name, () => {
       expect(mqtt.publish).toBeCalledWith('device_topic/number_slider/state', expectedPublish);
     });
 
-    it('ignores unexpected payloads', () => {
+    it('ignores unexpected payloads', async () => {
       buildSubject();
       expect(mqtt.publish).not.toBeCalledWith('device_topic/number_slider/state');
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
-      onFunc('UNSUPPORTED');
+      await onFunc('UNSUPPORTED');
       expect(onChange).not.toBeCalled();
       jest.runAllTimers();
       expect(mqtt.publish).not.toBeCalledWith('device_topic/number_slider/state', expect.anything());

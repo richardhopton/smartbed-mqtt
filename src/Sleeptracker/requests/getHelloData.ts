@@ -31,7 +31,7 @@ export const getHelloData = async (processorId: number, credentials: Credentials
     });
     if (!response.data.helloData) throw new Error(response.data.statusMessage);
     const {
-      helloData: { buildMeta, server_config_url, ...helloData },
+      helloData: { buildMeta: _buildMeta, server_config_url: _serverConfigUrl, ...helloData },
     } = response.data;
     return helloData as HelloData;
   } catch (err) {
