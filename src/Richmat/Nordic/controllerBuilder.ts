@@ -1,7 +1,7 @@
 import { BluetoothGATTService } from '@2colors/esphome-native-api';
 import { IDeviceData } from '@ha/IDeviceData';
 import { logInfo } from '@utils/logger';
-import { BLEController } from 'Common/BLEController';
+import { BLEController } from 'BLE/BLEController';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 
 export const controllerBuilder = (deviceData: IDeviceData, bleDevice: IBLEDevice, services: BluetoothGATTService[]) => {

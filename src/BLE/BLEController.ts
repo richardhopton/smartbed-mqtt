@@ -5,8 +5,8 @@ import { Timer } from '@utils/Timer';
 import { loopWithWait } from '@utils/loopWithWait';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import EventEmitter from 'events';
-import { IController } from './IController';
-import { IEventSource } from './IEventSource';
+import { IController } from '../Common/IController';
+import { IEventSource } from '../Common/IEventSource';
 
 export class BLEController<TCommand> extends EventEmitter implements IEventSource, IController<TCommand> {
   entities: Dictionary<Entity> = {};

@@ -3,7 +3,7 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { logInfo } from '@utils/logger';
-import { BLEController } from 'Common/BLEController';
+import { BLEController } from 'BLE/BLEController';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import { setupDebugEntities } from './setupDebugEntities';
 import { setupLightEntities } from './setupLightEntities';
