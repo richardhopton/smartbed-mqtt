@@ -9,6 +9,7 @@ import { furnimove } from 'FurniMove/furnimove';
 import { leggettplatt } from 'LeggettPlatt/leggettplatt';
 import { linak } from 'Linak/linak';
 import { logicdata } from 'Logicdata/logicdata';
+import { membersMark } from 'MembersMark/membersmark';
 import { motosleep } from 'MotoSleep/motosleep';
 import { reverie } from 'Reverie/reverie';
 import { richmat } from 'Richmat/richmat';
@@ -66,6 +67,8 @@ const start = async () => {
       return void (await leggettplatt(mqtt, esphome));
     case 'furnimove':
       return void (await furnimove(mqtt, esphome));
+    case 'membersmark':
+      return void (await membersMark(mqtt, esphome));
   }
 };
 void start();

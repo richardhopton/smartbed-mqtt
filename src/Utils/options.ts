@@ -11,7 +11,8 @@ export type Type =
   | 'reverie'
   | 'leggettplatt'
   | 'logicdata'
-  | 'furnimove';
+  | 'furnimove'
+  | 'membersmark';
 
 interface OptionsJson {
   type: Type;
