@@ -25,6 +25,7 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 - [Reverie](#reverie-support-ble) [prototype]
 - [Leggett & Platt](#leggett--platt-support-ble) (Okin & Richmat variants) [prototype]
 - [FurniMove](#furni-move-support-ble) [prototype]
+- [Member's Mark](#members-mark-support-blue) (Sam's Club; tested using Premier variant) [experimental]
 
 # Installation
 
@@ -290,6 +291,24 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 ## Notes
 
 Support for this was only possible due to assistance from david_nagy, corne & PT on Discord.
+
+# Member's Mark Support (BLE)
+> Member's Mark is the brand name for Sam's Club private label products; this prototype was tested using the [Premier Adjustable Base](https://www.samsclub.com/p/-/prod22421683) bed variant.
+
+## Configuring
+
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Member's Mark controller with `name` and `friendlyName`.
+
+## Current features include:
+
+- Buttons to trigger the standard presets 
+- Buttons to trigger the user presets
+
+## Notes
+
+This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
+
+Initial prototyping was only possible due to assistance from [@alanbixby](https://github.com/alanbixby/) on Discord.
 
 # Support
 
