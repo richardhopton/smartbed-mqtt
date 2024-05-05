@@ -7,6 +7,7 @@ import { ergowifi } from 'ErgoWifi/ergowifi';
 import { leggettplatt } from 'LeggettPlatt/leggettplatt';
 import { linak } from 'Linak/linak';
 import { logicdata } from 'Logicdata/logicdata';
+import { membersMark } from 'MembersMark/membersmark';
 import { motosleep } from 'MotoSleep/motosleep';
 import { reverie } from 'Reverie/reverie';
 import { richmat } from 'Richmat/richmat';
@@ -63,6 +64,8 @@ const start = async (): Promise<void> => {
       return void (await reverie(mqtt, esphome));
     case 'leggettplatt':
       return void (await leggettplatt(mqtt, esphome));
+    case 'membersmark':
+      return void (await membersMark(mqtt, esphome));
   }
 };
 void start();
