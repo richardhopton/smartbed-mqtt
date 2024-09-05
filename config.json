@@ -85,6 +85,12 @@
         "name": "Smart Bed",
         "friendlyName": "Leggett Platt Bed"
       }
+    ],
+    "membersMarkDevices": [
+      {
+        "name": "KSBT03C000015046",
+        "friendlyName": "Members Mark Adjustable Bed"
+      }
     ]
   },
   "schema": {
@@ -92,7 +98,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata|ergomotion)",
+    "type": "list(sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata|ergomotion|membersmark)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -166,6 +172,12 @@
       }
     ],
     "leggettPlattDevices": [
+      {
+        "name": "str",
+        "friendlyName": "str"
+      }
+    ],
+    "membersMarkDevices": [
       {
         "name": "str",
         "friendlyName": "str"
