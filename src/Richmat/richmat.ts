@@ -55,7 +55,7 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
       continue;
     }
 
-    const features = remoteFeatures[remoteCode];
+    const features = remoteFeatures[remoteCode === 'VIRM' ? 'V1RM' : remoteCode];
     const hasFeature = (feature: Features) => (features & feature) === feature;
 
     logInfo('[Richmat] Setting up entities for device:', name);

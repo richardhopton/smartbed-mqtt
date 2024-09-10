@@ -2,7 +2,7 @@ import { Dictionary } from '@utils/Dictionary';
 import { Features } from './Features';
 
 export const remoteFeatures: Dictionary<number> = {
-  VIRM:
+  V1RM:
     Features.PresetFlat |
     Features.PresetZeroG |
     Features.PresetAntiSnore |
