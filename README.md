@@ -24,6 +24,7 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 - [MotoSleep](#motosleep-support-ble) [experimental]
 - [Reverie](#reverie-support-ble) [prototype]
 - [Leggett & Platt](#leggett--platt-support-ble) (Okin & Richmat variants) [prototype]
+- [FurniMove](#furni-move-support-ble) [prototype]
 
 # Installation
 
@@ -270,6 +271,25 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
 
 Initial prototyping was only possible due to assistance from MarcusW on Discord.
+
+# Furni Move Support (BLE)
+
+## Configuring
+
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Furni Move controller with `name`, `friendlyName` and `remoteCode`.
+
+## Current features include (depending on remote code support):
+
+- Buttons to trigger the presets
+- Button for under bed lights
+
+## Possible future features:
+
+- Buttons/Cover to control raising and lowering head/feet
+
+## Notes
+
+Support for this was only possible due to assistance from david_nagy, corne & PT on Discord.
 
 # Support
 

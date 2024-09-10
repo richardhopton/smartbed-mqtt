@@ -85,6 +85,13 @@
         "name": "Smart Bed",
         "friendlyName": "Leggett Platt Bed"
       }
+    ],
+    "furniMoveDevices": [
+      {
+        "name": "OKIN_345678",
+        "friendlyName": "Furni Move Bed",
+        "remoteCode": "94238"
+      }
     ]
   },
   "schema": {
@@ -92,7 +99,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata|ergomotion)",
+    "type": "list(sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata|ergomotion|furnimove)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -169,6 +176,13 @@
       {
         "name": "str",
         "friendlyName": "str"
+      }
+    ],
+    "furniMoveDevices": [
+      {
+        "name": "str",
+        "friendlyName": "str",
+        "remoteCode": "str"
       }
     ]
   }

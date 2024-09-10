@@ -5,6 +5,7 @@ import { getType } from '@utils/options';
 import { connectToESPHome } from 'ESPHome/connectToESPHome';
 import { ergomotion } from 'ErgoMotion/ergomotion';
 import { ergowifi } from 'ErgoWifi/ergowifi';
+import { furnimove } from 'FurniMove/furnimove';
 import { leggettplatt } from 'LeggettPlatt/leggettplatt';
 import { linak } from 'Linak/linak';
 import { logicdata } from 'Logicdata/logicdata';
@@ -63,6 +64,8 @@ const start = async () => {
       return void (await reverie(mqtt, esphome));
     case 'leggettplatt':
       return void (await leggettplatt(mqtt, esphome));
+    case 'furnimove':
+      return void (await furnimove(mqtt, esphome));
   }
 };
 void start();
