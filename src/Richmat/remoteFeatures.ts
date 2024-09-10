@@ -34,6 +34,14 @@ export const remoteFeatures: Dictionary<number> = {
     Features.MassageFootStep |
     Features.MassageMode |
     Features.MassageToggle,
+  X1RM:
+    Features.PresetFlat |
+    Features.PresetAntiSnore |
+    Features.PresetZeroG |
+    Features.PresetMemory1 |
+    Features.ProgramZeroG |
+    Features.ProgramAntiSnore |
+    Features.ProgramMemory1,
   ZR10:
     Features.PresetFlat |
     Features.PresetZeroG |
