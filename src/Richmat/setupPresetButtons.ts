@@ -9,15 +9,22 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, controller: IControlle
     buildCommandsButton('Richmat', mqtt, controller, 'PresetFlat', [Commands.PresetFlat, Commands.End]);
   if (hasFeature(Features.PresetZeroG))
     buildCommandsButton('Richmat', mqtt, controller, 'PresetZeroG', [Commands.PresetZeroG, Commands.End]);
-  if (hasFeature(Features.PresetMemory))
-    buildCommandsButton('Richmat', mqtt, controller, 'PresetMemory', [Commands.PresetMemory, Commands.End]);
+  if (hasFeature(Features.PresetMemory1))
+    buildCommandsButton('Richmat', mqtt, controller, 'PresetMemory', [Commands.PresetMemory1, Commands.End]);
   if (hasFeature(Features.PresetAntiSnore))
     buildCommandsButton('Richmat', mqtt, controller, 'PresetAntiSnore', [Commands.PresetAntiSnore, Commands.End]);
 
   if (hasFeature(Features.ProgramZeroG))
     buildCommandsButton('Richmat', mqtt, controller, 'ProgramZeroG', [Commands.ProgramZeroG, Commands.End], 'config');
-  if (hasFeature(Features.ProgramMemory))
-    buildCommandsButton('Richmat', mqtt, controller, 'ProgramMemory', [Commands.ProgramMemory, Commands.End], 'config');
+  if (hasFeature(Features.ProgramMemory1))
+    buildCommandsButton(
+      'Richmat',
+      mqtt,
+      controller,
+      'ProgramMemory',
+      [Commands.ProgramMemory1, Commands.End],
+      'config'
+    );
   if (hasFeature(Features.ProgramAntiSnore))
     buildCommandsButton(
       'Richmat',
