@@ -6,10 +6,10 @@ export const remoteFeatures: Dictionary<number> = {
     Features.PresetFlat |
     Features.PresetZeroG |
     Features.PresetAntiSnore |
-    Features.PresetMemory |
+    Features.PresetMemory1 |
     Features.ProgramZeroG |
     Features.ProgramAntiSnore |
-    Features.ProgramMemory |
+    Features.ProgramMemory1 |
     Features.UnderBedLightsToggle |
     Features.MassageHeadStep |
     Features.MassageFootStep |
@@ -19,18 +19,18 @@ export const remoteFeatures: Dictionary<number> = {
     Features.PresetFlat |
     Features.PresetZeroG |
     Features.PresetAntiSnore |
-    Features.PresetMemory |
+    Features.PresetMemory1 |
     Features.ProgramZeroG |
     Features.ProgramAntiSnore |
-    Features.ProgramMemory |
+    Features.ProgramMemory1 |
     Features.UnderBedLightsToggle,
   ZR60:
     Features.PresetFlat |
     Features.PresetZeroG |
     Features.PresetAntiSnore |
-    Features.PresetMemory |
+    Features.PresetMemory1 |
     Features.ProgramZeroG |
     Features.ProgramAntiSnore |
-    Features.ProgramMemory |
+    Features.ProgramMemory1 |
     Features.UnderBedLightsToggle,
 };

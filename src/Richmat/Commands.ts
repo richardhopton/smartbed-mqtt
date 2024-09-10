@@ -1,11 +1,11 @@
 export enum Commands {
-  PresetZeroG = 0x45,
   PresetFlat = 0x31,
   PresetAntiSnore = 0x46,
-  PresetMemory = 0x2e,
+  PresetMemory1 = 0x2e,
+  PresetZeroG = 0x45,
 
-  ProgramMemory = 0x2b,
   ProgramAntiSnore = 0x69,
+  ProgramMemory1 = 0x2b,
   ProgramZeroG = 0x66,
 
   MassageHeadStep = 0x4c,
