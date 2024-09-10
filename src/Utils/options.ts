@@ -10,7 +10,8 @@ export type Type =
   | 'motosleep'
   | 'reverie'
   | 'leggettplatt'
-  | 'logicdata';
+  | 'logicdata'
+  | 'furnimove';
 
 interface OptionsJson {
   type: Type;
