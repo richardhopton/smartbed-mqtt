@@ -1,3 +1,17 @@
+## v1.1.16
+
+**New Features**
+
+- (Richmat) Add support for additional memory presets
+- (Richmat) Add W6RM remote code
+- (Richmat) Add X1RM remote code for Lucid L300 beds
+- (FurniMove) Add initial support for FurniMove beds
+
+**Bug Fixes**
+
+- (Solace) Handle mapping of certain characters in bed names
+- (Richmat) Fix default remote code
+
 ## v1.1.15
 
 **Bug Fixes**
