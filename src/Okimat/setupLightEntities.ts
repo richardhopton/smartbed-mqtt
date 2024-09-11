@@ -12,7 +12,7 @@ export const setupLightEntities = (
   const ublCommand = remote.commands.UBL;
   if (ublCommand) {
     if (typeof ublCommand === 'number')
-      buildCommandButton('FurniMove', mqtt, controller, 'UnderBedLightsToggle', ublCommand);
+      buildCommandButton('Okimat', mqtt, controller, 'UnderBedLightsToggle', ublCommand);
     controller.on('feedback', () => {});
     return;
   }

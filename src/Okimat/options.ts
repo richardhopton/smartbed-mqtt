@@ -1,19 +1,19 @@
 import { getRootOptions } from '@utils/options';
 
-export interface FurniMoveDevice {
+export interface OkimatDevice {
   friendlyName: string;
   name: string;
   remoteCode: string;
 }
 
 interface OptionsJson {
-  furniMoveDevices: FurniMoveDevice[];
+  okimatDevices: OkimatDevice[];
 }
 
 const options: OptionsJson = getRootOptions();
 
 export const getDevices = () => {
-  const devices = options.furniMoveDevices;
+  const devices = options.okimatDevices;
   if (Array.isArray(devices)) {
     return devices;
   }

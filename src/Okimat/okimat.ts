@@ -11,29 +11,29 @@ import { setupLightEntities } from './setupLightEntities';
 import { setupPresetButtons } from './setupPresetButtons';
 import { supportedRemotes } from './supportedRemotes';
 
-export const furnimove = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
+export const okimat = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
-  if (!devices.length) return logInfo('[FurniMove] No devices configured');
+  if (!devices.length) return logInfo('[Okimat] No devices configured');
 
   const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
   const deviceNames = Object.keys(devicesMap);
-  if (deviceNames.length !== devices.length) return logError('[FurniMove] Duplicate name detected in configuration');
+  if (deviceNames.length !== devices.length) return logError('[Okimat] Duplicate name detected in configuration');
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
     const { name, mac, address, connect, disconnect, getServices, getDeviceInfo } = bleDevice;
     const { remoteCode, ...device } = devicesMap[mac] || devicesMap[name];
     const remote = supportedRemotes[remoteCode];
     if (!remote) {
-      logError(`[FurniMove] Unsupported remote code '${remoteCode}' for device:`, name);
+      logError(`[Okimat] Unsupported remote code '${remoteCode}' for device:`, name);
       continue;
     }
-    const deviceData = buildMQTTDeviceData({ ...device, address }, 'FurniMove');
+    const deviceData = buildMQTTDeviceData({ ...device, address }, 'Okimat');
     await connect();
     const services = await getServices();
 
     const service = services.find((s) => s.uuid === '62741523-52f9-8864-b1ab-3b3a8d65950b');
     if (!service) {
-      logInfo('[FurniMove] Could not find expected services for device:', name);
+      logInfo('[Okimat] Could not find expected services for device:', name);
       await disconnect();
       continue;
     }
@@ -42,7 +42,7 @@ export const furnimove = async (mqtt: IMQTTConnection, esphome: IESPConnection) 
       (c) => c.uuid === '62741525-52f9-8864-b1ab-3b3a8d65950b'
     );
     if (!writeCharacteristic) {
-      logInfo('[FurniMove] Could not find expected characteristic for device:', name);
+      logInfo('[Okimat] Could not find expected characteristic for device:', name);
       await disconnect();
       continue;
     }
@@ -60,11 +60,11 @@ export const furnimove = async (mqtt: IMQTTConnection, esphome: IESPConnection) 
       (command: number) => [command],
       notifyHandles
     );
-    logInfo('[FurniMove] Setting up entities for device:', name);
+    logInfo('[Okimat] Setting up entities for device:', name);
     const deviceInfo = await getDeviceInfo();
     if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
     const { modelNumber } = deviceInfo || {};
-    if (modelNumber) logInfo('[FurniMove] Model number:', modelNumber);
+    if (modelNumber) logInfo('[Okimat] Model number:', modelNumber);
     setupLightEntities(mqtt, controller, remote);
     setupPresetButtons(mqtt, controller, remote);
   }

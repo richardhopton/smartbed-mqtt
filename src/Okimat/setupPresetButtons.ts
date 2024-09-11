@@ -6,16 +6,16 @@ import { Remote } from './Remote';
 export const setupPresetButtons = (mqtt: IMQTTConnection, controller: IController<number>, remote: Remote) => {
   const flatCommand = remote.commands.Flat;
   if (flatCommand) {
-    if (typeof flatCommand === 'number') buildCommandButton('FurniMove', mqtt, controller, 'PresetFlat', flatCommand);
+    if (typeof flatCommand === 'number') buildCommandButton('Okimat', mqtt, controller, 'PresetFlat', flatCommand);
   }
   const memory1Command = remote.commands.Memory1;
   if (memory1Command) {
     if (typeof memory1Command === 'number')
-      buildCommandButton('FurniMove', mqtt, controller, 'PresetMemory1', memory1Command);
+      buildCommandButton('Okimat', mqtt, controller, 'PresetMemory1', memory1Command);
   }
   const memory2Command = remote.commands.Memory2;
   if (memory2Command) {
     if (typeof memory2Command === 'number')
-      buildCommandButton('FurniMove', mqtt, controller, 'PresetMemory1', memory2Command);
+      buildCommandButton('Okimat', mqtt, controller, 'PresetMemory1', memory2Command);
   }
 };

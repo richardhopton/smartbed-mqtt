@@ -86,17 +86,17 @@
         "friendlyName": "Leggett Platt Bed"
       }
     ],
-    "furniMoveDevices": [
+    "okimatDevices": [
       {
         "name": "OKIN_345678",
-        "friendlyName": "Furni Move Bed",
+        "friendlyName": "Okimat Bed",
         "remoteCode": "94238"
       }
     ],
     "keesonDevices": [
       {
-        "friendlyName": "Keeson Bed",
-        "name": "KSBT03C000015046"
+        "name": "KSBT03C000015046",
+        "friendlyName": "Keeson Bed"
       }
     ]
   },
@@ -105,7 +105,7 @@
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata|ergomotion|furnimove|keeson)",
+    "type": "list(sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata|ergomotion|okimat|keeson)",
     "sleeptrackerRefreshFrequency": "int(0,)",
     "sleeptrackerCredentials": [
       {
@@ -184,7 +184,7 @@
         "friendlyName": "str"
       }
     ],
-    "furniMoveDevices": [
+    "okimatDevices": [
       {
         "name": "str",
         "friendlyName": "str",
@@ -193,8 +193,8 @@
     ],
     "keesonDevices": [
       {
-        "friendlyName": "str",
-        "name": "str"
+        "name": "str",
+        "friendlyName": "str"
       }
     ]
   }
