@@ -1,6 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { buildDictionary } from '@utils/buildDictionary';
+import { intToBytes } from '@utils/intToBytes';
 import { logError, logInfo } from '@utils/logger';
 import { BLEController } from 'BLE/BLEController';
 import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
@@ -10,6 +11,8 @@ import { getDevices } from './options';
 import { setupLightEntities } from './setupLightEntities';
 import { setupPresetButtons } from './setupPresetButtons';
 import { supportedRemotes } from './supportedRemotes';
+
+const buildCommand = (command: number) => [0x4, 0x2, ...intToBytes(command)];
 
 export const okimat = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
@@ -57,7 +60,7 @@ export const okimat = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
       deviceData,
       bleDevice,
       writeCharacteristic.handle,
-      (command: number) => [command],
+      buildCommand,
       notifyHandles
     );
     logInfo('[Okimat] Setting up entities for device:', name);
