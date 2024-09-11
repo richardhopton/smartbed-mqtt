@@ -5,12 +5,12 @@ import { getType } from '@utils/options';
 import { connectToESPHome } from 'ESPHome/connectToESPHome';
 import { ergomotion } from 'ErgoMotion/ergomotion';
 import { ergowifi } from 'ErgoWifi/ergowifi';
-import { furnimove } from 'FurniMove/furnimove';
 import { keeson } from 'Keeson/keeson';
 import { leggettplatt } from 'LeggettPlatt/leggettplatt';
 import { linak } from 'Linak/linak';
 import { logicdata } from 'Logicdata/logicdata';
 import { motosleep } from 'MotoSleep/motosleep';
+import { okimat } from 'Okimat/okimat';
 import { reverie } from 'Reverie/reverie';
 import { richmat } from 'Richmat/richmat';
 import { sleeptracker } from 'Sleeptracker/sleeptracker';
@@ -65,8 +65,8 @@ const start = async () => {
       return void (await reverie(mqtt, esphome));
     case 'leggettplatt':
       return void (await leggettplatt(mqtt, esphome));
-    case 'furnimove':
-      return void (await furnimove(mqtt, esphome));
+    case 'okimat':
+      return void (await okimat(mqtt, esphome));
     case 'keeson':
       return void (await keeson(mqtt, esphome));
   }

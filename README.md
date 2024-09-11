@@ -24,7 +24,7 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 - [MotoSleep](#motosleep-support-ble) [experimental]
 - [Reverie](#reverie-support-ble) [prototype]
 - [Leggett & Platt](#leggett--platt-support-ble) (Okin & Richmat variants) [prototype]
-- [FurniMove](#furni-move-support-ble) [prototype]
+- [Okimat](#okimat-support-ble) [prototype]
 - [Keeson](#keeson-support-blue) [prototype]
 
 # Installation
@@ -273,11 +273,11 @@ This remains connected to the bed controller and due to the bed only accepting o
 
 Initial prototyping was only possible due to assistance from MarcusW on Discord.
 
-# Furni Move Support (BLE)
+# Okimat Support (BLE)
 
 ## Configuring
 
-You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Furni Move controller with `name`, `friendlyName` and `remoteCode`.
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Okimat controller with `name`, `friendlyName` and `remoteCode`.
 
 ## Current features include (depending on remote code support):
 
@@ -293,6 +293,7 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 Support for this was only possible due to assistance from david_nagy, corne & PT on Discord.
 
 # Keeson Support (BLE)
+
 > Keeson motor controllers are used by many bed manufacturers including (but not limited to) Member's Mark, Purple, ErgoMotion. The prototype was tested using the [Member's Mark Premier Adjustable Base](https://www.samsclub.com/p/-/prod22421683) bed variant.
 
 ## Configuring
@@ -301,7 +302,7 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 
 ## Current features include:
 
-- Buttons to trigger the standard presets 
+- Buttons to trigger the standard presets
 - Buttons to trigger the user presets
 - Buttons to program the user presets
 - Controls for the head & foot massage intesity, wave setting & timer
