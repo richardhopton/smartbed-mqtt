@@ -6,10 +6,10 @@ import { connectToESPHome } from 'ESPHome/connectToESPHome';
 import { ergomotion } from 'ErgoMotion/ergomotion';
 import { ergowifi } from 'ErgoWifi/ergowifi';
 import { furnimove } from 'FurniMove/furnimove';
+import { keeson } from 'Keeson/keeson';
 import { leggettplatt } from 'LeggettPlatt/leggettplatt';
 import { linak } from 'Linak/linak';
 import { logicdata } from 'Logicdata/logicdata';
-import { membersMark } from 'MembersMark/membersmark';
 import { motosleep } from 'MotoSleep/motosleep';
 import { reverie } from 'Reverie/reverie';
 import { richmat } from 'Richmat/richmat';
@@ -67,8 +67,8 @@ const start = async () => {
       return void (await leggettplatt(mqtt, esphome));
     case 'furnimove':
       return void (await furnimove(mqtt, esphome));
-    case 'membersmark':
-      return void (await membersMark(mqtt, esphome));
+    case 'keeson':
+      return void (await keeson(mqtt, esphome));
   }
 };
 void start();
