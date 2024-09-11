@@ -25,7 +25,7 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 - [Reverie](#reverie-support-ble) [prototype]
 - [Leggett & Platt](#leggett--platt-support-ble) (Okin & Richmat variants) [prototype]
 - [FurniMove](#furni-move-support-ble) [prototype]
-- [Member's Mark](#members-mark-support-blue) (Sam's Club; tested using Premier variant) [experimental]
+- [Keeson](#keeson-support-blue) [prototype]
 
 # Installation
 
@@ -292,17 +292,23 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 
 Support for this was only possible due to assistance from david_nagy, corne & PT on Discord.
 
-# Member's Mark Support (BLE)
-> Member's Mark is the brand name for Sam's Club private label products; this prototype was tested using the [Premier Adjustable Base](https://www.samsclub.com/p/-/prod22421683) bed variant.
+# Keeson Support (BLE)
+> Keeson motor controllers are used by many bed manufacturers including (but not limited to) Member's Mark, Purple, ErgoMotion. The prototype was tested using the [Member's Mark Premier Adjustable Base](https://www.samsclub.com/p/-/prod22421683) bed variant.
 
 ## Configuring
 
-You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Member's Mark controller with `name` and `friendlyName`.
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Keeson controller with `name` and `friendlyName`.
 
 ## Current features include:
 
 - Buttons to trigger the standard presets 
 - Buttons to trigger the user presets
+- Buttons to program the user presets
+- Controls for the head & foot massage intesity, wave setting & timer
+
+## Possible future features:
+
+- Buttons/Cover to control raising and lowering head/feet
 
 ## Notes
 

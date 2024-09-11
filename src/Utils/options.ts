@@ -12,7 +12,7 @@ export type Type =
   | 'leggettplatt'
   | 'logicdata'
   | 'furnimove'
-  | 'membersmark';
+  | 'keeson';
 
 interface OptionsJson {
   type: Type;
