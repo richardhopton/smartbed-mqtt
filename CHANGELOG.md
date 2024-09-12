@@ -1,3 +1,18 @@
+## v1.1.17
+
+**Breaking Changes**
+
+- (Okimat) Rename FurniMove to Okimat since it's a more logical name
+
+**New Features**
+
+- (Keeson) Add initial support for Keeson beds
+
+**Bug Fixes**
+
+- (Okimat) Fix sending commands
+- (Okimat) Pair on connection
+
 ## v1.1.16
 
 **New Features**
