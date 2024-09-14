@@ -1,3 +1,10 @@
+## v1.1.18
+
+**Bug Fixes**
+
+- (Reverie) Fix missing checksum on commands
+- (Okimat) Test repeated command for Flat preset
+
 ## v1.1.17
 
 **Breaking Changes**
