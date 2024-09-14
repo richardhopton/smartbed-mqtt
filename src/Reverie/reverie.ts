@@ -10,6 +10,8 @@ import { setupLightEntities } from './setupLightEntities';
 import { setupMassageEntities } from './setupMassageEntities';
 import { setupPresetButtons } from './setupPresetButtons';
 
+const buildCommand = (bytes: number[]) => [...bytes, bytes.reduce((acc, cur) => acc ^ cur, 0)];
+
 export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
   if (!devices.length) return logInfo('[Reverie] No devices configured');
@@ -38,7 +40,7 @@ export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
     }
 
     const { handle } = characteristic;
-    const controller = new BLEController(deviceData, bleDevice, handle, (bytes: number[]) => bytes, {
+    const controller = new BLEController(deviceData, bleDevice, handle, buildCommand, {
       notify: handle,
     });
     logInfo('[Reverie] Setting up entities for device:', name);
