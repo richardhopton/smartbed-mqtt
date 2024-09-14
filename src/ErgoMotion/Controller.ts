@@ -50,4 +50,8 @@ export class Controller extends EventEmitter implements IController<number> {
     });
 
   writeCommands = (commands: number[]) => loopWithWait(commands, this.writeCommand);
+
+  cancelCommands = async () => {
+    await this.timer?.cancel();
+  };
 }
