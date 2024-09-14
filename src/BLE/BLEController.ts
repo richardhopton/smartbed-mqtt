@@ -54,4 +54,8 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     );
     await this.timer.done;
   };
+
+  cancelCommands = async () => {
+    await this.timer?.cancel();
+  };
 }

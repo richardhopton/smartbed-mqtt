@@ -62,4 +62,8 @@ export class Controller implements IController<number> {
       () => (this.timer = undefined)
     );
   };
+
+  cancelCommands = async () => {
+    await this.timer?.cancel();
+  };
 }
