@@ -1,4 +1,10 @@
 const strings = {
+  AllDown: 'All Down',
+  AllUp: 'All Up',
+  HeadDown: 'Head Down',
+  HeadUp: 'Head Up',
+  FootDown: 'Foot Down',
+  FootUp: 'Foot Up',
   PresetFlat: 'Preset: Flat',
   PresetFlatBed: 'Preset: Flat Bed',
   PresetZeroG: 'Preset: Zero G',
