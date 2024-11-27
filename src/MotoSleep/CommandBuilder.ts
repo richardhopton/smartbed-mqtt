@@ -44,7 +44,7 @@ export const buildCommands = (name: string) => {
       );
     }
   }
-  if (remoteType === '9' && ['5', '6', '7', '8'].includes(motorNumber)) {
+  if (['8', '9'].includes(remoteType) && ['2', '5', '6', '7', '8'].includes(motorNumber)) {
     commands.push(
       buildCommand('PresetAntiSnore', 'R'),
       buildCommand('PresetTV', 'S'),
