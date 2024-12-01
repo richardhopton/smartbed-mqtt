@@ -44,7 +44,7 @@ export const buildCommands = (name: string) => {
       );
     }
   }
-  if (remoteType === '9' && ['5', '6', '7', '8'].includes(motorNumber)) {
+  if (['8', '9'].includes(remoteType) && ['2', '5', '6', '7', '8'].includes(motorNumber)) {
     commands.push(
       buildCommand('PresetAntiSnore', 'R'),
       buildCommand('PresetTV', 'S'),
@@ -52,7 +52,7 @@ export const buildCommands = (name: string) => {
     );
   }
   if (
-    (['3', '4', '8'].includes(remoteType) && motorNumber === '5') ||
+    (['3', '4', '8'].includes(remoteType) && ['3', '5'].includes(motorNumber)) ||
     ['A', 'B'].includes(remoteType) ||
     (remoteType === '7' && motorNumber !== '5') ||
     (remoteType === '9' && ['5', '6', '7', '8'].includes(motorNumber))
@@ -63,7 +63,7 @@ export const buildCommands = (name: string) => {
       buildCommand('Stop', 'D')
     );
   }
-  if ((remoteType === '4' && motorNumber === '5') || remoteType === '0') {
+  if ((remoteType === '4' && ['3', '5'].includes(motorNumber)) || remoteType === '0') {
     commands.push(buildCommand('MassageHeadOff', 'J'), buildCommand('MassageFootOff', 'I'));
   }
 
