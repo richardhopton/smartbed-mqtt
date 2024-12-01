@@ -16,7 +16,7 @@ export const buildCommandSwitch = <TCommand>(
 ) => {
   if (cache[name]) return;
 
-  const entity = (cache[name] = new Switch(mqtt, deviceData, buildEntityConfig(name, category), async (state) => {
+  cache[name] = new Switch(mqtt, deviceData, buildEntityConfig(name, category), async (state) => {
     const commandToSend = state ? onCommand : offCommand;
     if (!commandToSend) return;
     try {
@@ -24,5 +24,5 @@ export const buildCommandSwitch = <TCommand>(
     } catch (e) {
       logError(`[${context}] Failed to write '${getString(name)}'`, e);
     }
-  }).setOnline());
+  }).setOnline();
 };
