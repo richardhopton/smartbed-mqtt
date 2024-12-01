@@ -87,9 +87,9 @@ const strings = {
   Low: 'Low',
   Medium: 'Medium',
   High: 'High',
-  Head: 'Head',
-  Legs: 'Legs',
+  MotorHead: 'Head',
   MotorBack: 'Back',
+  MotorLegs: 'Legs',
   MotorFeet: 'Feet',
   MotorAll: 'All',
 };

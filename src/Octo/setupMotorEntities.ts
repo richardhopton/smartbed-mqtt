@@ -31,45 +31,48 @@ export const setupMotorEntities = (
 
     const { head, legs, direction } = motorState;
     const motor = (head ? 0x2 : 0x0) + (legs ? 0x4 : 0x0);
-    if (direction === 'STOP' || motor === 0x0) {
-      await writeCommand([0x2, 0x73]);
-      return;
+    if (direction !== 'STOP' && motor !== 0x0) {
+      const complexCommand = {
+        command: [0x2, direction == 'OPEN' ? 0x70 : 0x71],
+        data: [motor],
+      };
+      await writeCommand(complexCommand, 5_000, 200);
+      if (motorState.canceled) return;
+      motorState.direction = 'STOP';
     }
-    const complexCommand = {
-      command: [0x2, direction == 'OPEN' ? 0x70 : 0x71],
-      data: [motor],
-    };
-    await writeCommand(complexCommand, 5_000, 200);
-    if (motorState.canceled) return;
-    motorState.direction = 'STOP';
     motorState.head = false;
     motorState.legs = false;
     await writeCommand([0x2, 0x73]);
   };
 
   if (!cache.headMotor) {
-    cache.headMotor = new Cover(mqtt, deviceData, buildEntityConfig('Head', { icon: 'mdi:head' }), async (command) => {
-      const motorState = cache.motorState as MotorState;
-      const { head, legs, direction } = motorState;
-      const moveMotors = command !== 'STOP';
-      if (direction === command && head === moveMotors) return;
+    cache.headMotor = new Cover(
+      mqtt,
+      deviceData,
+      buildEntityConfig('MotorHead', { icon: 'mdi:head' }),
+      async (command) => {
+        const motorState = cache.motorState as MotorState;
+        const { head, legs, direction } = motorState;
+        const moveMotors = command !== 'STOP';
+        if (direction === command && head === moveMotors) return;
 
-      motorState.head = !moveMotors;
-      if (legs) {
-        if (!moveMotors) command = direction;
-        else if (direction != command) motorState.legs = false;
+        motorState.head = !moveMotors;
+        if (legs) {
+          if (!moveMotors) command = direction;
+          else if (direction != command) motorState.legs = false;
+        }
+        motorState.direction = command;
+
+        await sendMotorControlCommand();
       }
-      motorState.direction = command;
-
-      await sendMotorControlCommand();
-    }).setOnline();
+    ).setOnline();
   }
 
   if (!cache.legsMotor) {
     cache.legsMotor = new Cover(
       mqtt,
       deviceData,
-      buildEntityConfig('Legs', { icon: 'mdi:foot-print' }),
+      buildEntityConfig('MotorLegs', { icon: 'mdi:foot-print' }),
       async (command) => {
         const motorState = cache.motorState as MotorState;
         const { head, legs, direction } = motorState;
