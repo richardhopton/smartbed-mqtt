@@ -29,8 +29,8 @@ export const Commands = {
   MassageModeStep: [0x81, 0x0],
 
   Move: ({ head, back, legs, feet }: { head?: boolean; back?: boolean; legs?: boolean; feet?: boolean }) => {
-    if (head === true && back === true && legs === true && feet === true) return [0x00, 0x00];
-    if (head === false && back === false && legs === false && feet === false) return [0x01, 0x00];
+    if (head === true && back === true && legs === true && feet === true) return [0x01, 0x00];
+    if (head === false && back === false && legs === false && feet === false) return [0x00, 0x00];
 
     if (legs === true) {
       if (back === true) return [0x37, 0x00];

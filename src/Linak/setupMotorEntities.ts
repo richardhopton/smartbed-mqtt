@@ -27,10 +27,13 @@ export const setupMotorEntities = (
     motorState.canceled = true;
     await cancelCommands();
     motorState.canceled = false;
+    const endCommand = Commands.Move({});
 
-    await writeCommand(command, 5_000, 200);
-    if (motorState.canceled) return;
-    cache.motorState = {};
+    if (!arrayEquals(command, endCommand)) {
+      await writeCommand(command, 5_000, 200);
+      if (motorState.canceled) return;
+      cache.motorState = {};
+    }
     await writeCommand(Commands.Move({}));
   };
 
@@ -46,40 +49,55 @@ export const setupMotorEntities = (
   };
 
   if (!cache.backMotor) {
-    cache.backMotor = new Cover(mqtt, deviceData, buildEntityConfig('Head', { icon: 'mdi:back' }), async (command) => {
-      const motorState = cache.motorState as MotorState;
-      const originalCommand = Commands.Move(motorState);
-      motorState.back = commandToBool(command);
-      const newCommand = Commands.Move(motorState);
-      if (!arrayEquals(originalCommand, newCommand)) await sendMotorControlCommand(newCommand);
-    }).setOnline();
+    cache.backMotor = new Cover(
+      mqtt,
+      deviceData,
+      buildEntityConfig('MotorBack', { icon: 'mdi:back' }),
+      async (command) => {
+        const motorState = cache.motorState as MotorState;
+        const originalCommand = Commands.Move(motorState);
+        motorState.back = commandToBool(command);
+        const newCommand = Commands.Move(motorState);
+        if (!arrayEquals(originalCommand, newCommand)) await sendMotorControlCommand(newCommand);
+      }
+    ).setOnline();
   }
 
   if (!cache.legsMotor) {
-    cache.legsMotor = new Cover(mqtt, deviceData, buildEntityConfig('Head', { icon: 'mdi:legs' }), async (command) => {
-      const motorState = cache.motorState as MotorState;
-      const originalCommand = Commands.Move(motorState);
-      motorState.legs = commandToBool(command);
-      const newCommand = Commands.Move(motorState);
-      if (!arrayEquals(originalCommand, newCommand)) await sendMotorControlCommand(newCommand);
-    }).setOnline();
+    cache.legsMotor = new Cover(
+      mqtt,
+      deviceData,
+      buildEntityConfig('MotorLegs', { icon: 'mdi:legs' }),
+      async (command) => {
+        const motorState = cache.motorState as MotorState;
+        const originalCommand = Commands.Move(motorState);
+        motorState.legs = commandToBool(command);
+        const newCommand = Commands.Move(motorState);
+        if (!arrayEquals(originalCommand, newCommand)) await sendMotorControlCommand(newCommand);
+      }
+    ).setOnline();
   }
 
   if (!cache.headMotor && motorCount > 2) {
-    cache.headMotor = new Cover(mqtt, deviceData, buildEntityConfig('Head', { icon: 'mdi:head' }), async (command) => {
-      const motorState = cache.motorState as MotorState;
-      const originalCommand = Commands.Move(motorState);
-      motorState.head = commandToBool(command);
-      const newCommand = Commands.Move(motorState);
-      if (!arrayEquals(originalCommand, newCommand)) await sendMotorControlCommand(newCommand);
-    }).setOnline();
+    cache.headMotor = new Cover(
+      mqtt,
+      deviceData,
+      buildEntityConfig('MotorHead', { icon: 'mdi:head' }),
+      async (command) => {
+        const motorState = cache.motorState as MotorState;
+        const originalCommand = Commands.Move(motorState);
+        motorState.head = commandToBool(command);
+        const newCommand = Commands.Move(motorState);
+        if (!arrayEquals(originalCommand, newCommand)) await sendMotorControlCommand(newCommand);
+      }
+    ).setOnline();
   }
 
   if (!cache.feetMotor && motorCount > 3) {
     cache.feetMotor = new Cover(
       mqtt,
       deviceData,
-      buildEntityConfig('Head', { icon: 'mdi:foot-print' }),
+      buildEntityConfig('MotorFeet', { icon: 'mdi:foot-print' }),
       async (command) => {
         const motorState = cache.motorState as MotorState;
         const originalCommand = Commands.Move(motorState);
@@ -88,5 +106,16 @@ export const setupMotorEntities = (
         if (!arrayEquals(originalCommand, newCommand)) await sendMotorControlCommand(newCommand);
       }
     ).setOnline();
+  }
+
+  if (!cache.allMotors) {
+    cache.allMotors = new Cover(mqtt, deviceData, buildEntityConfig('MotorAll'), async (command) => {
+      const motorState = cache.motorState as MotorState;
+      const originalCommand = Commands.Move(motorState);
+      motorState.head = motorState.back = motorState.legs = motorState.feet = commandToBool(command);
+
+      const newCommand = Commands.Move(motorState);
+      if (!arrayEquals(originalCommand, newCommand)) await sendMotorControlCommand(newCommand);
+    }).setOnline();
   }
 };

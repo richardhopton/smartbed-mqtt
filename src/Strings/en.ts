@@ -89,6 +89,9 @@ const strings = {
   High: 'High',
   Head: 'Head',
   Legs: 'Legs',
+  MotorBack: 'Back',
+  MotorFeet: 'Feet',
+  MotorAll: 'All',
 };
 
 export default strings;
