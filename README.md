@@ -26,6 +26,7 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 - [Leggett & Platt](#leggett--platt-support-ble) (Okin & Richmat variants) [prototype]
 - [Okimat](#okimat-support-ble) [prototype]
 - [Keeson](#keeson-support-blue) [prototype]
+- [Octo](#octo-support-ble) [prototype]
 
 # Installation
 
@@ -316,6 +317,23 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
 
 Initial prototyping was only possible due to assistance from [@alanbixby](https://github.com/alanbixby/) on Discord.
+
+# Octo Support (BLE)
+
+## Configuring
+
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Octo controller with `name`, `friendlyName`, and optional `pin`.
+
+## Current features include:
+
+- Button for under bed lights, if present
+- Covers to control motors for raising, lowering, and stopping the head/legs
+
+## Notes
+
+This remains connected to the bed controller and due to the bed only accepting one connection it will stop you from using the app to control the bed.
+
+Initial prototyping was only possible due to assistance from Murp on Discord.
 
 # Support
 
