@@ -174,6 +174,7 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 - Button & switch for under bed lights
 - Sensor to read the back & leg angles
 - Buttons to control massage strengths for head, foot or both, massage mode, and toggle/off
+- Covers to control motors for raising, lowering, and stopping the head/leg
 
 ## Notes
 
