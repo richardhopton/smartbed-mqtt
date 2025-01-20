@@ -215,10 +215,7 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 - Buttons to step thru the massage for head & foot
 - Buttons to turn off head or foot massage
 - Button to stop all motors & massage
-
-## Possible future features:
-
-- Buttons/Cover to control raising and lowering head/feet/lumbar/neck/tilt
+- Covers to control motors for raising, lowering, and stopping the head/feet/lumbar/neck/tilt
 
 ## Notes
 
