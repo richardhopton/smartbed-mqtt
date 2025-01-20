@@ -7,6 +7,7 @@ import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { getDevices } from './options';
 import { setupPresetButtons } from './setupPresetButtons';
+import { setupMotorEntities } from './setupMotorEntities';
 
 const nameMapper = (name: string) =>
   name.replace(':', 'A').replace(';', 'B').replace('<', 'C').replace('=', 'D').replace('>', 'E').replace('?', 'F');
@@ -48,6 +49,7 @@ export const solace = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
     );
     logInfo('[Solace] Setting up entities for device:', name);
     setupPresetButtons(mqtt, controller);
+    setupMotorEntities(mqtt, controller);
 
     const deviceInfo = await bleDevice.getDeviceInfo();
     if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
