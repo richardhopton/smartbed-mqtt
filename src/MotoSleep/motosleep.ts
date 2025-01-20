@@ -3,11 +3,12 @@ import { buildDictionary } from '@utils/buildDictionary';
 import { logError, logInfo } from '@utils/logger';
 import { BLEController } from 'BLE/BLEController';
 import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
-import { buildCommandButton } from 'Common/buildCommandButton';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { buildCommands } from './CommandBuilder';
 import { getDevices } from './options';
+import { setupCoverEntities } from './setupCoverEntities';
+import { setupButtonEntities } from './setupButtonEntities';
 
 export const motosleep = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
@@ -48,10 +49,9 @@ export const motosleep = async (mqtt: IMQTTConnection, esphome: IESPConnection) 
       device.stayConnected
     );
     logInfo('[MotoSleep] Setting up entities for device:', name);
-    const commands = buildCommands(name);
-    for (const { name, command, category } of commands.filter((c) => !c.repeat)) {
-      buildCommandButton('MotoSleep', mqtt, controller, name, command, category);
-    }
+    const { simpleCommands, complexCommands } = buildCommands(name);
+    setupButtonEntities(mqtt, controller, simpleCommands);
+    setupCoverEntities(mqtt, controller, complexCommands);
 
     const deviceInfo = await bleDevice.getDeviceInfo();
     if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
