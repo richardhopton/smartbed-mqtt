@@ -39,7 +39,8 @@
     "prettier": "prettier --write \"src/**/**.{ts,js,json}\"",
     "test": "jest --watch",
     "test:ci": "jest",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "docker:dev": "docker build -t smqtt . && docker run -v $(pwd)/../data:/data smqtt"
   },
   "publishConfig": {
     "access": "public"
