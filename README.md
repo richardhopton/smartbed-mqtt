@@ -194,6 +194,7 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 - Buttons to trigger the user presets
 - Buttons to program the user presets
 - Buttons to reset the user presets
+- Covers to control motors for raising, lowering, and stopping the back/legs/lift/tilt
 
 ## Notes
 
