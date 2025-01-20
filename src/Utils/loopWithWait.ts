@@ -4,6 +4,6 @@ export const loopWithWait = async <TItem>(items: TItem[], body: (item: TItem) =>
   let itemsLeft = items.length;
   for (const item of items) {
     await body(item);
-    if (!--itemsLeft) await wait(delay);
+    if (--itemsLeft) await wait(delay);
   }
 };
