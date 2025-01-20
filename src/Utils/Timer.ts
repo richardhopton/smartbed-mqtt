@@ -24,13 +24,18 @@ export class Timer {
   start = async () => {
     while (this.count > 0) {
       try {
-        await this.onTick();
+        const remainingCount = --this.count;
+
+        const promises = [this.onTick()];
+        if (this.waitTime && remainingCount) promises.push(wait(this.waitTime));
+
+        await Promise.any([this.done, Promise.all(promises)]);
       } catch (err) {
         this.done.reject(err);
       }
-      if (--this.count > 0 && this.frequency) await wait(this.frequency);
+      if (this.canceled) return;
     }
-    if (this.onFinish && !this.canceled) await this.onFinish();
+    if (this.onFinish) await this.onFinish();
     this.done.resolve();
   };
 
