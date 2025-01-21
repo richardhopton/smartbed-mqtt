@@ -21,6 +21,22 @@ export const remoteFeatures: Dictionary<number> = {
     Features.MassageFootStep |
     Features.MassageMode |
     Features.MassageToggle,
+  BVRM:
+    Features.PresetFlat |
+    Features.PresetAntiSnore |
+    Features.PresetMemory1 |
+    Features.PresetMemory2 |
+    Features.PresetTV |
+    Features.PresetZeroG |
+    Features.ProgramAntiSnore |
+    Features.ProgramMemory1 |
+    Features.ProgramMemory2 |
+    Features.ProgramTV |
+    Features.ProgramZeroG |
+    Features.MassageHeadStep |
+    Features.MassageFootStep |
+    Features.MassageMode |
+    Features.MassageToggle,
   V1RM:
     Features.PresetFlat |
     Features.PresetZeroG |
