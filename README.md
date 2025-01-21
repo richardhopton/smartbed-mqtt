@@ -25,7 +25,7 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 - [Reverie](#reverie-support-ble) [prototype]
 - [Leggett & Platt](#leggett--platt-support-ble) (Okin & Richmat variants) [prototype]
 - [Okimat](#okimat-support-ble) [prototype]
-- [Keeson](#keeson-support-blue) [prototype]
+- [Keeson](#keeson-support-ble) [prototype]
 - [Octo](#octo-support-ble) [prototype]
 
 # Installation
@@ -307,10 +307,7 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 - Buttons to trigger the user presets
 - Buttons to program the user presets
 - Controls for the head & foot massage intesity, wave setting & timer
-
-## Possible future features:
-
-- Buttons/Cover to control raising and lowering head/feet
+- Covers to control motors for raising, lowering, and stopping the head/feet/tilt/lumbar
 
 ## Notes
 
