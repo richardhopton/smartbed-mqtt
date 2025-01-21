@@ -154,12 +154,13 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 - Buttons to program the presets
 - Button for under bed lights
 - Buttons to step thru the massage strengths for head & foot, massage mode, and toggle
+- Covers to control motors for raising, lowering, and stopping the pillow/head/feet/lumbar
 
 ## Notes
 
 Setting `stayConnected` to `true` will stop you from being able to use the app to control the bed if the bed only accepts one Bluetooth connection.
 
-Support for this was only possible due to assistance from getrav on Discord. This was reverse engineered from a Sven & Son bed, so your mileage may vary.
+Support for this was only possible due to assistance from getrav on Discord. This was originally reverse engineered from a Sven & Son bed, so your mileage may vary.
 
 # Linak Support (BLE)
 

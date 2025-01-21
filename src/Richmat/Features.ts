@@ -21,6 +21,11 @@ export enum Features {
   MassageFootStep = 1 << 15,
   MassageMode = 1 << 16,
   MassageToggle = 1 << 17,
+
+  MotorHead = 1 << 18,
+  MotorFeet = 1 << 19,
+  MotorPillow = 1 << 20,
+  MotorLumbar = 1 << 21,
 }
 
 export type HasFeature = (feature: Features) => boolean;

@@ -14,6 +14,7 @@ import { remoteFeatures } from './remoteFeatures';
 import { setupMassageButtons } from './setupMassageButtons';
 import { setupPresetButtons } from './setupPresetButtons';
 import { setupUnderBedLightButton } from './setupUnderBedLightButton';
+import { setupMotorEntities } from './setupMotorEntities';
 
 const checks = [isNordicSupported, isWiLinkeSupported];
 const controllerBuilders = [nordicControllerBuilder, wiLinkeControllerBuilder];
@@ -55,13 +56,14 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
       continue;
     }
 
-    const features = remoteFeatures[remoteCode === 'VIRM' ? 'V1RM' : remoteCode];
+    const features = remoteFeatures[remoteCode];
     const hasFeature = (feature: Features) => (features & feature) === feature;
 
     logInfo('[Richmat] Setting up entities for device:', name);
     setupPresetButtons(mqtt, controller, hasFeature);
     setupMassageButtons(mqtt, controller, hasFeature);
     setupUnderBedLightButton(mqtt, controller, hasFeature);
+    setupMotorEntities(mqtt, controller, hasFeature);
 
     const deviceInfo = await bleDevice.getDeviceInfo();
     if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
