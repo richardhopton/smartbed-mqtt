@@ -21,5 +21,14 @@ export enum Commands {
 
   UnderBedLightsToggle = 0x3c,
 
+  MotorPillowUp = 0x3f,
+  MotorPillowDown = 0x40,
+  MotorHeadUp = 0x24,
+  MotorHeadDown = 0x25,
+  MotorFeetUp = 0x26,
+  MotorFeetDown = 0x27,
+  MotorLumbarUp = 0x41,
+  MotorLumbarDown = 0x42,
+
   End = 0x6e,
 }

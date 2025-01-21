@@ -20,8 +20,10 @@ export const remoteFeatures: Dictionary<number> = {
     Features.MassageHeadStep |
     Features.MassageFootStep |
     Features.MassageMode |
-    Features.MassageToggle,
-  V1RM:
+    Features.MassageToggle |
+    Features.MotorHead |
+    Features.MotorFeet,
+  VIRM:
     Features.PresetFlat |
     Features.PresetZeroG |
     Features.PresetAntiSnore |
@@ -33,7 +35,21 @@ export const remoteFeatures: Dictionary<number> = {
     Features.MassageHeadStep |
     Features.MassageFootStep |
     Features.MassageMode |
-    Features.MassageToggle,
+    Features.MassageToggle |
+    Features.MotorHead |
+    Features.MotorFeet |
+    Features.MotorPillow |
+    Features.MotorLumbar,
+  V1RM:
+    Features.PresetFlat |
+    Features.PresetZeroG |
+    Features.PresetAntiSnore |
+    Features.PresetMemory1 |
+    Features.ProgramZeroG |
+    Features.ProgramAntiSnore |
+    Features.ProgramMemory1 |
+    Features.MotorHead |
+    Features.MotorFeet,
   X1RM:
     Features.PresetFlat |
     Features.PresetAntiSnore |
@@ -41,7 +57,9 @@ export const remoteFeatures: Dictionary<number> = {
     Features.PresetMemory1 |
     Features.ProgramZeroG |
     Features.ProgramAntiSnore |
-    Features.ProgramMemory1,
+    Features.ProgramMemory1 |
+    Features.MotorHead |
+    Features.MotorFeet,
   ZR10:
     Features.PresetFlat |
     Features.PresetZeroG |
@@ -50,7 +68,9 @@ export const remoteFeatures: Dictionary<number> = {
     Features.ProgramZeroG |
     Features.ProgramAntiSnore |
     Features.ProgramMemory1 |
-    Features.UnderBedLightsToggle,
+    Features.UnderBedLightsToggle |
+    Features.MotorHead |
+    Features.MotorFeet,
   ZR60:
     Features.PresetFlat |
     Features.PresetZeroG |
@@ -59,5 +79,7 @@ export const remoteFeatures: Dictionary<number> = {
     Features.ProgramZeroG |
     Features.ProgramAntiSnore |
     Features.ProgramMemory1 |
-    Features.UnderBedLightsToggle,
+    Features.UnderBedLightsToggle |
+    Features.MotorHead |
+    Features.MotorFeet,
 };
