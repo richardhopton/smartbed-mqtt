@@ -9,6 +9,7 @@ import { IESPConnection } from 'ESPHome/IESPConnection';
 import { getDevices } from './options';
 import { setupMassageButtons } from './setupMassageButtons';
 import { setupPresetButtons } from './setupPresetButtons';
+import { setupMotorEntities } from './setupMotorEntities';
 
 const buildCommand = (command: number) => [0x4, 0x2, ...intToBytes(command)];
 
@@ -55,5 +56,6 @@ export const keeson = async (mqtt: IMQTTConnection, esphome: IESPConnection): Pr
     if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
     setupPresetButtons(mqtt, controller);
     setupMassageButtons(mqtt, controller);
+    setupMotorEntities(mqtt, controller);
   }
 };
