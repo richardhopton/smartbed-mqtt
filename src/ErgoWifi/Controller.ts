@@ -42,25 +42,27 @@ export class Controller implements IController<number> {
 
   constructor(public deviceData: IDeviceData, public device: Device, public user: Credentials) {}
 
-  writeCommand = async (command: number, count?: number, waitTime?: number) =>
+  writeCommand = async (command: number, count: number = 1, waitTime?: number) =>
     this.writeCommands([command], count, waitTime);
 
-  writeCommands = async (commands: number[], count?: number, waitTime?: number) => {
-    await this.timer?.cancel();
+  writeCommands = async (commands: number[], count: number = 1, waitTime?: number) => {
+    await this.cancelCommands();
 
     const authDetails = await getAuthDetails(this.user);
     if (!authDetails) return;
 
     const { userId, authorize } = authDetails;
     const socket = await getConnection((socket) => socket.write(loginPayload(userId, authorize)));
-    this.timer = new Timer(
-      () => loopWithWait(commands, async (command) => await socket.write(commandPayload(this.device.id, command))),
-      {
-        count,
-        waitTime,
-        onFinish: () => (this.timer = undefined),
-      }
-    );
+    const write = (command: number) => socket.write(commandPayload(this.device.id, command));
+
+    const onTick = commands.length === 1 ? () => write(commands[0]) : () => loopWithWait(commands, write);
+    if (count === 1) return onTick();
+
+    const onFinish = () => {
+      this.timer = undefined;
+    };
+    this.timer = new Timer(onTick, count, waitTime, onFinish);
+    await this.timer.start();
   };
 
   cancelCommands = async () => {
