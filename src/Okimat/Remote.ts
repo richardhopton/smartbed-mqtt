@@ -1,7 +1,7 @@
 type ComplexCommand = {
   data: number;
-  duration: number;
-  frequency: number;
+  count: number;
+  waitTime: number;
 };
 type Commands = {
   [key: string]: number | ComplexCommand;

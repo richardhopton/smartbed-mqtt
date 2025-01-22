@@ -25,13 +25,13 @@ export const supportedRemotes: Dictionary<Remote> = {
       Memory2: 0x2000,
       MemorySave: {
         data: 0x10000,
-        frequency: 200,
-        duration: 5000,
+        waitTime: 200,
+        count: 25,
       },
       UBL: {
         data: 0x20000,
-        frequency: 100,
-        duration: 5000,
+        waitTime: 100,
+        count: 50,
       },
     },
   },
@@ -49,7 +49,7 @@ export const supportedRemotes: Dictionary<Remote> = {
   '82417': {
     name: 'RF TOPLINE',
     commands: {
-      Flat: 0x000000AA,
+      Flat: 0x000000aa,
       BackDown: 0x2,
       BackUp: 0x1,
       LegsDown: 0x8,
