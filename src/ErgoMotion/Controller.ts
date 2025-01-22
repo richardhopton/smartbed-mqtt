@@ -37,18 +37,20 @@ export class Controller extends EventEmitter implements IController<number> {
       });
     });
 
-  writeCommand = async (command: number, count?: number, waitTime?: number) =>
+  writeCommand = async (command: number, count: number = 1, waitTime?: number) =>
     this.writeCommands([command], count, waitTime);
 
-  writeCommands = async (commands: number[], count?: number, waitTime?: number) => {
-    await this.timer?.cancel();
+  writeCommands = async (commands: number[], count: number = 1, waitTime?: number) => {
+    await this.cancelCommands();
 
-    this.timer = new Timer(() => loopWithWait(commands, (command) => this.write(command)), {
-      count,
-      waitTime,
-      onFinish: () => (this.timer = undefined),
-    });
-    await this.timer.done;
+    const onTick = commands.length === 1 ? () => this.write(commands[0]) : () => loopWithWait(commands, this.write);
+    if (count === 1) return onTick();
+
+    const onFinish = () => {
+      this.timer = undefined;
+    };
+    this.timer = new Timer(onTick, count, waitTime, onFinish);
+    await this.timer.start();
   };
 
   cancelCommands = async () => {

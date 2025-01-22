@@ -2,29 +2,19 @@ import { Deferred } from '@utils/deferred';
 import { wait } from '@utils/wait';
 
 export class Timer {
-  public done = new Deferred<void>();
+  private finished = new Deferred<void>();
   private canceled = new Deferred<void>();
   private isCanceled = false;
 
-  private count: number;
-  private waitTime?: number;
   private waitAtEnd?: boolean;
-  private onFinish?: () => void | Promise<void>;
 
   constructor(
     private onTick: () => void | Promise<void>,
-    options: {
-      count?: number;
-      waitTime?: number;
-      onFinish?: () => void | Promise<void>;
-    } = {}
+    private count: number = 1,
+    private waitTime?: number,
+    private onFinish?: () => void | Promise<void>
   ) {
-    this.count = options.count || 1;
-    this.waitTime = options.waitTime;
-    this.waitAtEnd = this.count === 1 && !!options.waitTime;
-    this.onFinish = options.onFinish;
-
-    void this.start();
+    this.waitAtEnd = this.count === 1 && !!this.waitTime;
   }
 
   start = async () => {
@@ -36,18 +26,18 @@ export class Timer {
         if (this.waitTime && (remainingCount || this.waitAtEnd)) promises.push(wait(this.waitTime));
         await Promise.any([this.canceled, Promise.all(promises)]);
       } catch (err) {
-        this.done.reject(err);
+        this.finished.reject(err);
       }
       if (this.isCanceled) break;
     }
     if (this.onFinish && !this.isCanceled) await this.onFinish();
-    this.done.resolve();
+    this.finished.resolve();
   };
 
   cancel = async () => {
     this.canceled.resolve();
     this.isCanceled = true;
     this.count = 0;
-    await this.done;
+    await this.finished;
   };
 }

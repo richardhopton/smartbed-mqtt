@@ -16,7 +16,7 @@ export class Controller extends EventEmitter implements IController<number[]> {
     this.socket = createSocket('udp4');
   }
 
-  private writeBytes = (command: number[]) =>
+  private write = (command: number[]) =>
     new Promise<void>((res, rej) => {
       const onMessage = (message: Buffer) => {
         this.socket.off('message', onMessage);
@@ -28,18 +28,20 @@ export class Controller extends EventEmitter implements IController<number[]> {
       });
     });
 
-  writeCommand = async (command: number[], count?: number, waitTime?: number) =>
+  writeCommand = async (command: number[], count: number = 1, waitTime?: number) =>
     this.writeCommands([command], count, waitTime);
 
-  writeCommands = async (commands: number[][], count?: number, waitTime?: number) => {
-    await this.timer?.cancel();
+  writeCommands = async (commands: number[][], count: number = 1, waitTime?: number) => {
+    await this.cancelCommands();
 
-    this.timer = new Timer(() => loopWithWait(commands, (command) => this.writeBytes(command)), {
-      count,
-      waitTime,
-      onFinish: () => (this.timer = undefined),
-    });
-    await this.timer.done;
+    const onTick = commands.length === 1 ? () => this.write(commands[0]) : () => loopWithWait(commands, this.write);
+    if (count === 1) return onTick();
+
+    const onFinish = () => {
+      this.timer = undefined;
+    };
+    this.timer = new Timer(onTick, count, waitTime, onFinish);
+    await this.timer.start();
   };
 
   cancelCommands = async () => {
