@@ -282,7 +282,9 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 
 ## Current features include (depending on remote code support):
 
-- Buttons to trigger the presets
+- Buttons to trigger the flat preset
+- Buttons to trigger the user presets
+- Buttons to program the user presets
 - Button for under bed lights
 - Covers to control motors for raising, lowering, and stopping the back & legs
 
