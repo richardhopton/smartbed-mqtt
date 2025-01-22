@@ -8,7 +8,7 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, controller: IControlle
   const flatCommand = remote.commands.Flat;
   if (flatCommand) {
     if (typeof flatCommand === 'number')
-      buildRepeatingCommandSwitch('Okimat', mqtt, controller, 'PresetFlat', flatCommand, undefined, 10_000, 200);
+      buildRepeatingCommandSwitch('Okimat', mqtt, controller, 'PresetFlat', flatCommand, undefined, 50, 200);
   }
   const memory1Command = remote.commands.Memory1;
   if (memory1Command) {

@@ -34,7 +34,7 @@ export const setupPresetButtons = (
 
     cache[key] = new Button(mqtt, deviceData, buildEntityConfig(name, category), async () => {
       try {
-        await writeCommand(command, repeat && 30_000, repeat && 300);
+        await writeCommand(command, repeat && 100, repeat && 300);
       } catch (e) {
         logError(`[Linak] Failed to write '${getString(name)}'`, e);
       }

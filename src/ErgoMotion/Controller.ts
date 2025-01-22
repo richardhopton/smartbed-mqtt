@@ -22,15 +22,14 @@ export class Controller extends EventEmitter implements IController<number> {
     super();
   }
 
-  writeCommand = async (command: number, duration?: number, frequency?: number) => {
+  writeCommand = async (command: number, count?: number, waitTime?: number) => {
     await this.timer?.cancel();
 
-    this.timer = new Timer(
-      async () => await this.write(command),
-      duration,
-      frequency,
-      () => (this.timer = undefined)
-    );
+    this.timer = new Timer(async () => await this.write(command), {
+      count,
+      waitTime,
+      onFinish: () => (this.timer = undefined),
+    });
   };
 
   private write = (command: number) =>

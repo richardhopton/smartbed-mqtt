@@ -3,22 +3,25 @@ import { wait } from '@utils/wait';
 
 export class Timer {
   public done = new Deferred<void>();
-  private count: number = 1;
   private canceled = false;
+
+  private count: number;
+  private waitTime?: number;
+  private onFinish?: () => void | Promise<void>;
 
   constructor(
     private onTick: () => void | Promise<void>,
-    duration?: number,
-    private frequency?: number,
-    private onFinish?: () => void | Promise<void>,
-    autoStart = true
+    options: {
+      count?: number,
+      waitTime?: number,
+      onFinish?: () => void | Promise<void>
+    } = {}
   ) {
-    if (duration && !frequency) frequency = 200;
-    if (frequency) {
-      if (!duration) duration = 10_000;
-      this.count = Math.trunc(duration / frequency);
-    }
-    if (autoStart) void this.start();
+    this.count = options.count || 1;
+    this.waitTime = options.waitTime;
+    this.onFinish = options.onFinish;
+
+    void this.start();
   }
 
   start = async () => {
