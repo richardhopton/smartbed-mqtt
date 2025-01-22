@@ -4,10 +4,15 @@ import { Remote } from './Remote';
 import { StringsKey } from '@utils/getString';
 import { Cover } from '@ha/Cover';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
+import { Cancelable } from 'Common/Cancelable';
+import { ICache } from 'Common/ICache';
 
 interface MotorState {
   command?: number;
-  canceled?: boolean;
+}
+
+interface Cache {
+  motorState?: MotorState & Cancelable;
 }
 
 type Command = { name: StringsKey; up: number; down: number };
@@ -18,7 +23,7 @@ const buildCommand = (name: StringsKey, up: number, down: number): Command => {
 
 export const setupMotorEntities = (
   mqtt: IMQTTConnection,
-  { cache, deviceData, writeCommand, cancelCommands }: IController<number>,
+  { cache, deviceData, writeCommand, cancelCommands }: IController<number> & ICache<Cache>,
   remote: Remote
 ) => {
   if (!cache.motorState) cache.motorState = {};
@@ -35,7 +40,7 @@ export const setupMotorEntities = (
 
   for (const { name, up, down } of commands) {
     const coverCommand = async (command: string) => {
-      const motorState = cache.motorState as MotorState;
+      const motorState = cache.motorState!;
       const originalCommand = motorState.command;
       motorState.command = command === 'OPEN' ? up : command === 'CLOSE' ? down : undefined;
       const newCommand = motorState.command;
