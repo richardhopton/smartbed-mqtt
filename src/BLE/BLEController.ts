@@ -31,24 +31,26 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     });
   }
 
-  writeCommand = (command: TCommand, duration?: number, frequency?: number) =>
-    this.writeCommands([command], duration, frequency);
+  writeCommand = (command: TCommand, count?: number, waitTime?: number) =>
+    this.writeCommands([command], count, waitTime);
 
-  writeCommands = async (commands: TCommand[], duration?: number, frequency?: number) => {
+  writeCommands = async (commands: TCommand[], count?: number, waitTime?: number) => {
     const commandList = commands.map(this.commandBuilder).filter((command) => command.length > 0);
     if (commandList.length === 0) return;
     await this.timer?.cancel();
     await this.bleDevice.connect();
     this.timer = new Timer(
-      async () =>
-        await loopWithWait(commandList, (command) =>
+      () =>
+        loopWithWait(commandList, (command) =>
           this.bleDevice.writeCharacteristic(this.handle, new Uint8Array(command))
         ),
-      duration,
-      frequency,
-      async () => {
-        if (this.stayConnected) await this.bleDevice.disconnect();
-        this.timer = undefined;
+      {
+        count,
+        waitTime,
+        onFinish: async () => {
+          if (!this.stayConnected) await this.bleDevice.disconnect();
+          this.timer = undefined;
+        },
       }
     );
     await this.timer.done;

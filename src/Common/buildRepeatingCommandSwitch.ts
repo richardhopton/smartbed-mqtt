@@ -12,15 +12,15 @@ export const buildRepeatingCommandSwitch = <TCommand>(
   name: StringsKey,
   command: TCommand,
   category?: string,
-  duration?: number,
-  frequency?: number
+  count?: number,
+  waitTime?: number
 ) => {
   if (cache[name]) return;
 
   const entity = (cache[name] = new Switch(mqtt, deviceData, buildEntityConfig(name, category), async (state) => {
     if (!state) return cancelCommands();
     try {
-      await writeCommand(command, duration, frequency);
+      await writeCommand(command, count, waitTime);
       entity.setState(false);
     } catch (e) {
       logError(`[${context}] Failed to write '${getString(name)}'`, e);
