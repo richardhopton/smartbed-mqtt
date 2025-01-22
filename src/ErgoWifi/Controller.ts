@@ -53,6 +53,10 @@ export class Controller implements IController<number> {
 
     const { userId, authorize } = authDetails;
     const socket = await getConnection((socket) => socket.write(loginPayload(userId, authorize)));
+
+    // Attempt to fix ErgoWifi issue
+    if (commands.length === 1 && !count && !waitTime) return socket.write(commandPayload(this.device.id, commands[0]));
+
     this.timer = new Timer(
       () => loopWithWait(commands, async (command) => await socket.write(commandPayload(this.device.id, command))),
       {
