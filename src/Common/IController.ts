@@ -7,7 +7,7 @@ export interface IDeviceCache {
 }
 
 export interface IController<TCommand> extends IDeviceCache {
-  writeCommand: (command: TCommand, duration?: number, frequency?: number) => Promise<void>;
-  writeCommands: (commands: TCommand[], duration?: number, frequency?: number) => Promise<void>;
+  writeCommand: (command: TCommand, count?: number, waitTime?: number) => Promise<void>;
+  writeCommands: (commands: TCommand[], count?: number, waitTime?: number) => Promise<void>;
   cancelCommands: () => Promise<void>;
 }
