@@ -11,6 +11,7 @@ import { getDevices } from './options';
 import { setupLightEntities } from './setupLightEntities';
 import { setupPresetButtons } from './setupPresetButtons';
 import { supportedRemotes } from './supportedRemotes';
+import { setupMotorEntities } from './setupMotorEntities';
 
 const buildCommand = (command: number) => [0x4, 0x2, ...intToBytes(command)];
 
@@ -71,5 +72,6 @@ export const okimat = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
     if (modelNumber) logInfo('[Okimat] Model number:', modelNumber);
     setupLightEntities(mqtt, controller, remote);
     setupPresetButtons(mqtt, controller, remote);
+    setupMotorEntities(mqtt, controller, remote);
   }
 };
