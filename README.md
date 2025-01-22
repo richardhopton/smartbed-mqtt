@@ -284,10 +284,7 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 
 - Buttons to trigger the presets
 - Button for under bed lights
-
-## Possible future features:
-
-- Buttons/Cover to control raising and lowering head/feet
+- Covers to control motors for raising, lowering, and stopping the back & legs
 
 ## Notes
 
