@@ -8,6 +8,7 @@ import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import { setupLightEntities } from './setupLightEntities';
 import { setupMassageEntities } from './setupMassageEntities';
 import { setupPresetButtons } from './setupPresetButtons';
+import { setupMotorEntities } from './setupMotorEntities';
 
 const buildCommand = (command: number) => [0x4, 0x2, ...intToBytes(command)];
 
@@ -40,6 +41,7 @@ export const controllerBuilder = async (
   setupPresetButtons(mqtt, controller);
   setupLightEntities(mqtt, controller);
   setupMassageEntities(mqtt, controller);
+  setupMotorEntities(mqtt, controller);
 
   return controller;
 };
