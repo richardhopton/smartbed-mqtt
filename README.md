@@ -131,10 +131,7 @@ You must specify at least one Logicdata controller with `name` and `friendlyName
 - Buttons to trigger the user presets
 - Buttons to program the user presets
 - Controls for the head, lumbar & leg massage intesity & massage mode
-
-## Possible future features:
-
-- Buttons/Cover to control raising and lowering head/leg
+- Covers to control motors for raising, lowering, and stopping the head/legs
 
 ## Notes
 
