@@ -5,7 +5,7 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { getString } from '@utils/getString';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands, MassageZone } from './Commands';
-import { Controller } from './Controller';
+import { IController } from 'Common/IController';
 
 interface MassageEntities {
   massageStop?: Button;
@@ -15,7 +15,10 @@ interface MassageEntities {
   massagePreset?: Select;
 }
 
-export const setupMassageEntities = (mqtt: IMQTTConnection, { cache: cache, deviceData, writeCommand }: Controller) => {
+export const setupMassageEntities = (
+  mqtt: IMQTTConnection,
+  { cache: cache, deviceData, writeCommand }: IController<number[]>
+) => {
   const resetState = async () => {
     let { massagePreset, massageHead, massageLumbar, massageLeg } = cache as MassageEntities;
     massagePreset?.setIndex(0);
