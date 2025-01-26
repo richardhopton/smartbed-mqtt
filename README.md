@@ -112,6 +112,7 @@ You must specify an `ipAddress` (or DNS name), `friendlyName`, and `remoteStyle`
 - Buttons to trigger the presets
 - Button for under bed lights
 - Buttons to step thru the massage strengths for head & foot, massage mode, and toggle
+- Covers to control motors for raising, lowering, and stopping the head/feet/tilt/lumbar
 
 ## Notes
 
