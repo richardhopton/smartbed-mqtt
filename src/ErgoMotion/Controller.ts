@@ -22,16 +22,6 @@ export class Controller extends EventEmitter implements IController<number> {
     super();
   }
 
-  writeCommand = async (command: number, count?: number, waitTime?: number) => {
-    await this.timer?.cancel();
-
-    this.timer = new Timer(async () => await this.write(command), {
-      count,
-      waitTime,
-      onFinish: () => (this.timer = undefined),
-    });
-  };
-
   private write = (command: number) =>
     new Promise<void>((res, rej) => {
       const socket = createConnection(5000, this.device.ipAddress);
@@ -47,7 +37,19 @@ export class Controller extends EventEmitter implements IController<number> {
       });
     });
 
-  writeCommands = (commands: number[]) => loopWithWait(commands, this.writeCommand);
+  writeCommand = async (command: number, count?: number, waitTime?: number) =>
+    this.writeCommands([command], count, waitTime);
+
+  writeCommands = async (commands: number[], count?: number, waitTime?: number) => {
+    await this.timer?.cancel();
+
+    this.timer = new Timer(() => loopWithWait(commands, (command) => this.write(command)), {
+      count,
+      waitTime,
+      onFinish: () => (this.timer = undefined),
+    });
+    await this.timer.done;
+  };
 
   cancelCommands = async () => {
     await this.timer?.cancel();
