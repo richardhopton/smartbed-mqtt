@@ -6,6 +6,7 @@ import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import EventEmitter from 'events';
 import { IController } from '../Common/IController';
 import { IEventSource } from '../Common/IEventSource';
+import { arrayEquals } from '@utils/arrayEquals';
 
 export class BLEController<TCommand> extends EventEmitter implements IEventSource, IController<TCommand> {
   cache: Dictionary<Object> = {};
@@ -13,6 +14,7 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     return Object.keys(this.notifyHandles);
   }
   private timer?: Timer = undefined;
+  private notifyValues: Dictionary<Uint8Array> = {};
 
   constructor(
     public deviceData: IDeviceData,
@@ -20,12 +22,14 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     private handle: number,
     private commandBuilder: (command: TCommand) => number[],
     private notifyHandles: Dictionary<number> = {},
-    private stayConnected?: boolean
+    private stayConnected: boolean = false
   ) {
     super();
-    this.stayConnected ||= notifyHandles.length > 0;
-    Object.entries(notifyHandles).map(([key, handle]) => {
+    Object.entries(notifyHandles).forEach(([key, handle]) => {
+      this.stayConnected ||= true;
       void this.bleDevice.subscribeToCharacteristic(handle, (data) => {
+        const previous = this.notifyValues[key];
+        if (previous && arrayEquals(data, previous)) return;
         this.emit(key, data);
       });
     });
@@ -39,6 +43,10 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     if (commandList.length === 0) return;
     await this.timer?.cancel();
     await this.bleDevice.connect();
+    const onFinish = async () => {
+      if (!this.stayConnected) await this.bleDevice.disconnect();
+      this.timer = undefined;
+    };
     this.timer = new Timer(
       () =>
         loopWithWait(commandList, (command) =>
@@ -47,10 +55,7 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
       {
         count,
         waitTime,
-        onFinish: async () => {
-          if (!this.stayConnected) await this.bleDevice.disconnect();
-          this.timer = undefined;
-        },
+        onFinish,
       }
     );
     await this.timer.done;
@@ -58,5 +63,10 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
 
   cancelCommands = async () => {
     await this.timer?.cancel();
+  };
+
+  on = (eventName: string, handler: (data: Uint8Array) => void): this => {
+    this.addListener(eventName, handler);
+    return this;
   };
 }
