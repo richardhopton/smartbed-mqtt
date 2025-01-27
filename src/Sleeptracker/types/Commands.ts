@@ -16,27 +16,31 @@ export enum Commands {
   ProgramZeroG = 303,
 
   // Motor Controls
+  MotorHeadUp = 100,
+  MotorHeadDown = 101,
+  MotorHeadStop = 107,
 
-  // HeadUp = 100, // Needs to be Stopped
-  HeadUpIncrement = 110,
-  // HeadDown = 101, // Needs to be Stopped
-  HeadDownIncrement = 111,
-  // HeadStop = 107,
-  // FootUp = 102, // Needs to be Stopped
-  FootUpIncrement = 112,
-  // FootDown = 103, // Needs to be Stopped
-  FootDownIncrement = 113,
-  // FootStop = 108,
-  // LumbarUp = 104, // Needs to be Stopped
-  LumbarUpIncrement = 114,
-  // LumbarDown = 105, // Needs to be Stopped
-  LumbarDownIncrement = 115,
-  // LumbarStop = 106,
-  // HeadTiltUp = 120, // Needs to be Stopped
-  HeadTiltUpIncrement = 123,
-  // HeadTiltDown = 121, // Needs to be Stopped
-  HeadTiltDownIncrement = 124,
-  // HeadTiltStop = 122, // Needs to be Stopped
+  MotorFeetUp = 102,
+  MotorFeetDown = 103,
+  MotorFeetStop = 108,
+
+  MotorLumbarUp = 104,
+  MotorLumbarDown = 105,
+  MotorLumbarStop = 106,
+
+  MotorTiltUp = 120,
+  MotorTiltDown = 121,
+  MotorTiltStop = 122,
+
+  // MotorHeadUpIncrement = 110,
+  // MotorHeadDownIncrement = 111,
+  // MotorFeetUpIncrement = 112,
+  // MotorFeetDownIncrement = 113,
+  // MotorLumbarUpIncrement = 114,
+  // MotorLumbarDownIncrement = 115,
+  // MotorTiltUpIncrement = 123,
+  // MotorTiltDownIncrement = 124,
+
   MassageHeadStep = 210,
   MassageFootStep = 211,
   MassageStep = 225,
