@@ -21,7 +21,7 @@ export const ergomotion = async (mqtt: IMQTTConnection) => {
     const controller = new Controller(deviceData, device);
     controllers[ipAddress] = controller;
     logInfo('[ErgoMotion] Setting up bed', ipAddress);
-    setupPresetButtons(mqtt, controller);
+    setupPresetButtons(mqtt, controller, remoteStyle);
     if (remoteStyle == 'L') continue;
 
     setupMassageButtons(mqtt, controller);

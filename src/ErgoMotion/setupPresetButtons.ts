@@ -1,9 +1,14 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Commands } from 'Common/Commands';
 import { buildCommandButton } from 'Common/buildCommandButton';
-import { Controller } from './Controller';
+import { RemoteStyle } from './options';
+import { IController } from 'Common/IController';
 
-export const setupPresetButtons = (mqtt: IMQTTConnection, { device: { remoteStyle }, ...controller }: Controller) => {
+export const setupPresetButtons = (
+  mqtt: IMQTTConnection,
+  controller: IController<number>,
+  remoteStyle: RemoteStyle
+) => {
   buildCommandButton('ErgoMotion', mqtt, controller, 'PresetFlat', Commands.PresetFlat);
   buildCommandButton('ErgoMotion', mqtt, controller, 'PresetZeroG', Commands.PresetZeroG);
 
