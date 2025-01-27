@@ -9,27 +9,21 @@ export const setupMassageEntities = (
   { cache, deviceData, writeCommand }: IController<number[]>
 ) => {
   if (!cache.massageHead) {
-    const slider = (cache.massageHead = new NumberSlider(
+    cache.massageHead = new NumberSlider(
       mqtt,
       deviceData,
       { min: 0, max: 10, ...buildEntityConfig('MassageHead') },
       async (state) => await writeCommand(Commands.MassageHead(state))
-    ).setOnline());
-    on('notify', (bytes) => {
-      if (bytes.length === 9) slider.setState(bytes[4]);
-    });
+    ).setOnline();
   }
 
   if (!cache.massageFoot) {
-    const slider = (cache.massageFoot = new NumberSlider(
+    cache.massageFoot = new NumberSlider(
       mqtt,
       deviceData,
       { min: 0, max: 10, ...buildEntityConfig('MassageFoot') },
       async (state) => await writeCommand(Commands.MassageFoot(state))
-    ).setOnline());
-    on('notify', (bytes) => {
-      if (bytes.length === 9) slider.setState(bytes[5]);
-    });
+    ).setOnline();
   }
 
   if (!cache.massageWave) {
