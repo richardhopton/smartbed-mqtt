@@ -14,19 +14,17 @@ export class PositionalCover extends Cover {
     deviceData: IDeviceData,
     config: EntityConfig,
     onSetPosition: (position: number) => void,
-    private options: { positionOpen?: number; positionClosed?: number } = {}
+    private options: { positionOpen?: number; positionClosed?: number; onStop?: () => void } = {}
   ) {
     super(mqtt, deviceData, config, (message) => {
       switch (message) {
         case 'OPEN':
-          onSetPosition(options.positionOpen || 100);
-          break;
+          return onSetPosition(options.positionOpen || 100);
         case 'CLOSE':
-          onSetPosition(options.positionClosed || 0);
-          break;
+          return onSetPosition(options.positionClosed || 0);
         case 'STOP':
-          onSetPosition(this.position || 0);
-          break;
+          if (options.onStop) return options.onStop();
+          return onSetPosition(this.position || 0);
       }
     });
     this.positionTopic = `${this.baseTopic}/position`;

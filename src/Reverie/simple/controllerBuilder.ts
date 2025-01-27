@@ -7,6 +7,7 @@ import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 import { setupLightEntities } from './setupLightEntities';
 import { setupPresetButtons } from './setupPresetButtons';
 import { setupMassageEntities } from './setupMassageEntities';
+import { setupMotorEntities } from './setupMotorEntities';
 
 const buildCommand = (bytes: number[]) => [0x55, ...bytes, bytes.reduce((acc, cur) => acc ^ cur, 0x55)];
 
@@ -37,6 +38,7 @@ export const controllerBuilder = (
   setupPresetButtons(mqtt, controller);
   setupLightEntities(mqtt, controller);
   setupMassageEntities(mqtt, controller);
+  setupMotorEntities(mqtt, controller);
 
   return controller;
 };
