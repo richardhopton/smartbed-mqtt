@@ -14,8 +14,6 @@ interface MotorState {
 
 interface Cache {
   motorState?: MotorState & Cancelable;
-  headMotor?: PositionalCover;
-  feetMotor?: PositionalCover;
 }
 
 export const setupMotorEntities = (
@@ -61,12 +59,4 @@ export const setupMotorEntities = (
       { onStop: () => writeCommand(Commands.MotorStop) }
     ).setOnline();
   }
-
-  const { headMotor, feetMotor } = cache;
-
-  on('notify', (bytes) => {
-    if (bytes.length !== 9) return;
-    headMotor.setPosition(bytes[2]);
-    feetMotor.setPosition(bytes[3]);
-  });
 };

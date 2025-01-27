@@ -8,6 +8,7 @@ import { setupLightEntities } from './setupLightEntities';
 import { setupPresetButtons } from './setupPresetButtons';
 import { setupMassageEntities } from './setupMassageEntities';
 import { setupMotorEntities } from './setupMotorEntities';
+import { setupEventListeners } from './setupEventListeners';
 
 const buildCommand = (bytes: number[]) => [0x55, ...bytes, bytes.reduce((acc, cur) => acc ^ cur, 0x55)];
 
@@ -39,6 +40,7 @@ export const controllerBuilder = (
   setupLightEntities(mqtt, controller);
   setupMassageEntities(mqtt, controller);
   setupMotorEntities(mqtt, controller);
+  setupEventListeners(mqtt, controller);
 
   return controller;
 };
