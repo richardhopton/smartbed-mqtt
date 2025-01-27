@@ -22,6 +22,7 @@ import { getSleepSensors } from './requests/getSleepSensors';
 import { sendAdjustableBaseCommand } from './requests/sendAdjustableBaseCommand';
 import { Bed } from './types/Bed';
 import { Commands } from './types/Commands';
+import { setupMotorEntities } from './processors/motorEntities';
 
 const beds: Dictionary<Bed> = {};
 
@@ -59,6 +60,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
             smartBedControls: isSmartBed,
             antiSnorePreset: antiSnorePresetSupported,
             environmentSensors: helloData.productFeatures.includes('env_sensors'),
+            motors: helloData.productFeatures.includes('motors'),
           },
           data: { headAngleTicksPerDegree, footAngleTicksPerDegree },
           entities: {
@@ -109,12 +111,13 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
   const refreshDeviceData = async () => {
     for (const bed of Object.values(beds)) {
       logInfo('[Sleeptracker] Fetching data for bed', bed.processorId);
-      const { smartBedControls, environmentSensors } = bed.supportedFeatures;
+      const { smartBedControls, environmentSensors, motors } = bed.supportedFeatures;
       if (smartBedControls) {
         const snapshots = await sendAdjustableBaseCommand(Commands.Status, bed.primaryUser);
         for (const controller of bed.controllers) {
           await setupPresetButtons(mqtt, bed, controller);
           await setupMassageButtons(mqtt, bed, controller);
+          if (motors) await setupMotorEntities(mqtt, bed, controller);
 
           await processSnoreReliefSwitches(mqtt, bed, controller);
 
@@ -127,9 +130,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
           await processSafetyLightSwitches(mqtt, bed, controller, snapshot);
         }
       }
-      if (environmentSensors) {
-        await processEnvironmentSensors(mqtt, bed);
-      }
+      if (environmentSensors) await processEnvironmentSensors(mqtt, bed);
     }
   };
   await refreshDeviceData();

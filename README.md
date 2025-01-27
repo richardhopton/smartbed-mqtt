@@ -77,13 +77,12 @@ e.g.
 - Buttons to step thru the massage strengths, patterns & timer (auto turn off massage)
 - Sensors for Massage strengths and patterns
 - Support for split beds, and multiple beds
+- Covers to control motors for raising, lowering, and stopping the head/feet/tilt/lumbar
 
 ## Possible future features:
 
-- Buttons to control raising and lowering head/feet
 - Configuration of bed "alarm"
 - Service to trigger sleep summary email to be sent from Sleeptracker
-- Switches to control presets
 
 ## Features that can't be done:
 
