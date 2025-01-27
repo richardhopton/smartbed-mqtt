@@ -1,13 +1,12 @@
 import { NumberSlider } from '@ha/NumberSlider';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { IController } from 'Common/IController';
-import { IEventSource } from 'Common/IEventSource';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
 import { Commands } from './Commands';
 
 export const setupMassageEntities = (
   mqtt: IMQTTConnection,
-  { cache, deviceData, writeCommand, on }: IController<number[]> & IEventSource
+  { cache, deviceData, writeCommand }: IController<number[]>
 ) => {
   if (!cache.massageHead) {
     const slider = (cache.massageHead = new NumberSlider(

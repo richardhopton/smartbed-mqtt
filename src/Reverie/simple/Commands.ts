@@ -18,4 +18,15 @@ export const Commands = {
   MassageHead: (level: number) => [0x53, level],
   MassageFoot: (level: number) => [0x54, level],
   MassageWave: (level: number) => [0x40 + level],
+
+  MotorMove: (motor: 'head' | 'feet', position: number) => {
+    switch (motor) {
+      case 'head':
+        return [0x51, position];
+      case 'feet':
+        return [0x52, position];
+    }
+  },
+
+  MotorStop: [0xff],
 };

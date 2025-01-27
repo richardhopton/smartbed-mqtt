@@ -236,10 +236,10 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 - Buttons to program the user presets
 - Button to toggle under bed lights
 - Controls for the head & foot massage intesity & massage wave
+- Covers to control motors for setting the position of the head/feet
 
 ## Possible future features:
 
-- Buttons/Cover to control raising and lowering head/feet
 - Controls for the under bed light brightness
 
 ## Notes
