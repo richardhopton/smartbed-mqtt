@@ -9,6 +9,7 @@ import { setupDeviceInfoSensor } from './setupDeviceInfoSensor';
 import { setupMassageButtons } from './setupMassageButtons';
 import { setupPresetButtons } from './setupPresetButtons';
 import { setupSafetyLightsButton } from './setupSafetyLightsButton';
+import { setupMotorEntities } from './setupMotorEntities';
 
 const controllers: Dictionary<Controller> = {};
 export const ergowifi = async (mqtt: IMQTTConnection) => {
@@ -32,6 +33,7 @@ export const ergowifi = async (mqtt: IMQTTConnection) => {
       logInfo('[ErgoWifi] Setting up bed', device.id);
       setupDeviceInfoSensor(mqtt, controller);
       setupPresetButtons(mqtt, controller, remoteStyle);
+      setupMotorEntities(mqtt, controller);
       if (remoteStyle == 'L') continue;
 
       setupMassageButtons(mqtt, controller);
