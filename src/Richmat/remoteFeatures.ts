@@ -23,6 +23,24 @@ export const remoteFeatures: Dictionary<number> = {
     Features.MassageToggle |
     Features.MotorHead |
     Features.MotorFeet,
+  BVRM:
+    Features.PresetFlat |
+    Features.PresetAntiSnore |
+    Features.PresetMemory1 |
+    Features.PresetMemory2 |
+    Features.PresetTV |
+    Features.PresetZeroG |
+    Features.ProgramAntiSnore |
+    Features.ProgramMemory1 |
+    Features.ProgramMemory2 |
+    Features.ProgramTV |
+    Features.ProgramZeroG |
+    Features.MassageHeadStep |
+    Features.MassageFootStep |
+    Features.MassageMode |
+    Features.MassageToggle |
+    Features.MotorHead |
+    Features.MotorFeet,
   VIRM:
     Features.PresetFlat |
     Features.PresetZeroG |
