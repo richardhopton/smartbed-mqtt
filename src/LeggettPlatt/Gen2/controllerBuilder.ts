@@ -9,6 +9,7 @@ import { setupDebugEntities } from './setupDebugEntities';
 import { setupLightEntities } from './setupLightEntities';
 import { setupMassageEntities } from './setupMassageEntities';
 import { setupPresetButtons } from './setupPresetButtons';
+import { setupMotorEntities } from './setupMotorEntities';
 
 export const controllerBuilder = (
   mqtt: IMQTTConnection,
@@ -47,6 +48,7 @@ export const controllerBuilder = (
   setupPresetButtons(mqtt, controller);
   setupLightEntities(mqtt, controller);
   setupMassageEntities(mqtt, controller);
+  setupMotorEntities(mqtt, controller);
   setupDebugEntities(mqtt, controller);
 
   return controller;

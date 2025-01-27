@@ -7,6 +7,7 @@ import { getDevices } from './options';
 import { setupMassageButtons } from './setupMassageButtons';
 import { setupPresetButtons } from './setupPresetButtons';
 import { setupSafetyLightsButton } from './setupSafetyLightsButton';
+import { setupMotorEntities } from './setupMotorEntities';
 
 const controllers: Dictionary<Controller> = {};
 export const ergomotion = async (mqtt: IMQTTConnection) => {
@@ -22,6 +23,7 @@ export const ergomotion = async (mqtt: IMQTTConnection) => {
     controllers[ipAddress] = controller;
     logInfo('[ErgoMotion] Setting up bed', ipAddress);
     setupPresetButtons(mqtt, controller);
+    setupMotorEntities(mqtt, controller);
     if (remoteStyle == 'L') continue;
 
     setupMassageButtons(mqtt, controller);

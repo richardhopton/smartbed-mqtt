@@ -1,5 +1,4 @@
 import { IDeviceData } from '@ha/IDeviceData';
-import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { Timer } from '@utils/Timer';
 import { loopWithWait } from '@utils/loopWithWait';
@@ -8,7 +7,7 @@ import { Socket, createSocket } from 'dgram';
 import EventEmitter from 'events';
 
 export class Controller extends EventEmitter implements IController<number[]> {
-  entities: Dictionary<Entity> = {};
+  cache: Dictionary<Object> = {};
   socket: Socket;
   private timer?: Timer = undefined;
 
@@ -17,7 +16,7 @@ export class Controller extends EventEmitter implements IController<number[]> {
     this.socket = createSocket('udp4');
   }
 
-  writeCommand = (command: number[]) =>
+  private writeBytes = (command: number[]) =>
     new Promise<void>((res, rej) => {
       const onMessage = (message: Buffer) => {
         this.socket.off('message', onMessage);
@@ -29,15 +28,18 @@ export class Controller extends EventEmitter implements IController<number[]> {
       });
     });
 
-  writeCommands = async (commands: number[][], duration?: number, frequency?: number) => {
+  writeCommand = async (command: number[], count?: number, waitTime?: number) =>
+    this.writeCommands([command], count, waitTime);
+
+  writeCommands = async (commands: number[][], count?: number, waitTime?: number) => {
     await this.timer?.cancel();
 
-    this.timer = new Timer(
-      async () => await loopWithWait(commands, (command) => this.writeCommand(command)),
-      duration,
-      frequency,
-      () => (this.timer = undefined)
-    );
+    this.timer = new Timer(() => loopWithWait(commands, (command) => this.writeBytes(command)), {
+      count,
+      waitTime,
+      onFinish: () => (this.timer = undefined),
+    });
+    await this.timer.done;
   };
 
   cancelCommands = async () => {

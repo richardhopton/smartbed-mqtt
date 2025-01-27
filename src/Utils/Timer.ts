@@ -3,39 +3,50 @@ import { wait } from '@utils/wait';
 
 export class Timer {
   public done = new Deferred<void>();
-  private count: number = 1;
-  private canceled = false;
+  private canceled = new Deferred<void>();
+  private isCanceled = false;
+
+  private count: number;
+  private waitTime?: number;
+  private waitAtEnd?: boolean;
+  private onFinish?: () => void | Promise<void>;
 
   constructor(
     private onTick: () => void | Promise<void>,
-    duration?: number,
-    private frequency?: number,
-    private onFinish?: () => void | Promise<void>,
-    autoStart = true
+    options: {
+      count?: number;
+      waitTime?: number;
+      onFinish?: () => void | Promise<void>;
+    } = {}
   ) {
-    if (duration && !frequency) frequency = 200;
-    if (frequency) {
-      if (!duration) duration = 10_000;
-      this.count = Math.trunc(duration / frequency);
-    }
-    if (autoStart) void this.start();
+    this.count = options.count || 1;
+    this.waitTime = options.waitTime;
+    this.waitAtEnd = this.count === 1 && !!options.waitTime;
+    this.onFinish = options.onFinish;
+
+    void this.start();
   }
 
   start = async () => {
     while (this.count > 0) {
       try {
-        await this.onTick();
+        const remainingCount = --this.count;
+
+        const promises = [this.onTick()];
+        if (this.waitTime && (remainingCount || this.waitAtEnd)) promises.push(wait(this.waitTime));
+        await Promise.any([this.canceled, Promise.all(promises)]);
       } catch (err) {
         this.done.reject(err);
       }
-      if (--this.count > 0 && this.frequency) await wait(this.frequency);
+      if (this.isCanceled) break;
     }
-    if (this.onFinish && !this.canceled) await this.onFinish();
+    if (this.onFinish && !this.isCanceled) await this.onFinish();
     this.done.resolve();
   };
 
   cancel = async () => {
-    this.canceled = true;
+    this.canceled.resolve();
+    this.isCanceled = true;
     this.count = 0;
     await this.done;
   };

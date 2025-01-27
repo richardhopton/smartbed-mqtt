@@ -8,6 +8,7 @@ import { getDeviceId } from './getDeviceId';
 import { getDevices } from './options';
 import { setupMassageEntities } from './setupMassageEntities';
 import { setupPresetButtons } from './setupPresetButtons';
+import { setupMotorEntities } from './setupMotorEntities';
 
 export const logicdata = async (mqtt: IMQTTConnection) => {
   const devices = getDevices();
@@ -33,5 +34,6 @@ export const logicdata = async (mqtt: IMQTTConnection) => {
     logInfo('[Logicdata] Setting up entities for device:', name);
     setupPresetButtons(mqtt, controller);
     setupMassageEntities(mqtt, controller);
+    setupMotorEntities(mqtt, controller);
   }
 };

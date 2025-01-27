@@ -8,23 +8,20 @@ import { buildEntityConfig } from './buildEntityConfig';
 export const buildCommandButton = <TCommand>(
   context: string,
   mqtt: IMQTTConnection,
-  controller: IController<TCommand>,
+  { cache, deviceData, writeCommand }: IController<TCommand>,
   name: StringsKey,
   command: TCommand,
   category?: string,
-  duration?: number,
-  frequency?: number
+  count?: number,
+  waitTime?: number
 ) => {
-  const { entities, deviceData, writeCommand } = controller;
-  let button = entities[name];
-  if (!button) {
-    button = entities[name] = new Button(mqtt, deviceData, buildEntityConfig(name, category), async () => {
-      try {
-        await writeCommand(command, duration, frequency);
-      } catch (e) {
-        logError(`[${context}] Failed to write '${getString(name)}'`, e);
-      }
-    });
-  }
-  button.setOnline();
+  if (cache[name]) return;
+
+  cache[name] = new Button(mqtt, deviceData, buildEntityConfig(name, category), async () => {
+    try {
+      await writeCommand(command, count, waitTime);
+    } catch (e) {
+      logError(`[${context}] Failed to write '${getString(name)}'`, e);
+    }
+  }).setOnline();
 };

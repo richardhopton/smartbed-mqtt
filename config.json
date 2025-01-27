@@ -51,7 +51,7 @@
       {
         "name": "QRRM12345",
         "friendlyName": "Richmat Bed",
-        "remoteCode": "V1RM",
+        "remoteCode": "VIRM",
         "stayConnected": "false"
       }
     ],
@@ -59,7 +59,8 @@
       {
         "name": "LINAK Bed 0123",
         "friendlyName": "Linak Bed",
-        "hasMassage": true
+        "hasMassage": true,
+        "motorCount": 2
       }
     ],
     "solaceDevices": [
@@ -97,6 +98,13 @@
       {
         "name": "KSBT03C000015046",
         "friendlyName": "Keeson Bed"
+      }
+    ],
+    "octoDevices": [
+      {
+        "name": "RC2",
+        "friendlyName": "Octo Bed",
+        "pin": "1234"
       }
     ]
   },
@@ -156,7 +164,8 @@
       {
         "name": "str",
         "friendlyName": "str",
-        "hasMassage": "bool?"
+        "hasMassage": "bool?",
+        "motorCount": "int?"
       }
     ],
     "solaceDevices": [
@@ -195,6 +204,13 @@
       {
         "name": "str",
         "friendlyName": "str"
+      }
+    ],
+    "octoDevices": [
+      {
+        "name": "str",
+        "friendlyName": "str",
+        "pin": "str?"
       }
     ]
   }

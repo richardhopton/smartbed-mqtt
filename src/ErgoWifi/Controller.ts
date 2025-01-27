@@ -1,5 +1,4 @@
 import { IDeviceData } from '@ha/IDeviceData';
-import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { Timer } from '@utils/Timer';
 import { intToBytes } from '@utils/intToBytes';
@@ -38,15 +37,15 @@ const commandPayload = (id: number, command: number) => {
 };
 
 export class Controller implements IController<number> {
-  entities: Dictionary<Entity> = {};
+  cache: Dictionary<Object> = {};
   private timer?: Timer = undefined;
 
   constructor(public deviceData: IDeviceData, public device: Device, public user: Credentials) {}
 
-  writeCommand = async (command: number, duration?: number, frequency?: number) =>
-    this.writeCommands([command], duration, frequency);
+  writeCommand = async (command: number, count?: number, waitTime?: number) =>
+    this.writeCommands([command], count, waitTime);
 
-  writeCommands = async (commands: number[], duration?: number, frequency?: number) => {
+  writeCommands = async (commands: number[], count?: number, waitTime?: number) => {
     await this.timer?.cancel();
 
     const authDetails = await getAuthDetails(this.user);
@@ -54,12 +53,17 @@ export class Controller implements IController<number> {
 
     const { userId, authorize } = authDetails;
     const socket = await getConnection((socket) => socket.write(loginPayload(userId, authorize)));
+
+    // Attempt to fix ErgoWifi issue
+    if (commands.length === 1 && !count && !waitTime) return socket.write(commandPayload(this.device.id, commands[0]));
+
     this.timer = new Timer(
-      async () =>
-        await loopWithWait(commands, async (command) => await socket.write(commandPayload(this.device.id, command))),
-      duration,
-      frequency,
-      () => (this.timer = undefined)
+      () => loopWithWait(commands, async (command) => await socket.write(commandPayload(this.device.id, command))),
+      {
+        count,
+        waitTime,
+        onFinish: () => (this.timer = undefined),
+      }
     );
   };
 

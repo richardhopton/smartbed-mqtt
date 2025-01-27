@@ -1,5 +1,4 @@
 import { IDeviceData } from '@ha/IDeviceData';
-import { Entity } from '@ha/base/Entity';
 import { Dictionary } from '@utils/Dictionary';
 import { Timer } from '@utils/Timer';
 import { intToBytes } from '@utils/intToBytes';
@@ -16,23 +15,12 @@ const commandPayload = (command: number) => {
 };
 
 export class Controller extends EventEmitter implements IController<number> {
-  entities: Dictionary<Entity> = {};
+  cache: Dictionary<Object> = {};
   private timer?: Timer = undefined;
 
   constructor(public deviceData: IDeviceData, public device: ErgoMotionDevice) {
     super();
   }
-
-  writeCommand = async (command: number, duration?: number, frequency?: number) => {
-    await this.timer?.cancel();
-
-    this.timer = new Timer(
-      async () => await this.write(command),
-      duration,
-      frequency,
-      () => (this.timer = undefined)
-    );
-  };
 
   private write = (command: number) =>
     new Promise<void>((res, rej) => {
@@ -49,7 +37,19 @@ export class Controller extends EventEmitter implements IController<number> {
       });
     });
 
-  writeCommands = (commands: number[]) => loopWithWait(commands, this.writeCommand);
+  writeCommand = async (command: number, count?: number, waitTime?: number) =>
+    this.writeCommands([command], count, waitTime);
+
+  writeCommands = async (commands: number[], count?: number, waitTime?: number) => {
+    await this.timer?.cancel();
+
+    this.timer = new Timer(() => loopWithWait(commands, (command) => this.write(command)), {
+      count,
+      waitTime,
+      onFinish: () => (this.timer = undefined),
+    });
+    await this.timer.done;
+  };
 
   cancelCommands = async () => {
     await this.timer?.cancel();
