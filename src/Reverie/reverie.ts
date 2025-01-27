@@ -1,16 +1,15 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
-import { logError, logInfo } from '@utils/logger';
-import { BLEController } from 'BLE/BLEController';
+import { logError, logInfo, logWarn } from '@utils/logger';
 import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
 import { getDevices } from './options';
-import { setupLightEntities } from './setupLightEntities';
-import { setupMassageEntities } from './setupMassageEntities';
-import { setupPresetButtons } from './setupPresetButtons';
+import { isSupported as isSimpleSupported } from './simple/isSupported';
+import { controllerBuilder as simpleControllerBuilder } from './simple/controllerBuilder';
 
-const buildCommand = (bytes: number[]) => [...bytes, bytes.reduce((acc, cur) => acc ^ cur, 0)];
+const checks = [isSimpleSupported];
+const controllerBuilders = [simpleControllerBuilder];
 
 export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
@@ -22,31 +21,31 @@ export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
     const { name, mac, address, connect, disconnect, getServices } = bleDevice;
-    const device = devicesMap[mac] || devicesMap[name];
-    const deviceData = buildMQTTDeviceData({ ...device, address }, 'Reverie');
-    await connect();
-    const services = await getServices();
-    const service = services.find((s) => s.uuid === '1b1d9641-b942-4da8-89cc-98e6a58fbd93');
-    if (!service) {
-      logInfo('[Reverie] Could not find expected services for device:', name);
-      await disconnect();
-      continue;
-    }
-    const characteristic = service.characteristicsList.find((c) => c.uuid === '6af87926-dc79-412e-a3e0-5f85c2d55de2');
-    if (!characteristic) {
-      logInfo('[Reverie] Could not find expected characteristic for device:', name);
-      await disconnect();
+
+    const controllerBuilder = checks
+      .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
+      .filter((check) => check)[0];
+    if (controllerBuilder === undefined) {
+      const { manufacturerDataList, serviceUuidsList } = bleDevice;
+      logWarn(
+        '[Reverie] Device not supported, please contact me on Discord',
+        name,
+        JSON.stringify({ name, address, manufacturerDataList, serviceUuidsList })
+      );
       continue;
     }
 
-    const { handle } = characteristic;
-    const controller = new BLEController(deviceData, bleDevice, handle, buildCommand, {
-      notify: handle,
-    });
-    logInfo('[Reverie] Setting up entities for device:', name);
-    setupPresetButtons(mqtt, controller);
-    setupLightEntities(mqtt, controller);
-    setupMassageEntities(mqtt, controller);
+    const device = devicesMap[mac] || devicesMap[name];
+    const deviceData = buildMQTTDeviceData({ ...device, address }, 'Reverie');
+    await connect();
+
+    const services = await getServices();
+
+    const controller = await controllerBuilder(mqtt, deviceData, bleDevice, services);
+    if (!controller) {
+      await disconnect();
+      continue;
+    }
 
     const deviceInfo = await bleDevice.getDeviceInfo();
     if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
