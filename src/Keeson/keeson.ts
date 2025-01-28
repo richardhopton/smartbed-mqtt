@@ -1,8 +1,6 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
-import { intToBytes } from '@utils/intToBytes';
-import { logError, logInfo } from '@utils/logger';
-import { BLEController } from 'BLE/BLEController';
+import { logError, logInfo, logWarn } from '@utils/logger';
 import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
 import { IESPConnection } from 'ESPHome/IESPConnection';
@@ -10,8 +8,11 @@ import { getDevices } from './options';
 import { setupMassageButtons } from './setupMassageButtons';
 import { setupPresetButtons } from './setupPresetButtons';
 import { setupMotorEntities } from './setupMotorEntities';
+import { isSupported as isKSBTSupported } from './KSBT/isSupported';
+import { controllerBuilder as ksbtControllerBuilder } from './KSBT/controllerBuilder';
 
-const buildCommand = (command: number) => [0x4, 0x2, ...intToBytes(command)];
+const checks = [isKSBTSupported];
+const controllerBuilders = [ksbtControllerBuilder];
 
 export const keeson = async (mqtt: IMQTTConnection, esphome: IESPConnection): Promise<void> => {
   const devices = getDevices();
@@ -31,31 +32,36 @@ export const keeson = async (mqtt: IMQTTConnection, esphome: IESPConnection): Pr
       logInfo(`[Keeson] Device not found in configuration for MAC: ${mac} or Name: ${name}`);
       continue;
     }
+    const controllerBuilder = checks
+      .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
+      .filter((check) => check)[0];
+    if (controllerBuilder === undefined) {
+      const { manufacturerDataList, serviceUuidsList } = bleDevice;
+      logWarn(
+        '[Keeson] Device not supported, please contact me on Discord',
+        name,
+        JSON.stringify({ name, address, manufacturerDataList, serviceUuidsList })
+      );
+      continue;
+    }
+
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Keeson');
     await connect();
+
     const services = await getServices();
 
-    const service = services.find((s) => s.uuid === '6e400001-b5a3-f393-e0a9-e50e24dcca9e');
-    if (!service) {
-      logInfo('[Keeson] Could not find expected services for device:', name);
+    const controller = await controllerBuilder(deviceData, bleDevice, services);
+    if (!controller) {
       await disconnect();
       continue;
     }
-
-    const characteristic = service.characteristicsList.find((c) => c.uuid === '6e400002-b5a3-f393-e0a9-e50e24dcca9e');
-    if (!characteristic) {
-      logInfo('[Keeson] Could not find expected characteristic for device:', name);
-      await disconnect();
-      continue;
-    }
-
-    const controller = new BLEController(deviceData, bleDevice, characteristic.handle, buildCommand, {}, true);
 
     logInfo('[Keeson] Setting up entities for device:', name);
-    const deviceInfo = await getDeviceInfo();
-    if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
     setupPresetButtons(mqtt, controller);
     setupMassageButtons(mqtt, controller);
     setupMotorEntities(mqtt, controller);
+
+    const deviceInfo = await getDeviceInfo();
+    if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
   }
 };
