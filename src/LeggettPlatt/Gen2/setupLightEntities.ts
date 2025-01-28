@@ -2,7 +2,6 @@ import { Light, LightState } from '@ha/Light';
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { getString } from '@utils/getString';
 import { IController } from 'Common/IController';
-import { IEventSource } from 'Common/IEventSource';
 import { Commands } from './Commands';
 
 const WHITE = { r: 255, g: 255, b: 255 };
@@ -10,7 +9,7 @@ const DEFAULT_STATE = { color: WHITE, brightness: 255 };
 
 export const setupLightEntities = (
   mqtt: IMQTTConnection,
-  { deviceData, cache, writeCommand, on }: IController<number[]> & IEventSource
+  { deviceData, cache, writeCommand }: IController<number[]>
 ) => {
   if (cache.underBedLights) return;
 
@@ -36,10 +35,4 @@ export const setupLightEntities = (
       return newState;
     }
   ).setOnline());
-  on('read', (data: Uint8Array) => {
-    const [status, r, g, b, brightness] = data.slice(6, 11);
-    light.setState(
-      status === 0x1 ? { status: true, brightness, color: { r, g, b } } : { ...(light.getState() || {}), status: false }
-    );
-  });
 };
