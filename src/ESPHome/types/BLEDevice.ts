@@ -3,12 +3,15 @@ import { Dictionary } from '@utils/Dictionary';
 import { BLEManufacturerData } from './BLEAdvertisement';
 import { BLEDeviceInfo } from './BLEDeviceInfo';
 import { IBLEDevice } from './IBLEDevice';
+import { logInfo } from '@utils/logger';
 
 export class BLEDevice implements IBLEDevice {
   private connected = false;
   private paired = false;
 
   private servicesList?: BluetoothGATTService[] = undefined;
+  private serviceCache: Dictionary<BluetoothGATTService | null> = {};
+
   private deviceInfo?: BLEDeviceInfo = undefined;
 
   constructor(
@@ -46,12 +49,29 @@ export class BLEDevice implements IBLEDevice {
     await this.connection.writeBluetoothGATTCharacteristicService(this.address, handle, bytes, response);
   };
 
-  getServices = async () => {
+  private getServices = async () => {
     if (!this.servicesList) {
       const { servicesList } = await this.connection.listBluetoothGATTServicesService(this.address);
       this.servicesList = servicesList;
     }
     return this.servicesList;
+  };
+
+  getCharacteristic = async (serviceUuid: string, characteristicUuid: string, writeLogs = true) => {
+    const service = await this.getService(serviceUuid);
+
+    if (!service) {
+      writeLogs && logInfo('[BLE] Could not find expected service for device:', serviceUuid, this.name);
+      return undefined;
+    }
+
+    const characteristic = service?.characteristicsList?.find((c) => c.uuid === characteristicUuid);
+    if (!characteristic) {
+      writeLogs && logInfo('[BLE] Could not find expected characteristic for device:', characteristicUuid, this.name);
+      return undefined;
+    }
+
+    return characteristic;
   };
 
   subscribeToCharacteristic = async (handle: number, notify: (data: Uint8Array) => void) => {
@@ -92,5 +112,15 @@ export class BLEDevice implements IBLEDevice {
     }
 
     return this.deviceInfo;
+  };
+
+  private getService = async (serviceUuid: string) => {
+    const cachedService = this.serviceCache[serviceUuid];
+    if (cachedService !== undefined) return cachedService;
+
+    const services = await this.getServices();
+    const service = services.find((s) => s.uuid === serviceUuid) || null;
+    this.serviceCache[serviceUuid] = service;
+    return service;
   };
 }

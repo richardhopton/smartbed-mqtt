@@ -22,7 +22,7 @@ export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnectio
   if (deviceNames.length !== devices.length) return logError('[LeggettPlatt] Duplicate name detected in configuration');
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
-    const { name, mac, address, connect, disconnect, getServices } = bleDevice;
+    const { name, mac, address, connect, disconnect } = bleDevice;
 
     const controllerBuilder = checks
       .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
@@ -41,9 +41,7 @@ export const leggettplatt = async (mqtt: IMQTTConnection, esphome: IESPConnectio
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'LeggettPlatt');
     await connect();
 
-    const services = await getServices();
-
-    const controller = await controllerBuilder(mqtt, deviceData, bleDevice, services);
+    const controller = await controllerBuilder(mqtt, deviceData, bleDevice);
     if (!controller) {
       await disconnect();
       continue;

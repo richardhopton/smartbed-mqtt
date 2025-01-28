@@ -21,20 +21,16 @@ export const solace = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
   if (deviceNames.length !== devices.length) return logError('[Solace] Duplicate name detected in configuration');
   const bleDevices = await esphome.getBLEDevices(deviceNames, nameMapper);
   for (const bleDevice of bleDevices) {
-    const { name, mac, address, connect, disconnect, getServices } = bleDevice;
+    const { name, mac, address, connect, disconnect, getCharacteristic } = bleDevice;
     const device = devicesMap[mac] || devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Solace');
     await connect();
-    const services = await getServices();
-    const service = services.find((s) => s.uuid === '0000ffe0-0000-1000-8000-00805f9b34fb');
-    if (!service) {
-      logInfo('[Solace] Could not find expected services for device:', name);
-      await disconnect();
-      continue;
-    }
-    const characteristic = service.characteristicsList.find((c) => c.uuid === '0000ffe1-0000-1000-8000-00805f9b34fb');
+
+    const characteristic = await getCharacteristic(
+      '0000ffe0-0000-1000-8000-00805f9b34fb',
+      '0000ffe1-0000-1000-8000-00805f9b34fb'
+    );
     if (!characteristic) {
-      logInfo('[Solace] Could not find expected characteristic for device:', name);
       await disconnect();
       continue;
     }

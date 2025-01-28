@@ -25,7 +25,7 @@ export const keeson = async (mqtt: IMQTTConnection, esphome: IESPConnection): Pr
 
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
-    const { name, mac, address, connect, disconnect, getServices, getDeviceInfo } = bleDevice;
+    const { name, mac, address, connect, disconnect, getDeviceInfo } = bleDevice;
     const device = devicesMap[mac] || devicesMap[name];
 
     if (!device) {
@@ -48,9 +48,7 @@ export const keeson = async (mqtt: IMQTTConnection, esphome: IESPConnection): Pr
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Keeson');
     await connect();
 
-    const services = await getServices();
-
-    const controller = await controllerBuilder(deviceData, bleDevice, services);
+    const controller = await controllerBuilder(deviceData, bleDevice);
     if (!controller) {
       await disconnect();
       continue;

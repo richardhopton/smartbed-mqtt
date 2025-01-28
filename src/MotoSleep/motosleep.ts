@@ -19,26 +19,21 @@ export const motosleep = async (mqtt: IMQTTConnection, esphome: IESPConnection) 
   if (deviceNames.length !== devices.length) return logError('[MotoSleep] Duplicate name detected in configuration');
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
-    const { name, mac, address, connect, disconnect, getServices } = bleDevice;
+    const { name, mac, address, connect, disconnect, getCharacteristic } = bleDevice;
     const device = devicesMap[mac] || devicesMap[name];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'MotoSleep');
     await connect();
-    const services = await getServices();
-    if (!device.stayConnected) await disconnect();
 
-    const service = services.find((s) => s.uuid === '0000ffe0-0000-1000-8000-00805f9b34fb');
-    if (!service) {
-      logInfo('[MotoSleep] Could not find expected services for device:', name);
-      await disconnect();
-      continue;
-    }
-
-    const characteristic = service.characteristicsList.find((c) => c.uuid === '0000ffe1-0000-1000-8000-00805f9b34fb');
+    const characteristic = await getCharacteristic(
+      '0000ffe0-0000-1000-8000-00805f9b34fb',
+      '0000ffe1-0000-1000-8000-00805f9b34fb'
+    );
     if (!characteristic) {
-      logInfo('[MotoSleep] Could not find expected characteristic for device:', name);
       await disconnect();
       continue;
     }
+
+    if (!device.stayConnected) await disconnect();
 
     const controller = new BLEController(
       deviceData,
