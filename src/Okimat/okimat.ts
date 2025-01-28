@@ -1,5 +1,4 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { Dictionary } from '@utils/Dictionary';
 import { buildDictionary } from '@utils/buildDictionary';
 import { intToBytes } from '@utils/intToBytes';
 import { logError, logInfo } from '@utils/logger';
@@ -24,7 +23,7 @@ export const okimat = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
   if (deviceNames.length !== devices.length) return logError('[Okimat] Duplicate name detected in configuration');
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
-    const { name, mac, address, connect, pair, disconnect, getServices, getDeviceInfo } = bleDevice;
+    const { name, mac, address, connect, pair, disconnect, getCharacteristic, getDeviceInfo } = bleDevice;
     const { remoteCode, ...device } = devicesMap[mac] || devicesMap[name];
     const remote = supportedRemotes[remoteCode];
     if (!remote) {
@@ -35,28 +34,21 @@ export const okimat = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
     await connect();
     await pair();
 
-    const services = await getServices();
-    const service = services.find((s) => s.uuid === '62741523-52f9-8864-b1ab-3b3a8d65950b');
-    if (!service) {
-      logInfo('[Okimat] Could not find expected services for device:', name);
-      await disconnect();
-      continue;
-    }
-
-    const writeCharacteristic = service.characteristicsList.find(
-      (c) => c.uuid === '62741525-52f9-8864-b1ab-3b3a8d65950b'
+    const writeCharacteristic = await getCharacteristic(
+      '62741523-52f9-8864-b1ab-3b3a8d65950b',
+      '62741525-52f9-8864-b1ab-3b3a8d65950b'
     );
     if (!writeCharacteristic) {
-      logInfo('[Okimat] Could not find expected characteristic for device:', name);
       await disconnect();
       continue;
     }
 
-    const notifyHandles: Dictionary<number> = {};
-    const feedbackCharacteristic = service.characteristicsList.find(
-      (c) => c.uuid === '62741625-52f9-8864-b1ab-3b3a8d65950b'
+    const feedbackCharacteristic = await getCharacteristic(
+      '62741523-52f9-8864-b1ab-3b3a8d65950b',
+      '62741625-52f9-8864-b1ab-3b3a8d65950b',
+      false
     );
-    if (feedbackCharacteristic) notifyHandles['feedback'] = feedbackCharacteristic.handle;
+    const notifyHandles = feedbackCharacteristic && { feedback: feedbackCharacteristic.handle };
 
     const controller = new BLEController(
       deviceData,
