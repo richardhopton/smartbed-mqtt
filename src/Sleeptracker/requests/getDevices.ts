@@ -28,7 +28,7 @@ export const getDevices = async (credentials: Credentials) => {
         types: [1, 2, 4, 6],
       },
     });
-    return response.data.deviceList;
+    return (response.data.deviceList || []).filter((d) => d.active);
   } catch (err) {
     logError(err);
     return [];

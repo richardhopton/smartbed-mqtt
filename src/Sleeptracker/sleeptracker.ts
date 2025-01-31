@@ -31,7 +31,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
   if (!users.length) return logInfo('[Sleeptracker] No users configured');
   for (const user of users) {
     const devices = await getDevices(user);
-    if (!devices || devices.length === 0) {
+    if (devices.length === 0) {
       return logError('[Sleeptracker] Could not load devices');
     }
     for (const device of devices) {
