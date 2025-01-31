@@ -10,9 +10,11 @@ import { setupPresetButtons } from './setupPresetButtons';
 import { setupMotorEntities } from './setupMotorEntities';
 import { isSupported as isKSBTSupported } from './KSBT/isSupported';
 import { controllerBuilder as ksbtControllerBuilder } from './KSBT/controllerBuilder';
+import { isSupported as isBaseI5Supported } from './BaseI5/isSupported';
+import { controllerBuilder as baseI5ControllerBuilder } from './BaseI5/controllerBuilder';
 
-const checks = [isKSBTSupported];
-const controllerBuilders = [ksbtControllerBuilder];
+const checks = [isKSBTSupported, isBaseI5Supported];
+const controllerBuilders = [ksbtControllerBuilder, baseI5ControllerBuilder];
 
 export const keeson = async (mqtt: IMQTTConnection, esphome: IESPConnection): Promise<void> => {
   const devices = getDevices();
