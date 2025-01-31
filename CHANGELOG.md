@@ -1,3 +1,35 @@
+## v1.1.19
+
+**New Features**
+
+- (HomeAssistant) Add new cover entity type
+- (Common) Improve the delays in commands
+- (Keeson) Add support for base-i5 controllers
+- (MotoSleep) Added antisnore, ZeroG, and TV features to new beds
+- (MotoSleep) Expand massage support for 3-motor beds
+- (Octo) Add support for Octo controlled beds
+- (Okimat) Add support for programming memory positions
+- (Okimat) Add support for 82417 remote code
+- (Okimat) Add support for 91244 remote code
+- (Richmat) Add support for AZRN remote code
+- (Richmat) Add support for BVRM remote code
+- (Richmat) Error if unsupported remote code used
+
+**_Motor Controls_**
+
+- (ErgoMotion) Add prototype motor control entities
+- (ErgoWifi) Add prototype motor control entities
+- (Keeson) Add prototype motor control entities
+- (LeggettPlatt) Add prototype motor control entities
+- (Linak) Add prototype motor control entities
+- (Logicdata) Add prototype motor control entities
+- (MotoSleep) Add prototype motor control entities
+- (Okimat) Add prototype motor control entities
+- (Reverie) Add prototype motor control entities
+- (Richmat) Add prototype motor control entities
+- (Sleeptracker) Add prototype motor control entities
+- (Solace) Add prototype motor control entities
+
 ## v1.1.18
 
 **Bug Fixes**

@@ -1,6 +1,6 @@
 {
   "name": "smartbed-mqtt",
-  "version": "1.1.18",
+  "version": "1.1.19",
   "description": "Smartbed MQTT integration",
   "author": "Richard Hopton",
   "repository": "git@github.com:richardhopton/smartbed-mqtt.git",
