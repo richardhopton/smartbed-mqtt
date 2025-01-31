@@ -44,6 +44,13 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
     }
 
     const { remoteCode, ...device } = devicesMap[mac] || devicesMap[name];
+
+    const features = remoteFeatures[remoteCode];
+    if (!features) {
+      logWarn('[Richmat] Remote code not supported, please contact me on Discord', remoteCode);
+      continue;
+    }
+
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Richmat');
     await connect();
 
@@ -55,9 +62,7 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
 
     if (!device.stayConnected) await disconnect();
 
-    const features = remoteFeatures[remoteCode];
     const hasFeature = (feature: Features) => (features & feature) === feature;
-
     logInfo('[Richmat] Setting up entities for device:', name);
     setupPresetButtons(mqtt, controller, hasFeature);
     setupMassageButtons(mqtt, controller, hasFeature);
