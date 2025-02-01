@@ -1,3 +1,16 @@
+## v1.1.20
+
+**New Features**
+
+- (Keeson) Add support for base-i4 controllers
+- (Keeson) Remove need for base-i5 names to match and have expect services
+
+**Bug Fixes**
+
+- (Octo) Fix motor buttons not working
+- (Sleeptracker) Filter out in-active devices
+- (Octo) Allow octo in the config file
+
 ## v1.1.19
 
 **New Features**
