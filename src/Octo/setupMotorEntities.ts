@@ -36,24 +36,31 @@ export const setupMotorEntities = (
     };
   }
 
-  const buildCoverCommand = (main: keyof MotorState) => async (command: string) => {
+  const buildNewMotorState = (main: keyof MotorState, command: string) => {
     const other = motorPairs[main];
     const motorState = cache.motorState!;
     const { direction, canceled, ...motors } = motorState;
     const moveMotors = command !== 'STOP';
     if (direction === command && motors[main] === moveMotors) return;
 
-    motorState[main] = !moveMotors;
+    motorState[main] = moveMotors;
     if (motors[other]) {
       if (!moveMotors) command = direction;
       else if (direction != command) motorState[other] = false;
     }
     motorState.direction = command;
+    return motorState;
+  };
+
+  const buildCoverCommand = (main: keyof MotorState) => async (command: string) => {
+    const motorState = buildNewMotorState(main, command);
+    if (!motorState) return;
 
     await cancelCommands();
 
-    const { head, legs } = motorState;
+    const { head, legs, direction } = motorState;
     const motor = (head ? 0x2 : 0x0) + (legs ? 0x4 : 0x0);
+
     if (direction !== 'STOP' && motor !== 0x0) {
       const complexCommand = {
         command: [0x2, direction == 'OPEN' ? 0x70 : 0x71],
