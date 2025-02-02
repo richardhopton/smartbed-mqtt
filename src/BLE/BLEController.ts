@@ -7,15 +7,17 @@ import EventEmitter from 'events';
 import { IController } from '../Common/IController';
 import { IEventSource } from '../Common/IEventSource';
 import { arrayEquals } from '@utils/arrayEquals';
+import { deepArrayEquals } from '@utils/deepArrayEquals';
 
 export class BLEController<TCommand> extends EventEmitter implements IEventSource, IController<TCommand> {
   cache: Dictionary<Object> = {};
   get notifyNames() {
     return Object.keys(this.notifyHandles);
   }
-  private timer?: Timer = undefined;
+  private timer?: Timer;
   private notifyValues: Dictionary<Uint8Array> = {};
-  private disconnectTimeout?: NodeJS.Timeout = undefined;
+  private disconnectTimeout?: NodeJS.Timeout;
+  private lastCommands?: number[][];
 
   constructor(
     public deviceData: IDeviceData,
@@ -53,15 +55,21 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
     const commandList = commands.map(this.commandBuilder).filter((command) => command.length > 0);
     if (commandList.length === 0) return;
 
-    await this.cancelCommands();
     await this.bleDevice.connect();
 
     const onTick =
       commandList.length === 1 ? () => this.write(commandList[0]) : () => loopWithWait(commandList, this.write);
     if (count === 1) return onTick();
 
+    if (this.timer && this.lastCommands) {
+      if (deepArrayEquals(commandList, this.lastCommands)) return void this.timer.extendCount(count);
+      await this.cancelCommands();
+    }
+
+    this.lastCommands = commandList;
     const onFinish = () => {
       this.timer = undefined;
+      this.lastCommands = undefined;
     };
     this.timer = new Timer(onTick, count, waitTime, onFinish);
     await this.timer.start();
