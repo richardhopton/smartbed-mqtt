@@ -5,6 +5,7 @@ import { Command } from './octo';
 import { IController } from 'Common/IController';
 import { Cancelable } from 'Common/Cancelable';
 import { ICache } from 'Common/ICache';
+import { arrayEquals } from '@utils/arrayEquals';
 
 interface MotorState {
   head: boolean;
@@ -36,7 +37,7 @@ export const setupMotorEntities = (
     };
   }
 
-  const buildNewMotorState = (main: keyof MotorState, command: string) => {
+  const updateMotorState = (main: keyof MotorState, command: string) => {
     const other = motorPairs[main];
     const motorState = cache.motorState!;
     const { direction, canceled, ...motors } = motorState;
@@ -49,31 +50,46 @@ export const setupMotorEntities = (
       else if (direction != command) motorState[other] = false;
     }
     motorState.direction = command;
-    return motorState;
+  };
+
+  const move = (motorState: MotorState & Directional): Command | undefined => {
+    const { head, legs, direction } = motorState;
+    const motor = (head ? 0x2 : 0x0) + (legs ? 0x4 : 0x0);
+    if (direction === 'STOP' || motor === 0x0) return undefined;
+    return {
+      command: [0x2, direction == 'OPEN' ? 0x70 : 0x71],
+      data: [motor],
+    };
+  };
+
+  const commandsMatch = (commandA: Command | undefined, commandB: Command | undefined) => {
+    if (commandA === commandB) return true;
+    if (commandA === undefined || commandB === undefined) return false;
+    return arrayEquals(commandA.command, commandB.command) && arrayEquals(commandA.data!, commandB.data!);
   };
 
   const buildCoverCommand = (main: keyof MotorState) => async (command: string) => {
-    const motorState = buildNewMotorState(main, command);
-    if (!motorState) return;
+    const motorState = cache.motorState!;
+    const originalCommand = move(motorState);
+    updateMotorState(main, command);
+    const newCommand = move(motorState);
+    const sendCommand = async () => {
+      newCommand && (await writeCommand(newCommand, 25, 200));
+    };
+
+    if (commandsMatch(newCommand, originalCommand)) return await sendCommand();
 
     motorState.canceled = true;
     await cancelCommands();
     motorState.canceled = false;
 
-    const { head, legs, direction } = motorState;
-    const motor = (head ? 0x2 : 0x0) + (legs ? 0x4 : 0x0);
-
-    if (direction !== 'STOP' && motor !== 0x0) {
-      const complexCommand = {
-        command: [0x2, direction == 'OPEN' ? 0x70 : 0x71],
-        data: [motor],
-      };
-      await writeCommand(complexCommand, 25, 200);
+    if (newCommand) {
+      await sendCommand();
       if (motorState.canceled) return;
       motorState.direction = 'STOP';
+      motorState.head = false;
+      motorState.legs = false;
     }
-    motorState.head = false;
-    motorState.legs = false;
     await writeCommand([0x2, 0x73]);
   };
 
