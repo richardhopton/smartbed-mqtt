@@ -32,7 +32,9 @@ export const setupMotorEntities = (
     if (motor === 'all') motorState.head = motorState.back = motorState.legs = motorState.feet = commandBool;
     else motorState[motor] = commandBool;
     const newCommand = Commands.Move(motorState);
-    if (arrayEquals(newCommand, originalCommand)) return;
+    const sendCommand = () => writeCommand(newCommand, 25, 200);
+
+    if (arrayEquals(newCommand, originalCommand)) return await sendCommand();
 
     motorState.canceled = true;
     await cancelCommands();
@@ -40,7 +42,7 @@ export const setupMotorEntities = (
 
     const stopCommand = Commands.Move({});
     if (!arrayEquals(newCommand, stopCommand)) {
-      await writeCommand(newCommand, 25, 200);
+      await sendCommand();
       if (motorState.canceled) return;
       cache.motorState = {};
     }
