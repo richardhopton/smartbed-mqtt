@@ -56,7 +56,9 @@ export const setupMotorEntities = (
     const motorState = buildNewMotorState(main, command);
     if (!motorState) return;
 
+    motorState.canceled = true;
     await cancelCommands();
+    motorState.canceled = false;
 
     const { head, legs, direction } = motorState;
     const motor = (head ? 0x2 : 0x0) + (legs ? 0x4 : 0x0);
