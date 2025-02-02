@@ -107,7 +107,7 @@ export const octo = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
         await disconnect();
         continue;
       }
-      await controller.writeCommand({ command: [0x20, 0x42], data: pin.split('').map((c) => parseInt(c)) });
+      await controller.writeCommand({ command: [0x20, 0x43], data: pin.split('').map((c) => parseInt(c)) });
     }
 
     logInfo('[Octo] Setting up entities for device:', name);
