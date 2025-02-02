@@ -1,3 +1,29 @@
+## v1.1.21
+
+**New Features**
+
+- (Common) Treat names as case insensitive
+- (Scanner) Add BLE scanner helper
+
+**_Motor Controls_**
+
+- (ErgoMotion) Support extending motor control commands
+- (ErgoWifi) Support extending motor control commands
+- (Keeson) Support extending motor control commands
+- (LeggettPlatt) Support extending motor control commands
+- (Linak) Support extending motor control commands
+- (Logicdata) Support extending motor control commands
+- (MotoSleep) Support extending motor control commands
+- (Octo) Support extending motor control commands
+- (Okimat) Support extending motor control commands
+- (Richmat) Support extending motor control commands
+- (Solace) Support extending motor control commands
+
+**Bug Fixes**
+
+- (Octo) Correctly handle multiple commands
+- (Octo) Fix PIN command
+
 ## v1.1.20
 
 **New Features**
