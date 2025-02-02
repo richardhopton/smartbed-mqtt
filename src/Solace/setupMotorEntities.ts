@@ -37,14 +37,18 @@ export const setupMotorEntities = (
       const originalCommand = motorState.command || [];
       motorState.command = command === 'OPEN' ? up : command === 'CLOSE' ? down : [];
       const newCommand = motorState.command;
-      if (arrayEquals(originalCommand, newCommand)) return;
+      const sendCommand = async () => {
+        newCommand.length && (await writeCommand(newCommand, 1, 5_000));
+      };
+
+      if (arrayEquals(originalCommand, newCommand)) return await sendCommand();
 
       motorState.canceled = true;
       await cancelCommands();
       motorState.canceled = false;
 
       if (newCommand.length) {
-        await writeCommand(newCommand, 1, 5_000);
+        await sendCommand();
         if (motorState.canceled) return;
         cache.motorState = {};
       }
