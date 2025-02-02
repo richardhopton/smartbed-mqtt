@@ -17,6 +17,8 @@ export class Timer {
     this.waitAtEnd = this.count === 1 && !!this.waitTime;
   }
 
+  extendCount = (count: number) => (this.count = count);
+
   start = async () => {
     while (this.count > 0) {
       try {
@@ -30,7 +32,7 @@ export class Timer {
       }
       if (this.isCanceled) break;
     }
-    if (this.onFinish && !this.isCanceled) await this.onFinish();
+    if (this.onFinish) await this.onFinish();
     this.finished.resolve();
   };
 

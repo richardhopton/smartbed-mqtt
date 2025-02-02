@@ -9,6 +9,7 @@ import { PayloadBuilder } from './requests/PayloadBuilder';
 import { getAuthDetails } from './requests/getAuthDetails';
 import { getConnection } from './requests/getConnection';
 import { Device } from './requests/types/Device';
+import { arrayEquals } from '@utils/arrayEquals';
 
 const loginPayload = (userId: number, authorize: string) => {
   return new PayloadBuilder(authorize.length + 10, 1)
@@ -38,7 +39,8 @@ const commandPayload = (id: number, command: number) => {
 
 export class Controller implements IController<number> {
   cache: Dictionary<Object> = {};
-  private timer?: Timer = undefined;
+  private timer?: Timer;
+  private lastCommands?: number[];
 
   constructor(public deviceData: IDeviceData, public device: Device, public user: Credentials) {}
 
@@ -46,8 +48,6 @@ export class Controller implements IController<number> {
     this.writeCommands([command], count, waitTime);
 
   writeCommands = async (commands: number[], count: number = 1, waitTime?: number) => {
-    await this.cancelCommands();
-
     const authDetails = await getAuthDetails(this.user);
     if (!authDetails) return;
 
@@ -58,8 +58,15 @@ export class Controller implements IController<number> {
     const onTick = commands.length === 1 ? () => write(commands[0]) : () => loopWithWait(commands, write);
     if (count === 1) return onTick();
 
+    if (this.timer && this.lastCommands) {
+      if (arrayEquals(commands, this.lastCommands)) return void this.timer.extendCount(count);
+      await this.cancelCommands();
+    }
+
+    this.lastCommands = commands;
     const onFinish = () => {
       this.timer = undefined;
+      this.lastCommands = undefined;
     };
     this.timer = new Timer(onTick, count, waitTime, onFinish);
     await this.timer.start();
