@@ -1,9 +1,9 @@
 import { logWarn } from '@utils/logger';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 
-const getProductId = (bleDevice: IBLEDevice) => {
-  if ((bleDevice?.manufacturerDataList || []).length === 0) return undefined;
-  for (const { legacyDataList } of bleDevice.manufacturerDataList) {
+const getProductId = ({ advertisement: { manufacturerDataList } }: IBLEDevice) => {
+  if (!(manufacturerDataList || []).length) return undefined;
+  for (const { legacyDataList } of manufacturerDataList) {
     if (legacyDataList.length >= 3 && legacyDataList[1] == 80 && [88, 67].includes(legacyDataList[0])) {
       return legacyDataList
         .slice(2)
@@ -15,15 +15,18 @@ const getProductId = (bleDevice: IBLEDevice) => {
 };
 
 export const isSupported = (device: IBLEDevice) => {
-  const productId = getProductId(device);
+  const productId = getProductId(device || { advertisement: {} });
   if (productId === undefined) return false;
   if ([5, 7].includes(productId)) return true;
 
-  const { name } = device;
+  const {
+    name,
+    advertisement: { manufacturerDataList },
+  } = device;
   logWarn(
     '[LeggettPlatt] Device not supported, please contact me on Discord:',
     name,
-    JSON.stringify(device.manufacturerDataList)
+    JSON.stringify(manufacturerDataList)
   );
   return false;
 };

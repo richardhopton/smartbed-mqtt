@@ -1,6 +1,6 @@
 import { BluetoothGATTService, Connection } from '@2colors/esphome-native-api';
 import { Dictionary } from '@utils/Dictionary';
-import { BLEManufacturerData } from './BLEAdvertisement';
+import { BLEAdvertisement } from './BLEAdvertisement';
 import { BLEDeviceInfo } from './BLEDeviceInfo';
 import { IBLEDevice } from './IBLEDevice';
 import { logInfo } from '@utils/logger';
@@ -14,15 +14,19 @@ export class BLEDevice implements IBLEDevice {
 
   private deviceInfo?: BLEDeviceInfo = undefined;
 
-  constructor(
-    public name: string,
-    public mac: string,
-    public address: number,
-    private addressType: number,
-    public manufacturerDataList: BLEManufacturerData[],
-    public serviceUuidsList: string[],
-    private connection: Connection
-  ) {
+  public mac: string;
+  public get address() {
+    return this.advertisement.address;
+  }
+  public get manufacturerDataList() {
+    return this.advertisement.manufacturerDataList;
+  }
+  public get serviceUuidsList() {
+    return this.advertisement.serviceUuidsList;
+  }
+
+  constructor(public name: string, public advertisement: BLEAdvertisement, private connection: Connection) {
+    this.mac = this.address.toString(16).padStart(12, '0');
     this.connection.on('message.BluetoothDeviceConnectionResponse', ({ address, connected }) => {
       if (this.address !== address || this.connected === connected) return;
       void this.connect();
@@ -35,7 +39,8 @@ export class BLEDevice implements IBLEDevice {
   };
 
   connect = async () => {
-    await this.connection.connectBluetoothDeviceService(this.address, this.addressType);
+    const { addressType } = this.advertisement;
+    await this.connection.connectBluetoothDeviceService(this.address, addressType);
     this.connected = true;
     if (this.paired) await this.pair();
   };
@@ -49,7 +54,7 @@ export class BLEDevice implements IBLEDevice {
     await this.connection.writeBluetoothGATTCharacteristicService(this.address, handle, bytes, response);
   };
 
-  private getServices = async () => {
+  getServices = async () => {
     if (!this.servicesList) {
       const { servicesList } = await this.connection.listBluetoothGATTServicesService(this.address);
       this.servicesList = servicesList;
