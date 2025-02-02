@@ -13,7 +13,8 @@ export type Type =
   | 'logicdata'
   | 'okimat'
   | 'keeson'
-  | 'octo';
+  | 'octo'
+  | 'scanner';
 
 interface OptionsJson {
   type: Type;

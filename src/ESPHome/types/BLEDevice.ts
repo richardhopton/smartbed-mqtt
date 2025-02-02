@@ -9,10 +9,10 @@ export class BLEDevice implements IBLEDevice {
   private connected = false;
   private paired = false;
 
-  private servicesList?: BluetoothGATTService[] = undefined;
+  private servicesList?: BluetoothGATTService[];
   private serviceCache: Dictionary<BluetoothGATTService | null> = {};
 
-  private deviceInfo?: BLEDeviceInfo = undefined;
+  private deviceInfo?: BLEDeviceInfo;
 
   public mac: string;
   public get address() {

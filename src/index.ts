@@ -14,6 +14,7 @@ import { octo } from 'Octo/octo';
 import { okimat } from 'Okimat/okimat';
 import { reverie } from 'Reverie/reverie';
 import { richmat } from 'Richmat/richmat';
+import { scanner } from 'Scanner/scanner';
 import { sleeptracker } from 'Sleeptracker/sleeptracker';
 import { solace } from 'Solace/solace';
 
@@ -72,6 +73,8 @@ const start = async () => {
       return void (await keeson(mqtt, esphome));
     case 'octo':
       return void (await octo(mqtt, esphome));
+    case 'scanner':
+      return void (await scanner(esphome));
   }
 };
 void start();
