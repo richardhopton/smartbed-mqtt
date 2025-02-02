@@ -26,7 +26,9 @@ export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
       .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
       .filter((check) => check)[0];
     if (controllerBuilder === undefined) {
-      const { manufacturerDataList, serviceUuidsList } = bleDevice;
+      const {
+        advertisement: { manufacturerDataList, serviceUuidsList },
+      } = bleDevice;
       logWarn(
         '[Reverie] Device not supported, please contact me on Discord',
         name,

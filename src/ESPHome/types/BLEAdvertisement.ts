@@ -1,15 +1,15 @@
-export type BLEManufacturerData = {
+export type BLEData = {
   uuid: string;
   legacyDataList: Uint8Array;
   data: string;
 };
 
 export type BLEAdvertisement = {
-  mac: string;
   name: string;
   address: number;
   rssi: number;
-  manufacturerDataList: BLEManufacturerData[];
+  manufacturerDataList: BLEData[];
+  serviceDataList: BLEData[];
   serviceUuidsList: string[];
   addressType: number;
 };
