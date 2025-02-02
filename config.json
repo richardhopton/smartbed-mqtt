@@ -106,7 +106,8 @@
         "friendlyName": "Octo Bed",
         "pin": "1234"
       }
-    ]
+    ],
+    "scannerDevices": []
   },
   "schema": {
     "mqtt_host": "str",
