@@ -18,13 +18,13 @@ export const okimat = async (mqtt: IMQTTConnection, esphome: IESPConnection) => 
   const devices = getDevices();
   if (!devices.length) return logInfo('[Okimat] No devices configured');
 
-  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
+  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name.toLowerCase(), value: device }));
   const deviceNames = Object.keys(devicesMap);
   if (deviceNames.length !== devices.length) return logError('[Okimat] Duplicate name detected in configuration');
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
     const { name, mac, address, connect, pair, disconnect, getCharacteristic, getDeviceInfo } = bleDevice;
-    const { remoteCode, ...device } = devicesMap[mac] || devicesMap[name];
+    const { remoteCode, ...device } = devicesMap[mac] || devicesMap[name.toLowerCase()];
     const remote = supportedRemotes[remoteCode];
     if (!remote) {
       logError(`[Okimat] Unsupported remote code '${remoteCode}' for device:`, name);

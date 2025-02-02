@@ -15,7 +15,7 @@ export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
   const devices = getDevices();
   if (!devices.length) return logInfo('[Reverie] No devices configured');
 
-  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
+  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name.toLowerCase(), value: device }));
   const deviceNames = Object.keys(devicesMap);
   if (deviceNames.length !== devices.length) return logError('[Reverie] Duplicate name detected in configuration');
   const bleDevices = await esphome.getBLEDevices(deviceNames);
@@ -37,7 +37,7 @@ export const reverie = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
       continue;
     }
 
-    const device = devicesMap[mac] || devicesMap[name];
+    const device = devicesMap[mac] || devicesMap[name.toLowerCase()];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Reverie');
     await connect();
 

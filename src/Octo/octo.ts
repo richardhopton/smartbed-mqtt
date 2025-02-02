@@ -38,13 +38,13 @@ export const octo = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
   const devices = getDevices();
   if (!devices.length) return logInfo('[Octo] No devices configured');
 
-  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
+  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name.toLowerCase(), value: device }));
   const deviceNames = Object.keys(devicesMap);
   if (deviceNames.length !== devices.length) return logError('[Octo] Duplicate name detected in configuration');
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
     const { name, mac, address, connect, disconnect, getCharacteristic, getDeviceInfo } = bleDevice;
-    const { pin, ...device } = devicesMap[mac] || devicesMap[name];
+    const { pin, ...device } = devicesMap[mac] || devicesMap[name.toLowerCase()];
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Octo');
     await connect();
 

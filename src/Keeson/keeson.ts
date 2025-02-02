@@ -20,7 +20,7 @@ export const keeson = async (mqtt: IMQTTConnection, esphome: IESPConnection): Pr
   const devices = getDevices();
   if (!devices.length) return logInfo('[Keeson] No devices configured');
 
-  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name, value: device }));
+  const devicesMap = buildDictionary(devices, (device) => ({ key: device.name.toLowerCase(), value: device }));
   const deviceNames = Object.keys(devicesMap);
 
   if (deviceNames.length !== devices.length) return logError('[Keeson] Duplicate name detected in configuration');
@@ -28,7 +28,7 @@ export const keeson = async (mqtt: IMQTTConnection, esphome: IESPConnection): Pr
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
     const { name, mac, address, connect, disconnect, getDeviceInfo } = bleDevice;
-    const device = devicesMap[mac] || devicesMap[name];
+    const device = devicesMap[mac] || devicesMap[name.toLowerCase()];
 
     if (!device) {
       logInfo(`[Keeson] Device not found in configuration for MAC: ${mac} or Name: ${name}`);
