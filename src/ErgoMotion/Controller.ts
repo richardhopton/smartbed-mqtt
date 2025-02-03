@@ -44,7 +44,7 @@ export class Controller extends EventEmitter implements IController<number> {
 
   writeCommands = async (commands: number[], count: number = 1, waitTime?: number) => {
     const onTick = commands.length === 1 ? () => this.write(commands[0]) : () => loopWithWait(commands, this.write);
-    if (count === 1) return onTick();
+    if (count === 1 && !waitTime) return onTick();
 
     if (this.timer && this.lastCommands) {
       if (arrayEquals(commands, this.lastCommands)) return void this.timer.extendCount(count);

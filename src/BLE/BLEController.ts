@@ -59,7 +59,7 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
 
     const onTick =
       commandList.length === 1 ? () => this.write(commandList[0]) : () => loopWithWait(commandList, this.write);
-    if (count === 1) return onTick();
+    if (count === 1 && !waitTime) return onTick();
 
     if (this.timer && this.lastCommands) {
       if (deepArrayEquals(commandList, this.lastCommands)) return void this.timer.extendCount(count);
