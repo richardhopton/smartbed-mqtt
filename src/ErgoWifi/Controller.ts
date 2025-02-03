@@ -56,7 +56,7 @@ export class Controller implements IController<number> {
     const write = (command: number) => socket.write(commandPayload(this.device.id, command));
 
     const onTick = commands.length === 1 ? () => write(commands[0]) : () => loopWithWait(commands, write);
-    if (count === 1) return onTick();
+    if (count === 1 && !waitTime) return onTick();
 
     if (this.timer && this.lastCommands) {
       if (arrayEquals(commands, this.lastCommands)) return void this.timer.extendCount(count);
