@@ -1,1 +1,3 @@
-export const shortToBytes = (value: number) => [(value >> 8) & 255, value & 255];
+import { byte } from './byte';
+
+export const shortToBytes = (value: number) => [value >> 8, value].map(byte);

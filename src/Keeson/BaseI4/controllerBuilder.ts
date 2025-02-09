@@ -1,13 +1,15 @@
 import { IDeviceData } from '@ha/IDeviceData';
+import { byte } from '@utils/byte';
 import { intToBytes } from '@utils/intToBytes';
+import { sum } from '@utils/sum';
 import { BLEController } from 'BLE/BLEController';
 import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 
 const buildCommand = (command: number) => {
   const data = [0xe5, 0xfe, 0x16, ...intToBytes(command).reverse()];
-  const checksum = data.reduce((acc, cur) => (acc + cur) & 255);
+  const checksum = data.reduce(sum);
   data.push(checksum);
-  return data;
+  return data.map(byte);
 };
 
 export const controllerBuilder = async (deviceData: IDeviceData, bleDevice: IBLEDevice) => {

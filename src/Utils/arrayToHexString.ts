@@ -1,4 +1,4 @@
+import { byte } from './byte';
+
 export const arrayToHexString = (bytes: Uint8Array) =>
-  Array.from(bytes, function (byte) {
-    return ('0' + (byte & 0xff).toString(16)).slice(-2);
-  }).join('');
+  Array.from(bytes, (b) => byte(b).toString(16).padStart(2, '0')).join('');
