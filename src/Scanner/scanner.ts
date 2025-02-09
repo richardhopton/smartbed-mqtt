@@ -40,17 +40,18 @@ export const scanner = async (esphome: IESPConnection) => {
 
   const handleMatchingDevice = async (bleDevice: IBLEDevice) => {
     const { name, mac } = bleDevice;
-
+    const lowerName = name.toLowerCase();
     let index = deviceNames.indexOf(mac);
-    if (index === -1) index = deviceNames.indexOf(name.toLowerCase());
+    if (index === -1) index = deviceNames.indexOf(lowerName);
+    if (index === -1) index = deviceNames.findIndex((deviceName) => lowerName.startsWith(deviceName));
     if (index === -1) return;
 
     logDevice(bleDevice);
-    deviceNames.splice(index, 1);
+    const mapName = deviceNames.splice(index, 1)[0];
     const { connect, disconnect, pair, getDeviceInfo, getServices } = bleDevice;
     logInfo(`[Scanner] Connecting`);
     await connect();
-    const device = devicesMap[mac] || devicesMap[name.toLowerCase()];
+    const device = devicesMap[mapName];
     if (device.pair) {
       logInfo('[Scanner] Pairing');
       await pair();
