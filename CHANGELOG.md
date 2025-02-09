@@ -1,3 +1,17 @@
+## v1.1.22
+
+**New Features**
+
+- (Scanner) Add support for partial name matching
+- (Scanner) Support scanning for all devices
+
+**Bug Fixes**
+
+- (Keeson) Fix checksum calculation for base-i4 & base-i5 controllers
+- (Keeson) Fix support for base-i4 controllers
+- (BLE) Fix disconnect logic
+- (Common) Fix config issue
+
 ## v1.1.21
 
 **New Features**
