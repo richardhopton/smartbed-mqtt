@@ -7,7 +7,7 @@ import { IBLEDevice } from 'ESPHome/types/IBLEDevice';
 
 const buildCommand = (command: number) => {
   const data = [0xe5, 0xfe, 0x16, ...intToBytes(command).reverse()];
-  const checksum = data.reduce(sum);
+  const checksum = data.reduce(sum) ^ 0xff;
   data.push(checksum);
   return data.map(byte);
 };
