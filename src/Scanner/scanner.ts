@@ -27,9 +27,8 @@ const extractPropertyNames = (properties: number) => {
   }
   return propertiesList.sort();
 };
-
 export const scanner = async (esphome: IESPConnection) => {
-  const devices = getDevices();
+  const devices = getDevices().filter((d) => !!d.name);
   const devicesMap = buildDictionary(devices, (device) => ({ key: device.name.toLowerCase(), value: device }));
   const deviceNames = Object.keys(devicesMap);
   if (deviceNames.length !== devices.length) return logError('[Scanner] Duplicate name detected in configuration');
