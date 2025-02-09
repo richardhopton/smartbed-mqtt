@@ -12,6 +12,7 @@ import { extractPacketFromMessage } from './extractPacketFromMessage';
 import { getDevices } from './options';
 import { setupLightSwitch } from './setupLightSwitch';
 import { setupMotorEntities } from './setupMotorEntities';
+import { byte } from '@utils/byte';
 
 export type Command = {
   command: number[];
@@ -29,7 +30,7 @@ const buildComplexCommand = ({ command, data }: Command) => {
     0x0, // checksum byte
     ...(data || []),
     0x40,
-  ].map((byte) => byte & 0xff);
+  ].map(byte);
   bytes[5] = calculateChecksum(bytes);
   return bytes;
 };

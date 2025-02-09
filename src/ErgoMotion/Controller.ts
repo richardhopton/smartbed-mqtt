@@ -8,10 +8,11 @@ import EventEmitter from 'events';
 import { createConnection } from 'net';
 import { ErgoMotionDevice } from './options';
 import { arrayEquals } from '@utils/arrayEquals';
+import { sum } from '@utils/sum';
 
 const commandPayload = (command: number) => {
   const commandBytes = [0x4, 0x1, ...intToBytes(command).reverse()];
-  const checksum = commandBytes.reduce((acc, curr) => (acc += curr), 0);
+  const checksum = commandBytes.reduce(sum);
   return [0xaa, 0x3, 0x0, 0xa, 0x0, ...commandBytes, ~checksum, 0xf3, 0x55];
 };
 

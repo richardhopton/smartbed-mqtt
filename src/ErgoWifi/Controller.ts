@@ -10,6 +10,7 @@ import { getAuthDetails } from './requests/getAuthDetails';
 import { getConnection } from './requests/getConnection';
 import { Device } from './requests/types/Device';
 import { arrayEquals } from '@utils/arrayEquals';
+import { sum } from '@utils/sum';
 
 const loginPayload = (userId: number, authorize: string) => {
   return new PayloadBuilder(authorize.length + 10, 1)
@@ -32,7 +33,7 @@ const getMessageId = () => {
 
 const commandPayload = (id: number, command: number) => {
   const commandBytes = [0x4, 0x1, ...intToBytes(command).reverse()];
-  const checksum = commandBytes.reduce((acc, curr) => (acc += curr), 0);
+  const checksum = commandBytes.reduce(sum);
   const bytes = [0xaa, 0x3, 0x0, 0xf, 0x0, 0x12, 0x23, 0x34, 0x45, 0x0, 0x0, ...commandBytes, ~checksum, 0x40, 0x55];
   return new PayloadBuilder(bytes.length + 7, 7).addInt(id).addShort(getMessageId()).addByte(0).addBytes(bytes).build();
 };
