@@ -41,7 +41,10 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
   private disconnect = () => this.bleDevice.disconnect();
 
   private write = async (command: number[]) => {
-    if (this.disconnectTimeout) this.disconnectTimeout = undefined;
+    if (this.disconnectTimeout) {
+      clearTimeout(this.disconnectTimeout);
+      this.disconnectTimeout = undefined;
+    }
     await this.bleDevice.writeCharacteristic(this.handle, new Uint8Array(command));
     if (this.stayConnected) return;
 
@@ -59,7 +62,7 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
 
     const onTick =
       commandList.length === 1 ? () => this.write(commandList[0]) : () => loopWithWait(commandList, this.write);
-    if (count === 1 && !waitTime) return onTick();
+    if (count === 1 && !waitTime) return await onTick();
 
     if (this.timer && this.lastCommands) {
       if (deepArrayEquals(commandList, this.lastCommands)) return void this.timer.extendCount(count);
