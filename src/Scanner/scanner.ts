@@ -15,8 +15,8 @@ const characteristicPropertyValues = {
   AUTHENTICATED: 0x40,
   EXTENDED: 0x80,
 };
-const buildPropertiesList = (properties: number) => {
-  const propertiesList: (number | string)[] = [];
+const extractPropertyNames = (properties: number) => {
+  const propertiesList: string[] = [];
 
   for (const [name, value] of Object.entries(characteristicPropertyValues)) {
     if ((properties & value) === value) {
@@ -25,7 +25,7 @@ const buildPropertiesList = (properties: number) => {
       if (properties === 0) break;
     }
   }
-  return [properties, ...propertiesList.sort()];
+  return propertiesList.sort();
 };
 
 export const scanner = async (esphome: IESPConnection) => {
@@ -63,13 +63,13 @@ export const scanner = async (esphome: IESPConnection) => {
     logInfo('[Scanner] Extracting device info');
     const deviceInfo = await getDeviceInfo();
 
-    const serviceList = await Promise.all(
+    const servicesList = await Promise.all(
       services.map(async (service) => {
         const characteristicList = await Promise.all(
           service.characteristicsList.map(async (characteristic) => {
             const { properties, handle } = characteristic;
-            const propertyList = buildPropertiesList(properties);
-            let data;
+            const propertyList = [properties, ...extractPropertyNames(properties)];
+            let data = undefined;
             if ((properties & 2) === 2) {
               try {
                 const value = await bleDevice.readCharacteristic(handle);
@@ -107,7 +107,7 @@ export const scanner = async (esphome: IESPConnection) => {
       serviceDataList,
       serviceUuidsList,
       ...(deviceInfo ? { deviceInfo } : {}),
-      serviceList: serviceList.sort(({ uuid: uuidA }, { uuid: uuidB }) => uuidA.localeCompare(uuidB)),
+      servicesList: servicesList.sort(({ uuid: uuidA }, { uuid: uuidB }) => uuidA.localeCompare(uuidB)),
     };
 
     logInfo(`[Scanner] Output:\n${JSON.stringify(deviceData, null, 2)}`);
