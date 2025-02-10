@@ -24,7 +24,7 @@ const move = (motorState: MotorState) => {
   if (feet !== undefined) command += feet ? Commands.MotorFeetUp : Commands.MotorFeetDown;
   if (tilt !== undefined) command += tilt ? Commands.MotorTiltUp : Commands.MotorTiltDown;
   if (lumbar !== undefined) command += lumbar ? Commands.MotorLumbarUp : Commands.MotorLumbarDown;
-  return command ? command : undefined;
+  return command;
 };
 
 export const setupMotorEntities = (
@@ -48,11 +48,13 @@ export const setupMotorEntities = (
     await cancelCommands();
     motorState.canceled = false;
 
-    if (!newCommand) return;
-
-    await sendCommand();
-    if (motorState.canceled) return;
-    cache.motorState = {};
+    const stopCommand = move({});
+    if (newCommand !== stopCommand) {
+      await sendCommand();
+      if (motorState.canceled) return;
+      cache.motorState = {};
+    }
+    await writeCommand(stopCommand);
   };
 
   if (!cache.headMotor) {
