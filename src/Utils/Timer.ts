@@ -25,8 +25,9 @@ export class Timer {
         const remainingCount = --this.count;
 
         const promises = [this.onTick()];
+
         if (this.waitTime && (remainingCount || this.waitAtEnd)) promises.push(wait(this.waitTime));
-        await Promise.any([this.canceled, Promise.all(promises)]);
+        await Promise.race([this.canceled, Promise.all(promises)]);
       } catch (err) {
         this.finished.reject(err);
       }
