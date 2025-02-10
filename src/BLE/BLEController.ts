@@ -8,6 +8,7 @@ import { IController } from '../Common/IController';
 import { IEventSource } from '../Common/IEventSource';
 import { arrayEquals } from '@utils/arrayEquals';
 import { deepArrayEquals } from '@utils/deepArrayEquals';
+import { logError } from '@utils/logger';
 
 export class BLEController<TCommand> extends EventEmitter implements IEventSource, IController<TCommand> {
   cache: Dictionary<Object> = {};
@@ -45,7 +46,11 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
       clearTimeout(this.disconnectTimeout);
       this.disconnectTimeout = undefined;
     }
-    await this.bleDevice.writeCharacteristic(this.handle, new Uint8Array(command));
+    try {
+      await this.bleDevice.writeCharacteristic(this.handle, new Uint8Array(command));
+    } catch (e) {
+      logError(`[BLE] Failed to write characteristic`, e);
+    }
     if (this.stayConnected) return;
 
     this.disconnectTimeout = setTimeout(this.disconnect, 60_000);
