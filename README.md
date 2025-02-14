@@ -163,7 +163,7 @@ Support for this was only possible due to assistance from getrav on Discord. Thi
 
 ## Configuring
 
-You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Linak controller with `name`, `friendlyName`, and optionally `hasMassage`
+You must specify at least one bleProxy as demonstrated in the config defaults. You also need to supply at least one Linak controller with `name`, `friendlyName`, and optionally `hasMassage`. The `name` should be equal to the bluetooth device name ex. `bed 01234`.
 
 ## Current features include:
 
