@@ -28,7 +28,7 @@ export const setupMotorEntities = async (
     user,
     entities,
     capability: {
-      motorRoster: { head, foot, headTilt: tilt, lumber: lumbar },
+      motorRoster: { head, foot, headTilt: tilt, lumbar },
     },
   }: Controller
 ) => {
