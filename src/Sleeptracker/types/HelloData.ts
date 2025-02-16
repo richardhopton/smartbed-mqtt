@@ -5,14 +5,14 @@ export type Capability = {
     foot: boolean;
     head: boolean;
     headTilt: boolean;
-    lumber: boolean;
+    lumbar: boolean;
   };
   memSlotCount: number;
   motorRoster: {
     foot: boolean;
     head: boolean;
     headTilt: boolean;
-    lumber: boolean;
+    lumbar: boolean;
   };
   side: 0 | 1;
 };
