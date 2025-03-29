@@ -8,17 +8,32 @@ import { Cancelable } from 'Common/Cancelable';
 import { ICache } from 'Common/ICache';
 
 interface MotorState {
-  command?: number;
+  head?: number;
+  back?: number;
+  legs?: number;
+  feet?: number;
 }
+
+type Motor = keyof MotorState;
 
 interface Cache {
   motorState?: MotorState & Cancelable;
 }
 
-type Command = { name: StringsKey; up: number; down: number };
+type Command = { name: StringsKey; motor: Motor; up: number; down: number };
 
-const buildCommand = (name: StringsKey, up: number, down: number): Command => {
-  return { name, up, down };
+const buildCommand = (name: StringsKey, motor: Motor, up: number, down: number): Command => {
+  return { name, motor, up, down };
+};
+
+const move = (motorState: MotorState) => {
+  let command = 0;
+  const { head, back, legs, feet } = motorState;
+  if (head !== undefined) command += head;
+  if (back !== undefined) command += back;
+  if (legs !== undefined) command += legs;
+  if (feet !== undefined) command += feet;
+  return command;
 };
 
 export const setupMotorEntities = (
@@ -30,20 +45,28 @@ export const setupMotorEntities = (
 
   const commands: Command[] = [];
 
+  const { HeadUp, HeadDown } = remote.commands;
+  if (typeof HeadUp === 'number' && typeof HeadDown === 'number')
+    commands.push(buildCommand('MotorHead', 'head', HeadUp, HeadDown));
+
   const { BackUp, BackDown } = remote.commands;
-  if (BackUp && BackDown && typeof BackUp === 'number' && typeof BackDown === 'number')
-    commands.push(buildCommand('MotorBack', BackUp, BackDown));
+  if (typeof BackUp === 'number' && typeof BackDown === 'number')
+    commands.push(buildCommand('MotorBack', 'back', BackUp, BackDown));
 
   const { LegsUp, LegsDown } = remote.commands;
-  if (LegsUp && LegsDown && typeof LegsUp === 'number' && typeof LegsDown === 'number')
-    commands.push(buildCommand('MotorLegs', LegsUp, LegsDown));
+  if (typeof LegsUp === 'number' && typeof LegsDown === 'number')
+    commands.push(buildCommand('MotorLegs', 'legs', LegsUp, LegsDown));
 
-  for (const { name, up, down } of commands) {
+  const { FeetUp, FeetDown } = remote.commands;
+  if (typeof FeetUp === 'number' && typeof FeetDown === 'number')
+    commands.push(buildCommand('MotorFeet', 'feet', FeetUp, FeetDown));
+
+  for (const { name, motor, up, down } of commands) {
     const coverCommand = async (command: string) => {
       const motorState = cache.motorState!;
-      const originalCommand = motorState.command;
-      motorState.command = command === 'OPEN' ? up : command === 'CLOSE' ? down : undefined;
-      const newCommand = motorState.command;
+      const originalCommand = move(motorState);
+      motorState[motor] = command === 'OPEN' ? up : command === 'CLOSE' ? down : undefined;
+      const newCommand = move(motorState);
       const sendCommand = async () => {
         newCommand && (await writeCommand(newCommand, 50, 100));
       };

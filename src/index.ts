@@ -18,11 +18,11 @@ import { scanner } from 'Scanner/scanner';
 import { sleeptracker } from 'Sleeptracker/sleeptracker';
 import { solace } from 'Solace/solace';
 
-const processExit = (exitCode?: number) => {
-  if (exitCode && exitCode > 0) {
+const processExit = (exitCode: number = 0) => {
+  if (exitCode > 0) {
     logError(`Exit code: ${exitCode}`);
   }
-  process.exit();
+  process.exit(exitCode);
 };
 
 process.on('exit', () => {

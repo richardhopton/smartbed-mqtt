@@ -11,13 +11,15 @@ export const buildCommandsButton = <TCommand>(
   { cache, deviceData, writeCommands }: IController<TCommand>,
   name: StringsKey,
   commands: TCommand[],
-  category?: string
+  options: { category?: string; count?: number; waitTime?: number } | string = {}
 ) => {
   if (cache[name]) return;
 
+  const { category, count, waitTime } = typeof options === 'string' ? { category: options } : options;
+
   cache[name] = new Button(mqtt, deviceData, buildEntityConfig(name, category), async () => {
     try {
-      await writeCommands(commands);
+      await writeCommands(commands, count, waitTime);
     } catch (e) {
       logError(`[${context}] Failed to write '${getString(name)}'`, e);
     }

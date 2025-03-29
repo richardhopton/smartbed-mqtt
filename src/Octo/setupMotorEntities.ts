@@ -19,7 +19,9 @@ interface Cache {
   motorState?: MotorState & Directional & Cancelable;
 }
 
-const motorPairs: Record<keyof MotorState, keyof MotorState> = {
+type Motor = keyof MotorState;
+
+const motorPairs: Record<Motor, Motor> = {
   head: 'legs',
   legs: 'head',
 };
@@ -37,7 +39,7 @@ export const setupMotorEntities = (
     };
   }
 
-  const updateMotorState = (main: keyof MotorState, command: string) => {
+  const updateMotorState = (main: Motor, command: string) => {
     const other = motorPairs[main];
     const motorState = cache.motorState!;
     const { direction, canceled, ...motors } = motorState;
@@ -68,7 +70,7 @@ export const setupMotorEntities = (
     return arrayEquals(commandA.command, commandB.command) && arrayEquals(commandA.data!, commandB.data!);
   };
 
-  const buildCoverCommand = (main: keyof MotorState) => async (command: string) => {
+  const buildCoverCommand = (main: Motor) => async (command: string) => {
     const motorState = cache.motorState!;
     const originalCommand = move(motorState);
     updateMotorState(main, command);

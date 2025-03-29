@@ -39,9 +39,9 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, controller: IControlle
   const memorySaveCommand = remote.commands.MemorySave;
 
   const memory1Command = remote.commands.Memory1;
-  if (memory1Command && typeof memory1Command === 'number') {
+  if (typeof memory1Command === 'number') {
     buildCommandButton('Okimat', mqtt, controller, 'PresetMemory1', memory1Command);
-    if (memorySaveCommand && typeof memorySaveCommand === 'object') {
+    if (typeof memorySaveCommand === 'object') {
       buildSaveCommandButton(
         mqtt,
         controller,
@@ -55,9 +55,9 @@ export const setupPresetButtons = (mqtt: IMQTTConnection, controller: IControlle
     }
   }
   const memory2Command = remote.commands.Memory2;
-  if (memory2Command && typeof memory2Command === 'number') {
+  if (typeof memory2Command === 'number') {
     buildCommandButton('Okimat', mqtt, controller, 'PresetMemory1', memory2Command);
-    if (memorySaveCommand && typeof memorySaveCommand === 'object') {
+    if (typeof memorySaveCommand === 'object') {
       buildSaveCommandButton(
         mqtt,
         controller,
