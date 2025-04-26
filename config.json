@@ -15,7 +15,7 @@
     "mqtt_user": "<auto_detect>",
     "mqtt_password": "<auto_detect>",
     "type": "sleeptracker",
-    "sleeptrackerRefreshFrequency": 1,
+    "sleeptrackerRefreshFrequency": 60,
     "sleeptrackerCredentials": [
       {
         "email": "me@example.org",

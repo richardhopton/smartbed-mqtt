@@ -2,7 +2,7 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { getSideNameFunc } from '@utils/getSideNameFunc';
 import { logError, logInfo } from '@utils/logger';
-import { minutes } from '@utils/minutes';
+import { seconds } from '@utils/seconds';
 import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { buildMQTTDeviceData } from './buildMQTTDeviceData';
 import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
@@ -134,5 +134,5 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
     }
   };
   await refreshDeviceData();
-  setInterval(refreshDeviceData, minutes(getRefreshFrequency()));
+  setInterval(refreshDeviceData, seconds(getRefreshFrequency()));
 };
