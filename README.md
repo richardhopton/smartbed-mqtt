@@ -30,6 +30,8 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 
 # Installation
 
+## Home Assistant Add-on
+
 - In HomeAssistant click Settings, Add-ons, and Add-on Store.
 - Click the 3 dot menu in the top right and select Repositories.
 - Paste https://github.com/richardhopton/smartbed-mqtt, click Add, and Close
@@ -37,6 +39,66 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 - Wait patiently for the build to finish.
 - Click on Configuration and set type followed by the necessary configuration as described below.
 - Click on Info and click Start.
+
+## Standalone Docker Installation
+
+If you're running Docker outside of Home Assistant (e.g., on a standalone server), you can use the following configuration:
+
+### Docker Compose
+
+Add the following to your `docker-compose.yml`:
+
+```yaml
+services:
+  bed:
+    image: ghcr.io/richardhopton/smartbed-mqtt:main
+    container_name: bed
+    volumes:
+      - ./smartbed/config:/data:ro
+    restart: unless-stopped
+```
+
+### Configuration File
+
+Create a directory for the configuration files:
+
+```bash
+mkdir -p smartbed/config
+```
+
+Create `smartbed/config/options.json` with your configuration. Example for Sleeptracker AI (Tempur/BeautyRest/Serta):
+
+```json
+{
+  "type": "sleeptracker",
+  "mqtt_host": "mosquitto",
+  "mqtt_port": "1883",
+  "mqtt_username": "your-mqtt-username",
+  "mqtt_password": "your-mqtt-password",
+  "sleeptrackerRefreshFrequency": 1,
+  "sleeptrackerCredentials": [
+    {
+      "email": "your-email@example.com",
+      "password": "your-password",
+      "type": "tempur"
+    }
+  ]
+}
+```
+
+**Notes:**
+- Replace `your-email@example.com` and `your-password` with your actual Sleeptracker credentials
+- Replace `your-mqtt-username` and `your-mqtt-password` with your MQTT broker credentials
+- `mqtt_host` should point to your MQTT broker (use the container name if running in the same Docker network)
+- `sleeptrackerRefreshFrequency` is in minutes
+- The `type` field can be `tempur`, `beautyrest`, or `serta`
+- See the configuration sections below for other bed types (BLE, ErgoMotion, Logicdata, etc.)
+
+### Starting the Container
+
+```bash
+docker-compose up -d
+```
 
 ## MQTT broker
 
