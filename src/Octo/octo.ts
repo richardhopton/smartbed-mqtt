@@ -1,7 +1,8 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { buildDictionary } from '@utils/buildDictionary';
 import { Deferred } from '@utils/deferred';
-import { logError, logInfo } from '@utils/logger';
+import { logError, logInfo, logWarn } from '@utils/logger';
+import { wait } from '@utils/wait';
 import { BLEController } from 'BLE/BLEController';
 import { setupDeviceInfoSensor } from 'BLE/setupDeviceInfoSensor';
 import { buildMQTTDeviceData } from 'Common/buildMQTTDeviceData';
@@ -108,7 +109,26 @@ export const octo = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
         await disconnect();
         continue;
       }
-      await controller.writeCommand({ command: [0x20, 0x43], data: pin.split('').map((c) => parseInt(c)) });
+
+      const sendPin = () => controller.writeCommand({ command: [0x20, 0x43], data: pin.split('').map((c) => parseInt(c)) });
+
+      // Send the pin once up front.
+      await sendPin();
+
+      // Octo controllers drop the BLE session after ~30s unless they receive the pin again.
+      // Keep sending it periodically so the connection (and controls) stay alive.
+      const KEEP_ALIVE_MS = 25_000;
+      const keepAlive = async () => {
+        while (true) {
+          await wait(KEEP_ALIVE_MS);
+          try {
+            await sendPin();
+          } catch (err) {
+            logWarn('[Octo] Failed to send keep-alive pin for device', name, err);
+          }
+        }
+      };
+      void keepAlive();
     }
 
     logInfo('[Octo] Setting up entities for device:', name);
