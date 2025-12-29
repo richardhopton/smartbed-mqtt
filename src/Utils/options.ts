@@ -1,23 +1,10 @@
 import { readFileSync } from 'fs';
 
-export type Type =
-  | 'sleeptracker'
-  | 'ergomotion'
-  | 'ergowifi'
-  | 'richmat'
-  | 'linak'
-  | 'solace'
-  | 'motosleep'
-  | 'reverie'
-  | 'leggettplatt'
-  | 'logicdata'
-  | 'okimat'
-  | 'keeson'
-  | 'octo'
-  | 'scanner';
+export type Type = 'keeson';
 
 interface OptionsJson {
   type: Type;
+  keesonDevices?: any[];
 }
 
 const fileContents = readFileSync('../data/options.json');
