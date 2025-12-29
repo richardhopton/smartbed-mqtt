@@ -1,8 +1,8 @@
 {
-  "name": "Smartbed MQTT",
+  "name": "Smartbed MQTT (Keeson-only)",
   "version": "1.1.22",
   "slug": "smartbed-mqtt",
-  "description": "A Home Assistant add-on to enable controlling smart beds.",
+  "description": "A Home Assistant add-on to enable controlling Keeson smart beds.",
   "url": "https://github.com/richardhopton/smartbed-mqtt",
   "startup": "application",
   "arch": ["aarch64", "amd64", "armhf", "armv7", "i386"],
@@ -14,84 +14,10 @@
     "mqtt_port": "<auto_detect>",
     "mqtt_user": "<auto_detect>",
     "mqtt_password": "<auto_detect>",
-    "type": "sleeptracker",
-    "sleeptrackerRefreshFrequency": 1,
-    "sleeptrackerCredentials": [
-      {
-        "email": "me@example.org",
-        "password": "some strong password",
-        "type": "tempur"
-      }
-    ],
-    "ergoWifiCredentials": [
-      {
-        "email": "me@example.org",
-        "password": "some strong password"
-      }
-    ],
-    "ergoMotionDevices": [
-      {
-        "friendlyName": "ErgoMotion Bed",
-        "ipAddress": "192.168.0.127",
-        "remoteStyle": "M"
-      }
-    ],
-    "logicdataDevices": [
-      {
-        "name": "WIND123456",
-        "friendlyName": "Logicdata Bed"
-      }
-    ],
+    "type": "keeson",
     "bleProxies": [
       {
         "host": "bluetooth-proxy.local"
-      }
-    ],
-    "richmatDevices": [
-      {
-        "name": "QRRM12345",
-        "friendlyName": "Richmat Bed",
-        "remoteCode": "VIRM",
-        "stayConnected": "false"
-      }
-    ],
-    "linakDevices": [
-      {
-        "name": "LINAK Bed 0123",
-        "friendlyName": "Linak Bed",
-        "hasMassage": true,
-        "motorCount": 2
-      }
-    ],
-    "solaceDevices": [
-      {
-        "name": "S4-Y-123-456789",
-        "friendlyName": "Solace Bed"
-      }
-    ],
-    "motoSleepDevices": [
-      {
-        "name": "HHC123ABCD",
-        "friendlyName": "MotoSleep Bed"
-      }
-    ],
-    "reverieDevices": [
-      {
-        "name": "RPLC",
-        "friendlyName": "Reverie Bed"
-      }
-    ],
-    "leggettPlattDevices": [
-      {
-        "name": "Smart Bed",
-        "friendlyName": "Leggett Platt Bed"
-      }
-    ],
-    "okimatDevices": [
-      {
-        "name": "OKIN_345678",
-        "friendlyName": "Okimat Bed",
-        "remoteCode": "94238"
       }
     ],
     "keesonDevices": [
@@ -99,51 +25,14 @@
         "name": "KSBT03C000015046",
         "friendlyName": "Keeson Bed"
       }
-    ],
-    "octoDevices": [
-      {
-        "name": "RC2",
-        "friendlyName": "Octo Bed",
-        "pin": "1234"
-      }
-    ],
-    "scannerDevices": []
+    ]
   },
   "schema": {
     "mqtt_host": "str",
     "mqtt_port": "str",
     "mqtt_user": "str",
     "mqtt_password": "password",
-    "type": "list(scanner|sleeptracker|ergowifi|richmat|linak|solace|motosleep|reverie|leggettplatt|logicdata|ergomotion|okimat|keeson|octo)",
-    "sleeptrackerRefreshFrequency": "int(0,)",
-    "sleeptrackerCredentials": [
-      {
-        "email": "email",
-        "password": "password",
-        "type": "list(tempur|beautyrest|serta)?"
-      }
-    ],
-    "ergoWifiCredentials": [
-      {
-        "email": "email",
-        "password": "password",
-        "remoteStyle": "list(L|M|H)?"
-      }
-    ],
-    "ergoMotionDevices": [
-      {
-        "friendlyName": "str",
-        "ipAddress": "str",
-        "remoteStyle": "list(L|M|H)?"
-      }
-    ],
-    "logicdataDevices": [
-      {
-        "name": "str",
-        "friendlyName": "str",
-        "ipAddress": "str?"
-      }
-    ],
+    "type": "list(keeson)",
     "bleProxies": [
       {
         "host": "str",
@@ -153,71 +42,10 @@
         "expectedServerName": "str?"
       }
     ],
-    "richmatDevices": [
-      {
-        "name": "str",
-        "friendlyName": "str",
-        "remoteCode": "str",
-        "stayConnected": "bool?"
-      }
-    ],
-    "linakDevices": [
-      {
-        "name": "str",
-        "friendlyName": "str",
-        "hasMassage": "bool?",
-        "motorCount": "int?"
-      }
-    ],
-    "solaceDevices": [
-      {
-        "name": "str",
-        "friendlyName": "str"
-      }
-    ],
-    "motoSleepDevices": [
-      {
-        "name": "str",
-        "friendlyName": "str",
-        "stayConnected": "bool?"
-      }
-    ],
-    "reverieDevices": [
-      {
-        "name": "str",
-        "friendlyName": "str"
-      }
-    ],
-    "leggettPlattDevices": [
-      {
-        "name": "str",
-        "friendlyName": "str"
-      }
-    ],
-    "okimatDevices": [
-      {
-        "name": "str",
-        "friendlyName": "str",
-        "remoteCode": "str"
-      }
-    ],
     "keesonDevices": [
       {
         "name": "str",
         "friendlyName": "str"
-      }
-    ],
-    "octoDevices": [
-      {
-        "name": "str",
-        "friendlyName": "str",
-        "pin": "str?"
-      }
-    ],
-    "scannerDevices": [
-      {
-        "name": "str",
-        "pair": "bool?"
       }
     ]
   }
