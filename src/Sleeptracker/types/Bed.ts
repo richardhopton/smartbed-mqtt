@@ -23,6 +23,7 @@ export type Bed = {
     antiSnorePreset: boolean;
     environmentSensors: boolean;
     motors: boolean;
+    fanController: boolean;
   };
   data: {
     headAngleTicksPerDegree: number;

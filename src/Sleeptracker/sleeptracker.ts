@@ -11,6 +11,7 @@ import { SleepSensorInfoSensor } from './entities/SensorMapInfoSensor';
 import { getRefreshFrequency, getUsers } from './options';
 import { processBedPositionSensors } from './processors/bedPositionSensors';
 import { processEnvironmentSensors } from './processors/environmentSensors';
+import { processFanEntities } from './processors/fanEntities';
 import { setupMassageButtons } from './processors/massageButtons';
 import { processMassageSensors } from './processors/massageSensors';
 import { setupPresetButtons } from './processors/presetButtons';
@@ -61,6 +62,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
             antiSnorePreset: antiSnorePresetSupported,
             environmentSensors: helloData.productFeatures.includes('env_sensors'),
             motors: helloData.productFeatures.includes('motors'),
+            fanController: helloData.productFeatures.includes('fan_controller'),
           },
           data: { headAngleTicksPerDegree, footAngleTicksPerDegree },
           entities: {
@@ -111,7 +113,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
   const refreshDeviceData = async () => {
     for (const bed of Object.values(beds)) {
       logInfo('[Sleeptracker] Fetching data for bed', bed.processorId);
-      const { smartBedControls, environmentSensors, motors } = bed.supportedFeatures;
+      const { smartBedControls, environmentSensors, motors, fanController } = bed.supportedFeatures;
       if (smartBedControls) {
         const snapshots = await sendAdjustableBaseCommand(Commands.Status, bed.primaryUser);
         for (const controller of bed.controllers) {
@@ -128,6 +130,8 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
           await processMassageSensors(mqtt, bed, controller, snapshot);
 
           await processSafetyLightSwitches(mqtt, bed, controller, snapshot);
+
+          if (fanController) await processFanEntities(mqtt, bed, controller, snapshot);
         }
       }
       if (environmentSensors) await processEnvironmentSensors(mqtt, bed);
