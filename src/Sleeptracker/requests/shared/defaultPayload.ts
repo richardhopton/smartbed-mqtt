@@ -1,4 +1,4 @@
-import { Credentials, Type } from '../../options';
+import { Credentials, Type, getClientVersion } from '../../options';
 
 type Context =
   | 'session'
@@ -23,10 +23,10 @@ const getClientFields = (type?: Type) => {
   switch (type) {
     case 'beautyrest':
     case 'serta':
-      return { clientID: 'sleeptracker-android', clientVersion: '6.5.15' };
+      return { clientID: 'sleeptracker-android', clientVersion: getClientVersion() };
     case 'tempur':
     default:
-      return { clientID: 'sleeptracker-android-tsi', clientVersion: '1.9.47' };
+      return { clientID: 'sleeptracker-android-tsi', clientVersion: getClientVersion() };
   }
 };
 export const buildDefaultPayload = (context: Context, { type }: Credentials) => ({

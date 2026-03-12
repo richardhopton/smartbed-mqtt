@@ -46,7 +46,7 @@ export const sendAdjustableBaseCommand = async (
     if (shouldLogError(statusCode, statusMessage)) {
       logError('[Sleeptracker]', JSON.stringify(response.data));
     }
-    return body.snapshots || [];
+    return body?.snapshots || [];
   } catch (err) {
     logError(err);
     return [];

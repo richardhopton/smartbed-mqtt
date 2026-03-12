@@ -10,6 +10,7 @@ export interface Credentials {
 
 interface OptionsJson {
   sleeptrackerRefreshFrequency: number;
+  sleeptrackerClientVersion?: string;
   sleeptrackerCredentials: Credentials[];
 }
 
@@ -23,3 +24,4 @@ export const getUsers = () => {
   return [credentials];
 };
 export const getRefreshFrequency = () => options.sleeptrackerRefreshFrequency;
+export const getClientVersion = () => options.sleeptrackerClientVersion || '1.11.5';
