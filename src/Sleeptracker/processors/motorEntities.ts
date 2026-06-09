@@ -1,7 +1,7 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
-import { StringsKey } from '@utils/getString';
+import { StringsKey, getString } from '@utils/getString';
 import { Cover } from '@ha/Cover';
-import { buildEntityConfig } from 'Common/buildEntityConfig';
+import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { Bed } from 'Sleeptracker/types/Bed';
 import { Controller } from 'Sleeptracker/types/Controller';
 import { sendAdjustableBaseCommand } from 'Sleeptracker/requests/sendAdjustableBaseCommand';
@@ -26,6 +26,7 @@ export const setupMotorEntities = async (
   { deviceData }: Bed,
   {
     user,
+    sideName,
     entities,
     capability: {
       motorRoster: { head, foot, headTilt: tilt, lumber: lumbar },
@@ -54,6 +55,6 @@ export const setupMotorEntities = async (
       await sendAdjustableBaseCommand(newCommand, user);
       cache.motorState = {};
     };
-    new Cover(mqtt, deviceData, buildEntityConfig(name), coverCommand).setOnline();
+    new Cover(mqtt, deviceData, buildEntityConfig(getString(name), sideName), coverCommand).setOnline();
   }
 };
