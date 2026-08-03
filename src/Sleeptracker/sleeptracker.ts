@@ -32,7 +32,8 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
   for (const user of users) {
     const devices = await getDevices(user);
     if (devices.length === 0) {
-      return logError('[Sleeptracker] Could not load devices');
+      logError('[Sleeptracker] Could not load devices');
+      continue;
     }
     for (const device of devices) {
       const { sleeptrackerProcessorID: processorId } = device;
