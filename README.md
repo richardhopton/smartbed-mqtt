@@ -78,6 +78,7 @@ e.g.
 - Sensors for Massage strengths and patterns
 - Support for split beds, and multiple beds
 - Covers to control motors for raising, lowering, and stopping the head/feet/tilt/lumbar
+- ActiveBreeze climate control: cooling level select (Off/Low/Medium/High), Temp-Curve vs Constant Cool switch, and heat switch per side, plus Sync entities that set both sides at once
 
 ## Possible future features:
 
@@ -112,6 +113,7 @@ You must specify an `ipAddress` (or DNS name), `friendlyName`, and `remoteStyle`
 - Button for under bed lights
 - Buttons to step thru the massage strengths for head & foot, massage mode, and toggle
 - Covers to control motors for raising, lowering, and stopping the head/feet/tilt/lumbar
+- ActiveBreeze climate control: cooling level select (Off/Low/Medium/High), Temp-Curve vs Constant Cool switch, and heat switch per side, plus Sync entities that set both sides at once
 
 ## Notes
 
@@ -301,6 +303,7 @@ You must specify at least one bleProxy as demonstrated in the config defaults. Y
 - Buttons to program the user presets
 - Controls for the head & foot massage intesity, wave setting & timer
 - Covers to control motors for raising, lowering, and stopping the head/feet/tilt/lumbar
+- ActiveBreeze climate control: cooling level select (Off/Low/Medium/High), Temp-Curve vs Constant Cool switch, and heat switch per side, plus Sync entities that set both sides at once
 
 ## Notes
 

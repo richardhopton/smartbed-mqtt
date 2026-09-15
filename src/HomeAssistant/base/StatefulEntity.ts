@@ -45,6 +45,17 @@ export class StatefulEntity<T> extends Entity implements IStateful<T> {
     return this.state;
   }
 
+  // Re-send availability and the current state. Messages are published without the
+  // retain flag, so anything HA missed (restart, broker reconnect) is gone; and setState
+  // is a no-op when the value is unchanged, which would otherwise leave the entity
+  // permanently unavailable. Callers invoke this on each refresh cycle.
+  republish() {
+    if (this.state === undefined) return this;
+    this.sendState();
+    this.setOnline();
+    return this;
+  }
+
   private sendState() {
     setTimeout(() => {
       const message = this.mapState(this.state);

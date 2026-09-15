@@ -10,6 +10,7 @@ import { HelloDataSensor } from './entities/InfoSensor';
 import { SleepSensorInfoSensor } from './entities/SensorMapInfoSensor';
 import { getRefreshFrequency, getUsers } from './options';
 import { processBedPositionSensors } from './processors/bedPositionSensors';
+import { processClimateEntities } from './processors/climateEntities';
 import { processEnvironmentSensors } from './processors/environmentSensors';
 import { setupMassageButtons } from './processors/massageButtons';
 import { processMassageSensors } from './processors/massageSensors';
@@ -114,6 +115,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
       const { smartBedControls, environmentSensors, motors } = bed.supportedFeatures;
       if (smartBedControls) {
         const snapshots = await sendAdjustableBaseCommand(Commands.Status, bed.primaryUser);
+        await processClimateEntities(mqtt, bed, bed.primaryUser, snapshots);
         for (const controller of bed.controllers) {
           await setupPresetButtons(mqtt, bed, controller);
           await setupMassageButtons(mqtt, bed, controller);

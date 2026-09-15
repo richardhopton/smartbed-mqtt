@@ -19,8 +19,21 @@ export enum MassagePattern {
   Ripple = 3,
 }
 
+export type FanStatus = {
+  leftLevel: number;
+  leftTimer: number;
+  leftIsHeating: boolean;
+  leftIsConstant: boolean;
+  rightLevel: number;
+  rightTimer: number;
+  rightIsHeating: boolean;
+  rightIsConstant: boolean;
+};
+
 export type Snapshot = {
   cableTime: number;
+  fan?: FanStatus;
+  splitFan?: number;
   foot: MassageMotorStatus;
   head: MassageMotorStatus;
   headTilt: MassageMotorStatus;

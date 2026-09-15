@@ -1,3 +1,9 @@
+## Unreleased
+
+**New Features**
+
+- (Sleeptracker) Add ActiveBreeze climate control (cooling level, constant cool mode, heat) per side and synced
+
 ## v1.1.22
 
 **New Features**
