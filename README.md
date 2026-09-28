@@ -76,6 +76,7 @@ e.g.
 - Sensors for Heat & Foot Angle
 - Buttons to step thru the massage strengths, patterns & timer (auto turn off massage)
 - Sensors for Massage strengths and patterns
+- Selects to start Wave Form™ massage (per-side, with a duration select)
 - Support for split beds, and multiple beds
 - Covers to control motors for raising, lowering, and stopping the head/feet/tilt/lumbar
 

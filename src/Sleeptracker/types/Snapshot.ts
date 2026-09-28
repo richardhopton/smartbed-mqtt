@@ -17,6 +17,7 @@ export enum MassagePattern {
   Pulse = 1,
   Constant = 2,
   Ripple = 3,
+  Wave = 4,
 }
 
 export type Snapshot = {

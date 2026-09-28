@@ -13,6 +13,7 @@ import { processBedPositionSensors } from './processors/bedPositionSensors';
 import { processEnvironmentSensors } from './processors/environmentSensors';
 import { setupMassageButtons } from './processors/massageButtons';
 import { processMassageSensors } from './processors/massageSensors';
+import { setupWaveFormControls } from './processors/waveFormControls';
 import { setupPresetButtons } from './processors/presetButtons';
 import { processSafetyLightSwitches } from './processors/safetyLightSwitches';
 import { processSnoreReliefSwitches } from './processors/snoreReliefSwitches';
@@ -117,6 +118,7 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
         for (const controller of bed.controllers) {
           await setupPresetButtons(mqtt, bed, controller);
           await setupMassageButtons(mqtt, bed, controller);
+          await setupWaveFormControls(mqtt, bed, controller);
           if (motors) await setupMotorEntities(mqtt, bed, controller);
 
           await processSnoreReliefSwitches(mqtt, bed, controller);

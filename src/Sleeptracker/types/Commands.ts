@@ -47,5 +47,8 @@ export enum Commands {
   MassagePatternStep = 226,
   MassageTimerStep = 231,
 
+  // Stops all massagers (app a.d.STOP_MASSAGERS). Used to stop Wave Form massage.
+  MassageStop = 30,
+
   ToggleSafetyLights = 230,
 }

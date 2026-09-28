@@ -45,6 +45,15 @@ export class StatefulEntity<T> extends Entity implements IStateful<T> {
     return this.state;
   }
 
+  // Re-publish the current state even if unchanged. Publishes aren't retained,
+  // so a one-shot setState can lose the race with Home Assistant's discovery
+  // processing (leaving the entity "unknown"). Call this each poll for entities
+  // whose state would otherwise never be re-sent.
+  resendState() {
+    if (this.getState() !== undefined) this.sendState();
+    return this;
+  }
+
   private sendState() {
     setTimeout(() => {
       const message = this.mapState(this.state);

@@ -1,3 +1,9 @@
+## Unreleased
+
+**New Features**
+
+- (Sleeptracker) Add Wave Form™ massage controls (per-side select with duration)
+
 ## v1.1.22
 
 **New Features**
