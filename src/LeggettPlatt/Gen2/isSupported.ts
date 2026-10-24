@@ -5,7 +5,7 @@ const getProductId = ({ advertisement: { manufacturerDataList } }: IBLEDevice) =
   if (!(manufacturerDataList || []).length) return undefined;
   for (const { legacyDataList } of manufacturerDataList) {
     if (legacyDataList.length >= 3 && legacyDataList[1] == 80 && [88, 67].includes(legacyDataList[0])) {
-      return legacyDataList
+      return Array.from(legacyDataList)
         .slice(2)
         .reverse()
         .reduce((acc, cur) => (acc << 8) + cur, 0);

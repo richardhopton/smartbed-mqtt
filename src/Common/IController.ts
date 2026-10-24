@@ -2,7 +2,7 @@ import { IDeviceData } from '@ha/IDeviceData';
 import { Dictionary } from '@utils/Dictionary';
 
 export interface IDeviceCache {
-  cache: Dictionary<Object>;
+  cache: Dictionary<object>;
   deviceData: IDeviceData;
 }
 

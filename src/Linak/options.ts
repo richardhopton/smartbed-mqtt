@@ -3,8 +3,9 @@ import { getRootOptions } from '@utils/options';
 export interface LinakDevice {
   friendlyName: string;
   name: string;
-  motorCount?: number;
   hasMassage?: boolean;
+  motorCount?: number;
+  stayConnected?: boolean;
 }
 
 interface OptionsJson {

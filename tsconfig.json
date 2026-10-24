@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "target": "ES2022",
     "module": "commonjs",
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -21,8 +22,9 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "outDir": "./dist/tsc/",
+    "rootDir": "./src",
     "types": ["node", "jest"],
-    "lib": ["ES2021"],
+    "lib": ["ES2022"],
     "baseUrl": "./src",
     "paths": {
       "@ha/*": ["HomeAssistant/*"],

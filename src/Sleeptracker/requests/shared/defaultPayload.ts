@@ -7,7 +7,8 @@ type Context =
   | 'getSensorMap'
   | 'latestEnvironmentSensorData'
   | 'setSnoreRelief'
-  | 'adjustableBaseControls';
+  | 'adjustableBaseControls'
+  | 'processorCommand';
 
 const contextMap = {
   session: 'getUserSession',
@@ -17,6 +18,7 @@ const contextMap = {
   latestEnvironmentSensorData: 'environmentalData',
   setSnoreRelief: 'setSnoreRelief',
   adjustableBaseControls: 'adjustableBaseControls',
+  processorCommand: 'processorCommand',
 };
 
 const getClientFields = (type?: Type) => {
@@ -26,7 +28,7 @@ const getClientFields = (type?: Type) => {
       return { clientID: 'sleeptracker-android', clientVersion: '6.5.15' };
     case 'tempur':
     default:
-      return { clientID: 'sleeptracker-android-tsi', clientVersion: '1.9.47' };
+      return { clientID: 'sleeptracker-android-tsi', clientVersion: '1.11.5' };
   }
 };
 export const buildDefaultPayload = (context: Context, { type }: Credentials) => ({

@@ -11,7 +11,7 @@ export const buildMQTTDeviceData = ({
     deviceTopic: `sleeptracker/${processorId}`,
     device: {
       ids: [`${processorId}`],
-      name: name,
+      name: name || `Sleeptracker ${processorId}`,
       mf: mattressBrandName || 'Sleeptracker',
       mdl: modelID,
     },

@@ -21,6 +21,7 @@ export class Entity implements IAvailable {
   private availabilityTopic: string;
   private entityTag: string;
   private uniqueId: string;
+  private lastAvailability?: string;
 
   constructor(
     protected mqtt: IMQTTConnection,
@@ -34,9 +35,16 @@ export class Entity implements IAvailable {
     this.availabilityTopic = `${this.baseTopic}/status`;
     this.mqtt.subscribe('homeassistant/status');
     this.mqtt.on('homeassistant/status', (message) => {
-      if (message === ONLINE) setTimeout(() => this.publishDiscovery(), seconds(15));
+      if (message === ONLINE) setTimeout(() => this.onHomeAssistantOnline(), seconds(15));
     });
     setTimeout(() => this.publishDiscovery(), 50);
+  }
+
+  protected onHomeAssistantOnline() {
+    this.publishDiscovery();
+    if (this.lastAvailability) {
+      this.sendAvailability(this.lastAvailability);
+    }
   }
 
   publishDiscovery() {
@@ -62,11 +70,13 @@ export class Entity implements IAvailable {
   }
 
   setOffline() {
+    this.lastAvailability = OFFLINE;
     this.sendAvailability(OFFLINE);
     return this;
   }
 
   setOnline() {
+    this.lastAvailability = ONLINE;
     this.sendAvailability(ONLINE);
     return this;
   }

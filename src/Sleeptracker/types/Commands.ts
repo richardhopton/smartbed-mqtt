@@ -32,20 +32,14 @@ export enum Commands {
   MotorTiltDown = 121,
   MotorTiltStop = 122,
 
-  // MotorHeadUpIncrement = 110,
-  // MotorHeadDownIncrement = 111,
-  // MotorFeetUpIncrement = 112,
-  // MotorFeetDownIncrement = 113,
-  // MotorLumbarUpIncrement = 114,
-  // MotorLumbarDownIncrement = 115,
-  // MotorTiltUpIncrement = 123,
-  // MotorTiltDownIncrement = 124,
-
   MassageHeadStep = 210,
   MassageFootStep = 211,
   MassageStep = 225,
   MassagePatternStep = 226,
   MassageTimerStep = 231,
+
+  // Stops all massagers (app a.d.STOP_MASSAGERS). Used to stop Wave Form massage.
+  MassageStop = 30,
 
   ToggleSafetyLights = 230,
 }

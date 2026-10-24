@@ -13,23 +13,24 @@ export const processSafetyLightSwitches = async (
   { sideName, entities, user }: Controller,
   { side, safetyLightOn }: Snapshot
 ) => {
-  const cache = entities as { safetyLightSwitch?: Switch };
+  const cache = entities as { safetyLightSwitch?: Switch; safetyLightOn?: boolean };
+  cache.safetyLightOn = safetyLightOn;
   if (!cache.safetyLightSwitch) {
     cache.safetyLightSwitch = new Switch(
       mqtt,
       deviceData,
       buildEntityConfig('Safety Lights', sideName),
       async (state: boolean) => {
-        if (safetyLightOn != state) {
+        if (cache.safetyLightOn !== state) {
           const results = await sendAdjustableBaseCommand(Commands.ToggleSafetyLights, user);
           const snapshot = results.find((r) => r.side === side);
           if (snapshot) {
-            safetyLightOn = snapshot.safetyLightOn;
+            cache.safetyLightOn = snapshot.safetyLightOn;
           }
         }
         return state;
       }
     );
   }
-  cache.safetyLightSwitch.setState(safetyLightOn);
+  cache.safetyLightSwitch.setState(cache.safetyLightOn);
 };

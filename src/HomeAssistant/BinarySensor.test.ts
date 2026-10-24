@@ -25,7 +25,7 @@ describe(BinarySensor.name, () => {
     });
 
     it('on construction', () => {
-      expect(mqtt.publish).toBeCalledWith('homeassistant/binary_sensor/device_topic_binary_sensor/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/binary_sensor/device_topic_binary_sensor/config', {
         availability_topic: 'device_topic/binary_sensor/status',
         device: { ...testDevice.device },
         name: 'Binary Sensor',
@@ -43,7 +43,7 @@ describe(BinarySensor.name, () => {
       jest.resetAllMocks();
       await onFunc('online');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/binary_sensor/device_topic_binary_sensor/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/binary_sensor/device_topic_binary_sensor/config', {
         availability_topic: 'device_topic/binary_sensor/status',
         device: { ...testDevice.device },
         name: 'Binary Sensor',
@@ -64,14 +64,14 @@ describe(BinarySensor.name, () => {
     ])('publishes state %s when setState called with %s', (expected, state) => {
       entity.setState(state);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/binary_sensor/state', expected);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/binary_sensor/state', expected);
     });
 
     it('publishes available offline when setState called with null', () => {
       entity.setState(null);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/binary_sensor/status', 'offline');
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/binary_sensor/state', null);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/binary_sensor/status', 'offline');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/binary_sensor/state', null);
     });
   });
 });

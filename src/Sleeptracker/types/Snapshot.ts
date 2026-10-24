@@ -1,10 +1,13 @@
 export type MassageStatus = {
-  active: boolean;
-  strength: number;
+  amplitude: number;
 };
 
 export type MotorStatus = {
+  isMoving: boolean;
   pulseCount: number;
+  status: string;
+  targetPulseCount: number;
+  timeSinceLastStop: number;
 };
 
 type MassageMotorStatus = {
@@ -17,10 +20,24 @@ export enum MassagePattern {
   Pulse = 1,
   Constant = 2,
   Ripple = 3,
+  Wave = 4,
 }
+
+export type FanStatus = {
+  leftLevel: number;
+  leftTimer: number;
+  leftIsHeating: boolean;
+  leftIsConstant: boolean;
+  rightLevel: number;
+  rightTimer: number;
+  rightIsHeating: boolean;
+  rightIsConstant: boolean;
+};
 
 export type Snapshot = {
   cableTime: number;
+  fan?: FanStatus;
+  splitFan?: number;
   foot: MassageMotorStatus;
   head: MassageMotorStatus;
   headTilt: MassageMotorStatus;
@@ -31,8 +48,3 @@ export type Snapshot = {
   safetyLightOn: boolean;
   side: 0 | 1;
 };
-/*
-    "timeIsSet": true,
-    "timeLastActuatorMovement": 1676790911,
-    "timeLastMassageActive": 1676791742
-*/

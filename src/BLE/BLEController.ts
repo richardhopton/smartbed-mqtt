@@ -11,7 +11,7 @@ import { deepArrayEquals } from '@utils/deepArrayEquals';
 import { logError } from '@utils/logger';
 
 export class BLEController<TCommand> extends EventEmitter implements IEventSource, IController<TCommand> {
-  cache: Dictionary<Object> = {};
+  cache: Dictionary<object> = {};
   get notifyNames() {
     return Object.keys(this.notifyHandles);
   }
@@ -20,17 +20,20 @@ export class BLEController<TCommand> extends EventEmitter implements IEventSourc
   private disconnectTimeout?: NodeJS.Timeout;
   private lastCommands?: number[][];
 
+  private stayConnected: boolean;
+
   constructor(
     public deviceData: IDeviceData,
     private bleDevice: IBLEDevice,
     private handle: number,
     private commandBuilder: (command: TCommand) => number[],
     private notifyHandles: Dictionary<number> = {},
-    private stayConnected: boolean = false
+    stayConnected?: boolean
   ) {
     super();
+    this.stayConnected = stayConnected ?? false;
     Object.entries(notifyHandles).forEach(([key, handle]) => {
-      this.stayConnected ||= true;
+      if (stayConnected === undefined) this.stayConnected = true;
       void this.bleDevice.subscribeToCharacteristic(handle, (data) => {
         const previous = this.notifyValues[key];
         if (previous && arrayEquals(data, previous)) return;

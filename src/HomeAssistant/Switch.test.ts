@@ -28,7 +28,7 @@ describe(Switch.name, () => {
     it('on construction', () => {
       buildSubject();
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/switch/device_topic_switch/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/switch/device_topic_switch/config', {
         availability_topic: 'device_topic/switch/status',
         device: { ...testDevice.device },
         name: 'Switch',
@@ -43,7 +43,7 @@ describe(Switch.name, () => {
     it('on construction with entity category', () => {
       buildSubject('config');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/switch/device_topic_switch/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/switch/device_topic_switch/config', {
         availability_topic: 'device_topic/switch/status',
         device: { ...testDevice.device },
         name: 'Switch',
@@ -65,7 +65,7 @@ describe(Switch.name, () => {
       jest.resetAllMocks();
       await onFunc('online');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/switch/device_topic_switch/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/switch/device_topic_switch/config', {
         availability_topic: 'device_topic/switch/status',
         device: { ...testDevice.device },
         name: 'Switch',
@@ -80,7 +80,7 @@ describe(Switch.name, () => {
 
   it('subscribes to command on construction', () => {
     buildSubject();
-    expect(mqtt.subscribe).toBeCalledWith('device_topic/switch/command');
+    expect(mqtt.subscribe).toHaveBeenCalledWith('device_topic/switch/command');
   });
 
   it('attaches event emitter on construction', () => {
@@ -88,7 +88,7 @@ describe(Switch.name, () => {
       // noop
     });
     buildSubject();
-    expect(mqtt.on).toBeCalledWith('device_topic/switch/command', expect.anything());
+    expect(mqtt.on).toHaveBeenCalledWith('device_topic/switch/command', expect.anything());
   });
 
   describe('command handling', () => {
@@ -106,29 +106,29 @@ describe(Switch.name, () => {
       ['OFF', false, 'OFF'],
     ])('published state %s when event handler is called', async (payload, state, expectedPublish) => {
       buildSubject();
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/switch/state');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/switch/state');
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
       onChange.mockImplementation(() => {});
       await onFunc(payload);
-      expect(onChange).toBeCalledWith(state);
+      expect(onChange).toHaveBeenCalledWith(state);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/switch/state', expectedPublish);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/switch/state', expectedPublish);
     });
 
     it('ignores unexpected payloads', async () => {
       buildSubject();
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/switch/state');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/switch/state');
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
       await onFunc('UNSUPPORTED');
-      expect(onChange).not.toBeCalled();
+      expect(onChange).not.toHaveBeenCalled();
       jest.runAllTimers();
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/switch/state', expect.anything());
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/switch/state', expect.anything());
     });
   });
   describe('call setState', () => {
@@ -140,14 +140,14 @@ describe(Switch.name, () => {
     ])('publishes state %s when setState called with %s', (expected, state) => {
       entity.setState(state);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/switch/state', expected);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/switch/state', expected);
     });
 
     it('publishes available offline when setState called with null', () => {
       entity.setState(null);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/switch/status', 'offline');
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/switch/state', null);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/switch/status', 'offline');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/switch/state', null);
     });
   });
 });

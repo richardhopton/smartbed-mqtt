@@ -13,7 +13,7 @@ export const setupDebugEntities = (
 ) => {
   void writeCommand(Commands.GetState);
 
-  let { refreshState } = cache as DebugEntities;
+  const { refreshState } = cache as DebugEntities;
   if (refreshState) return;
 
   cache.refreshState = new Button(mqtt, deviceData, { description: 'Refresh State' }, async () => {

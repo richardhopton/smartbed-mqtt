@@ -8,11 +8,15 @@ import { Socket, createSocket } from 'dgram';
 import EventEmitter from 'events';
 
 export class Controller extends EventEmitter implements IController<number[]> {
-  cache: Dictionary<Object> = {};
+  cache: Dictionary<object> = {};
   socket: Socket;
   private timer?: Timer;
   private lastCommands?: number[][];
-  constructor(public deviceData: IDeviceData, public name: string, public ipAddress: string) {
+  constructor(
+    public deviceData: IDeviceData,
+    public name: string,
+    public ipAddress: string
+  ) {
     super();
     this.socket = createSocket('udp4');
   }

@@ -26,7 +26,7 @@ describe(StatefulEntity.name, () => {
     });
 
     it('on construction', () => {
-      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_sensor/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/sensor/device_topic_sensor/config', {
         availability_topic: 'device_topic/sensor/status',
         device: { ...testDevice.device },
         name: 'Sensor',
@@ -40,7 +40,7 @@ describe(StatefulEntity.name, () => {
     it('on construction with entity category', () => {
       buildSubject('config');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_sensor/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/sensor/device_topic_sensor/config', {
         availability_topic: 'device_topic/sensor/status',
         device: { ...testDevice.device },
         name: 'Sensor',
@@ -59,7 +59,7 @@ describe(StatefulEntity.name, () => {
       jest.resetAllMocks();
       await onFunc('online');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_sensor/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/sensor/device_topic_sensor/config', {
         availability_topic: 'device_topic/sensor/status',
         device: { ...testDevice.device },
         name: 'Sensor',
@@ -77,14 +77,14 @@ describe(StatefulEntity.name, () => {
     it.each(['Test State Value', ''])("publishes state when setState called with '%s'", (state) => {
       entity.setState(state);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/sensor/state', state);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/sensor/state', state);
     });
 
     it('publishes available offline when setState called with null', () => {
       entity.setState(null);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/sensor/status', 'offline');
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/sensor/state', null);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/sensor/status', 'offline');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/sensor/state', null);
     });
   });
 });

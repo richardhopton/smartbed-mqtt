@@ -23,6 +23,7 @@ export default tseslint.config(
       '@typescript-eslint/no-floating-promises': ['warn', { ignoreIIFE: true }],
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
       'no-empty': [
         'error',
         {

@@ -36,7 +36,7 @@ interface EnvironmentSensorEntities {
 export const processEnvironmentSensors = async (
   mqtt: IMQTTConnection,
   { processorId, primaryUser, deviceData, entities }: Bed
-) => {
+): Promise<boolean> => {
   const cache = entities as EnvironmentSensorEntities;
   const environmentSensors = await getEnvironmentSensorsData(processorId, primaryUser);
   environmentSensors.forEach((environmentSensor) => {
@@ -49,4 +49,5 @@ export const processEnvironmentSensors = async (
     }
     sensor.setState(environmentSensor);
   });
+  return environmentSensors.length > 0;
 };

@@ -20,7 +20,7 @@ export const setupMassageEntities = (
   { cache: cache, deviceData, writeCommand }: IController<number[]>
 ) => {
   const resetState = async () => {
-    let { massagePreset, massageHead, massageLumbar, massageLeg } = cache as MassageEntities;
+    const { massagePreset, massageHead, massageLumbar, massageLeg } = cache as MassageEntities;
     massagePreset?.setIndex(0);
     massageHead?.setState(0);
     massageLumbar?.setState(0);
@@ -50,7 +50,7 @@ export const setupMassageEntities = (
         const presetId = massagePresets.indexOf(state);
         if (presetId <= 0) return resetState();
         await writeCommand(Commands.MassagePreset(presetId - 1));
-        let { massagePreset, massageHead, massageLumbar, massageLeg } = cache as MassageEntities;
+        const { massagePreset, massageHead, massageLumbar, massageLeg } = cache as MassageEntities;
         if ((massagePreset?.getIndex() || 0) === 0) {
           massageHead?.setState(5);
           massageLumbar?.setState(5);
@@ -70,7 +70,7 @@ export const setupMassageEntities = (
   };
 
   const resetWhenLevelsAreZero = async ({ head, lumbar, leg }: { head?: number; lumbar?: number; leg?: number }) => {
-    let { massageHead, massageLumbar, massageLeg } = cache as MassageEntities;
+    const { massageHead, massageLumbar, massageLeg } = cache as MassageEntities;
     if (head === undefined) head = massageHead?.getState();
     if (lumbar === undefined) lumbar = massageLumbar?.getState();
     if (leg === undefined) leg = massageLeg?.getState();

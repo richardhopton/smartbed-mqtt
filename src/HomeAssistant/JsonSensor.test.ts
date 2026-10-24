@@ -26,7 +26,7 @@ describe(JsonSensor.name, () => {
     });
 
     it('on construction', () => {
-      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
         availability_topic: 'device_topic/json_sensor/status',
         device: { ...testDevice.device },
         name: 'Json Sensor',
@@ -42,7 +42,7 @@ describe(JsonSensor.name, () => {
     it('on construction with entity category', () => {
       buildSubject({ category: 'config' });
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
         availability_topic: 'device_topic/json_sensor/status',
         device: { ...testDevice.device },
         name: 'Json Sensor',
@@ -63,7 +63,7 @@ describe(JsonSensor.name, () => {
       jest.resetAllMocks();
       await onFunc('online');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
         availability_topic: 'device_topic/json_sensor/status',
         device: { ...testDevice.device },
         name: 'Json Sensor',
@@ -80,7 +80,7 @@ describe(JsonSensor.name, () => {
   it('excludes value_json from value_template if set to null', () => {
     buildSubject({ valueField: '' });
     jest.runAllTimers();
-    expect(mqtt.publish).toBeCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
+    expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/sensor/device_topic_json_sensor/config', {
       availability_topic: 'device_topic/json_sensor/status',
       device: { ...testDevice.device },
       name: 'Json Sensor',
@@ -100,14 +100,14 @@ describe(JsonSensor.name, () => {
       const state = { stringValue: 'state', numberValue: 0, objectValue: { value: 10 } };
       entity.setState(state);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/json_sensor/state', state);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/json_sensor/state', state);
     });
 
     it('publishes available offline when setState called with null', () => {
       entity.setState(null);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/json_sensor/status', 'offline');
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/json_sensor/state', null);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/json_sensor/status', 'offline');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/json_sensor/state', null);
     });
   });
 });

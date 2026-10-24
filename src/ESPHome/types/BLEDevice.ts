@@ -1,9 +1,35 @@
-import { BluetoothGATTService, Connection } from '@2colors/esphome-native-api';
+import { BluetoothGATTCharacteristic, BluetoothGATTService, Connection } from '@2colors/esphome-native-api';
 import { Dictionary } from '@utils/Dictionary';
+import { logInfo } from '@utils/logger';
 import { BLEAdvertisement } from './BLEAdvertisement';
 import { BLEDeviceInfo } from './BLEDeviceInfo';
 import { IBLEDevice } from './IBLEDevice';
-import { logInfo } from '@utils/logger';
+
+const BT_BASE_UUID_SUFFIX = '-0000-1000-8000-00805f9b34fb';
+const ZERO_UUID = '00000000-0000-0000-0000-000000000000';
+
+const normalizeUuid = (uuid?: string, shortUuid?: number): string => {
+  if (uuid && uuid !== ZERO_UUID) return uuid.toLowerCase();
+  if (shortUuid) {
+    return `${shortUuid.toString(16).padStart(8, '0')}${BT_BASE_UUID_SUFFIX}`.toLowerCase();
+  }
+  return (uuid || '').toLowerCase();
+};
+
+const normalizeService = (service: BluetoothGATTService): BluetoothGATTService => {
+  const shortUuid = (service as BluetoothGATTService & { shortUuid?: number }).shortUuid;
+  return {
+    ...service,
+    uuid: normalizeUuid(service.uuid, shortUuid),
+    characteristicsList: (service.characteristicsList || []).map((c: BluetoothGATTCharacteristic) => {
+      const charShortUuid = (c as BluetoothGATTCharacteristic & { shortUuid?: number }).shortUuid;
+      return {
+        ...c,
+        uuid: normalizeUuid(c.uuid, charShortUuid),
+      };
+    }),
+  };
+};
 
 export class BLEDevice implements IBLEDevice {
   private connected = false;
@@ -11,6 +37,7 @@ export class BLEDevice implements IBLEDevice {
 
   private servicesList?: BluetoothGATTService[];
   private serviceCache: Dictionary<BluetoothGATTService | null> = {};
+  private notifyListeners: Dictionary<(message: { address: number; handle: number; data: string }) => void> = {};
 
   private deviceInfo?: BLEDeviceInfo;
 
@@ -25,7 +52,11 @@ export class BLEDevice implements IBLEDevice {
     return this.advertisement.serviceUuidsList;
   }
 
-  constructor(public name: string, public advertisement: BLEAdvertisement, private connection: Connection) {
+  constructor(
+    public name: string,
+    public advertisement: BLEAdvertisement,
+    private connection: Connection
+  ) {
     this.mac = this.address.toString(16).padStart(12, '0');
     this.connection.on('message.BluetoothDeviceConnectionResponse', ({ address, connected }) => {
       if (this.address !== address || this.connected === connected) return;
@@ -57,7 +88,7 @@ export class BLEDevice implements IBLEDevice {
   getServices = async () => {
     if (!this.servicesList) {
       const { servicesList } = await this.connection.listBluetoothGATTServicesService(this.address);
-      this.servicesList = servicesList;
+      this.servicesList = servicesList.map(normalizeService);
     }
     return this.servicesList;
   };
@@ -70,7 +101,8 @@ export class BLEDevice implements IBLEDevice {
       return undefined;
     }
 
-    const characteristic = service?.characteristicsList?.find((c) => c.uuid === characteristicUuid);
+    const expectedCharUuid = characteristicUuid.toLowerCase();
+    const characteristic = service?.characteristicsList?.find((c) => c.uuid.toLowerCase() === expectedCharUuid);
     if (!characteristic) {
       writeLogs && logInfo('[BLE] Could not find expected characteristic for device:', characteristicUuid, this.name);
       return undefined;
@@ -80,10 +112,16 @@ export class BLEDevice implements IBLEDevice {
   };
 
   subscribeToCharacteristic = async (handle: number, notify: (data: Uint8Array) => void) => {
-    this.connection.on('message.BluetoothGATTNotifyDataResponse', (message) => {
+    const existingListener = this.notifyListeners[handle];
+    if (existingListener) {
+      this.connection.off('message.BluetoothGATTNotifyDataResponse', existingListener);
+    }
+    const listener = (message: { address: number; handle: number; data: string }) => {
       if (message.address != this.address || message.handle != handle) return;
       notify(new Uint8Array([...Buffer.from(message.data, 'base64')]));
-    });
+    };
+    this.notifyListeners[handle] = listener;
+    this.connection.on('message.BluetoothGATTNotifyDataResponse', listener);
     await this.connection.notifyBluetoothGATTCharacteristicService(this.address, handle);
   };
 
@@ -120,12 +158,13 @@ export class BLEDevice implements IBLEDevice {
   };
 
   private getService = async (serviceUuid: string) => {
-    const cachedService = this.serviceCache[serviceUuid];
+    const normalizedUuid = serviceUuid.toLowerCase();
+    const cachedService = this.serviceCache[normalizedUuid];
     if (cachedService !== undefined) return cachedService;
 
     const services = await this.getServices();
-    const service = services.find((s) => s.uuid === serviceUuid) || null;
-    this.serviceCache[serviceUuid] = service;
+    const service = services.find((s) => s.uuid.toLowerCase() === normalizedUuid) || null;
+    this.serviceCache[normalizedUuid] = service;
     return service;
   };
 }

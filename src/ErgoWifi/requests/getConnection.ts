@@ -5,7 +5,7 @@ import { createConnection, Socket } from 'net';
 import { PayloadBuilder } from './PayloadBuilder';
 
 let socket: Socket | null = null;
-let interval: NodeJS.Timer | null = null;
+let interval: NodeJS.Timeout | null = null;
 
 interface IConnection {
   write: (buffer: Uint8Array) => Promise<void>;

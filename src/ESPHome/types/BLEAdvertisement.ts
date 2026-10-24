@@ -1,6 +1,6 @@
 export type BLEData = {
   uuid: string;
-  legacyDataList: Uint8Array;
+  legacyDataList: Uint8Array | number[];
   data: string;
 };
 

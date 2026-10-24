@@ -6,6 +6,6 @@ export type Controller = {
   user: Credentials;
   side: 0 | 1;
   sideName: string;
-  entities: Dictionary<Object>;
+  entities: Dictionary<object>;
   capability: Capability;
 };

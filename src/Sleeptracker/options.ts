@@ -1,4 +1,6 @@
+import { minutes } from '@utils/minutes';
 import { getRootOptions } from '@utils/options';
+import { seconds } from '@utils/seconds';
 
 export type Type = 'tempur' | 'beautyrest' | 'serta';
 
@@ -10,6 +12,7 @@ export interface Credentials {
 
 interface OptionsJson {
   sleeptrackerRefreshFrequency: number;
+  sleeptrackerRefreshFrequencySeconds?: number;
   sleeptrackerCredentials: Credentials[];
 }
 
@@ -23,3 +26,9 @@ export const getUsers = () => {
   return [credentials];
 };
 export const getRefreshFrequency = () => options.sleeptrackerRefreshFrequency;
+export const getRefreshIntervalMs = () => {
+  if (options.sleeptrackerRefreshFrequencySeconds && options.sleeptrackerRefreshFrequencySeconds > 0) {
+    return seconds(options.sleeptrackerRefreshFrequencySeconds);
+  }
+  return minutes(options.sleeptrackerRefreshFrequency || 1);
+};

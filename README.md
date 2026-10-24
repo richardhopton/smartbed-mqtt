@@ -30,6 +30,8 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 
 # Installation
 
+## Home Assistant Add-on
+
 - In HomeAssistant click Settings, Add-ons, and Add-on Store.
 - Click the 3 dot menu in the top right and select Repositories.
 - Paste https://github.com/richardhopton/smartbed-mqtt, click Add, and Close
@@ -38,13 +40,55 @@ This project aims to enable remote control of adjustable smart beds from HomeAss
 - Click on Configuration and set type followed by the necessary configuration as described below.
 - Click on Info and click Start.
 
+## Standalone Docker Installation
+
+If you're running Docker outside of Home Assistant (e.g., on a standalone server), you can use the following configuration:
+
+### Docker Compose
+
+Add the following to your `docker-compose.yml`:
+
+```yaml
+services:
+  bed:
+    image: ghcr.io/richardhopton/smartbed-mqtt:main
+    container_name: bed
+    volumes:
+      - ./smartbed/config:/data:ro
+    restart: unless-stopped
+```
+
+### Configuration File
+
+Create `smartbed/config/options.json` with your configuration. Example for Sleeptracker AI (Tempur/BeautyRest/Serta):
+
+```json
+{
+  "type": "sleeptracker",
+  "mqtt_host": "mosquitto",
+  "mqtt_port": "1883",
+  "mqtt_user": "your-mqtt-username",
+  "mqtt_password": "your-mqtt-password",
+  "sleeptrackerRefreshFrequency": 1,
+  "sleeptrackerCredentials": [
+    {
+      "email": "your-email@example.com",
+      "password": "your-password",
+      "type": "tempur"
+    }
+  ]
+}
+```
+
 ## MQTT broker
 
 An MQTT broker is required. The [Mosquitto official Add-On](https://github.com/home-assistant/addons/tree/master/mosquitto) is recommended. Go to Add-ons and search for MQTT, then follow the provided instructions.
 
 ## BLE proxy
 
-For BLE controlled beds a dedicated ESP32 running ESPHome's bluetooth proxy is required. Due to limitations in ESPHome, specifically since 2023.7 only one connection can use the bluetooth proxy of an ESP32 at a time, the BLE proxy will need to not be added (or disabled if already added) to HomeAssistant. Use the [ESPHome Ready-Made Projects](https://esphome.io/projects/?type=bluetooth) page to create an ESPHome bluetooth proxy and join it to your network.
+For BLE controlled beds a dedicated ESP32 running ESPHome's bluetooth proxy (`bluetooth_proxy` with `active: true`) is required. Due to limitations in ESPHome, specifically since 2023.7 only one connection can use the bluetooth proxy of an ESP32 at a time, the BLE proxy will need to not be added (or disabled if already added) to HomeAssistant. Use the [ESPHome Ready-Made Projects](https://esphome.io/projects/?type=bluetooth) page to create an ESPHome bluetooth proxy and join it to your network.
+
+All BLE bed integrations support specifying either the advertised Bluetooth device name or its MAC address (with or without colons, e.g. `11:22:33:44:55:66` or `112233445566`) in the `name` field, which is useful when two controllers share an identical BLE name such as `RC2`.
 
 # Sleeptracker AI Support (Cloud)
 
@@ -52,7 +96,7 @@ For BLE controlled beds a dedicated ESP32 running ESPHome's bluetooth proxy is r
 
 To use this you must set at least one email and password as shown in the sample configuration.
 
-It is possible to configure multiple users for one or more sleeptracker beds. Although it is possible to configure two users for the same bed, it is necessary if the represent a split bed.
+It is possible to configure multiple users for one or more sleeptracker beds. Although it is possible to configure two users for the same bed, it is necessary if they represent a split bed.
 
 The default bed type is `tempur`, but can be adjusted by specifying `beautyrest` or `serta` using the optional type field on each user.
 
@@ -64,7 +108,7 @@ e.g.
    type: tempur
 ```
 
-`sleeptrackerRefreshFrequency` is in minutes.
+`sleeptrackerRefreshFrequency` is in minutes (or use the optional `sleeptrackerRefreshFrequencySeconds` to specify the refresh interval in seconds).
 
 ## Current features include:
 
@@ -73,9 +117,11 @@ e.g.
 - Switches to control Snore response
 - Environmental sensors (temperature, humidity, CO2 & VOC)
 - Switch for safety light
-- Sensors for Heat & Foot Angle
+- Sensors for Head & Foot Angle
 - Buttons to step thru the massage strengths, patterns & timer (auto turn off massage)
 - Sensors for Massage strengths and patterns
+- Selects to start Wave Form™ massage (per-side, with a duration select)
+- ActiveBreeze climate control: cooling level select (Off/Low/Medium/High), Temp-Curve vs Constant Cool switch, and heat switch per side, plus Sync entities that set both sides at once
 - Support for split beds, and multiple beds
 - Covers to control motors for raising, lowering, and stopping the head/feet/tilt/lumbar
 

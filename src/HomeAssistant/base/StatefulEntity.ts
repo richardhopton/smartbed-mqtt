@@ -19,6 +19,13 @@ export class StatefulEntity<T> extends Entity implements IStateful<T> {
     this.stateTopic = `${this.baseTopic}/state`;
   }
 
+  protected override onHomeAssistantOnline() {
+    super.onHomeAssistantOnline();
+    if (this.state !== undefined) {
+      this.sendState();
+    }
+  }
+
   discoveryState() {
     return {
       ...super.discoveryState(),
@@ -43,6 +50,18 @@ export class StatefulEntity<T> extends Entity implements IStateful<T> {
 
   getState() {
     return this.state;
+  }
+
+  resendState() {
+    if (this.getState() !== undefined) this.sendState();
+    return this;
+  }
+
+  republish() {
+    if (this.state === undefined) return this;
+    this.sendState();
+    this.setOnline();
+    return this;
   }
 
   private sendState() {

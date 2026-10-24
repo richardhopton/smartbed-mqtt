@@ -1,3 +1,27 @@
+## v1.2.0
+
+**New Features**
+
+- (ESPHome/BLE) Support ESPHome 2025.5+ / 2025.8+ / 2026.x Bluetooth proxies (`@2colors/esphome-native-api` 1.3.6, raw BLE advertisement merging, V3 connections, encryption key auth)
+- (BLE) Support configuring BLE devices by colon-separated MAC address when multiple controllers share the same name
+- (Sleeptracker) Add ActiveBreeze climate control (cooling level, constant cool mode, heat) per side and synced
+- (Sleeptracker) Add Wave Form™ massage controls (per-side select with duration)
+- (Sleeptracker) Add optional `sleeptrackerRefreshFrequencySeconds` configuration
+- (Linak) Add `stayConnected` option for Linak beds
+- (Okimat) Add 82418, 93329 & 93332 remote codes, complex light commands, and multi-motor commands
+- (Richmat) Add `190-0055`, `I7RM`, and `U4RM` remote codes
+
+**Bug Fixes**
+
+- (ESPHome) Ignore unknown ESPHome API message types instead of crashing with exit code 2
+- (ESPHome) Preserve encryption key on proxy reconnect and merge split BLE `ADV_IND` / `SCAN_RSP` packets
+- (MQTT/HomeAssistant) Publish discovery, availability, and state messages with `retain: true` and re-subscribe on broker reconnect so entities remain available after Home Assistant restarts
+- (Sleeptracker) Update Tempur client version to `1.11.5` to fix HTTP 503 errors
+- (Sleeptracker) Guard against null bed name on invited/split-king accounts and `safeId` inputs
+- (Sleeptracker) Include side name on adjustable base motor covers for split-king beds
+- (Sleeptracker) Support both `lumbar` and legacy `lumber` capability fields, and probe environmental sensors when omitted from `productFeatures`
+- (Octo) Send periodic PIN keep-alive so BLE session does not drop after 30s inactivity
+
 ## v1.1.22
 
 **New Features**

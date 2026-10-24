@@ -2,27 +2,28 @@ import { IMQTTConnection } from '@mqtt/IMQTTConnection';
 import { Dictionary } from '@utils/Dictionary';
 import { getSideNameFunc } from '@utils/getSideNameFunc';
 import { logError, logInfo } from '@utils/logger';
-import { minutes } from '@utils/minutes';
 import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { buildMQTTDeviceData } from './buildMQTTDeviceData';
 import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
 import { HelloDataSensor } from './entities/InfoSensor';
 import { SleepSensorInfoSensor } from './entities/SensorMapInfoSensor';
-import { getRefreshFrequency, getUsers } from './options';
+import { getRefreshIntervalMs, getUsers } from './options';
 import { processBedPositionSensors } from './processors/bedPositionSensors';
+import { processClimateEntities } from './processors/climateEntities';
 import { processEnvironmentSensors } from './processors/environmentSensors';
 import { setupMassageButtons } from './processors/massageButtons';
 import { processMassageSensors } from './processors/massageSensors';
+import { setupMotorEntities } from './processors/motorEntities';
 import { setupPresetButtons } from './processors/presetButtons';
 import { processSafetyLightSwitches } from './processors/safetyLightSwitches';
 import { processSnoreReliefSwitches } from './processors/snoreReliefSwitches';
+import { setupWaveFormControls } from './processors/waveFormControls';
 import { getDevices } from './requests/getDevices';
 import { getHelloData } from './requests/getHelloData';
 import { getSleepSensors } from './requests/getSleepSensors';
 import { sendAdjustableBaseCommand } from './requests/sendAdjustableBaseCommand';
 import { Bed } from './types/Bed';
 import { Commands } from './types/Commands';
-import { setupMotorEntities } from './processors/motorEntities';
 
 const beds: Dictionary<Bed> = {};
 
@@ -32,7 +33,8 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
   for (const user of users) {
     const devices = await getDevices(user);
     if (devices.length === 0) {
-      return logError('[Sleeptracker] Could not load devices');
+      logError('[Sleeptracker] Could not load devices');
+      continue;
     }
     for (const device of devices) {
       const { sleeptrackerProcessorID: processorId } = device;
@@ -59,7 +61,9 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
           supportedFeatures: {
             smartBedControls: isSmartBed,
             antiSnorePreset: antiSnorePresetSupported,
-            environmentSensors: helloData.productFeatures.includes('env_sensors'),
+            // Some bases (e.g. STS60, #58) omit 'env_sensors' from productFeatures even when sensors exist.
+            // Probe on the first refresh and disable if no valid sensors are returned.
+            environmentSensors: true,
             motors: helloData.productFeatures.includes('motors'),
           },
           data: { headAngleTicksPerDegree, footAngleTicksPerDegree },
@@ -114,9 +118,11 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
       const { smartBedControls, environmentSensors, motors } = bed.supportedFeatures;
       if (smartBedControls) {
         const snapshots = await sendAdjustableBaseCommand(Commands.Status, bed.primaryUser);
+        await processClimateEntities(mqtt, bed, bed.primaryUser, snapshots);
         for (const controller of bed.controllers) {
           await setupPresetButtons(mqtt, bed, controller);
           await setupMassageButtons(mqtt, bed, controller);
+          await setupWaveFormControls(mqtt, bed, controller);
           if (motors) await setupMotorEntities(mqtt, bed, controller);
 
           await processSnoreReliefSwitches(mqtt, bed, controller);
@@ -130,9 +136,14 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
           await processSafetyLightSwitches(mqtt, bed, controller, snapshot);
         }
       }
-      if (environmentSensors) await processEnvironmentSensors(mqtt, bed);
+      if (environmentSensors) {
+        const hasValidEnvSensors = await processEnvironmentSensors(mqtt, bed);
+        if (!hasValidEnvSensors) {
+          bed.supportedFeatures.environmentSensors = false;
+        }
+      }
     }
   };
   await refreshDeviceData();
-  setInterval(refreshDeviceData, minutes(getRefreshFrequency()));
+  setInterval(refreshDeviceData, getRefreshIntervalMs());
 };

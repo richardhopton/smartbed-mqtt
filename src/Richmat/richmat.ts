@@ -29,22 +29,6 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
   const bleDevices = await esphome.getBLEDevices(deviceNames);
   for (const bleDevice of bleDevices) {
     const { name, mac, address, connect, disconnect } = bleDevice;
-
-    const controllerBuilder = checks
-      .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
-      .filter((check) => check)[0];
-    if (controllerBuilder === undefined) {
-      const {
-        advertisement: { manufacturerDataList, serviceUuidsList },
-      } = bleDevice;
-      logWarn(
-        '[Richmat] Device not supported, please contact me on Discord',
-        name,
-        JSON.stringify({ name, address, manufacturerDataList, serviceUuidsList })
-      );
-      continue;
-    }
-
     const { remoteCode, ...device } = devicesMap[mac] || devicesMap[name.toLowerCase()];
 
     const features = remoteFeatures[remoteCode];
@@ -56,8 +40,27 @@ export const richmat = async (mqtt: IMQTTConnection, esphome: IESPConnection) =>
     const deviceData = buildMQTTDeviceData({ ...device, address }, 'Richmat');
     await connect();
 
-    const controller = await controllerBuilder(deviceData, bleDevice);
+    const matchedBuilder = checks
+      .map((check, index) => (check(bleDevice) ? controllerBuilders[index] : undefined))
+      .filter((check) => check)[0];
+
+    let controller = matchedBuilder ? await matchedBuilder(deviceData, bleDevice) : undefined;
+    if (!controller && !matchedBuilder) {
+      for (const builder of controllerBuilders) {
+        controller = await builder(deviceData, bleDevice);
+        if (controller) break;
+      }
+    }
+
     if (!controller) {
+      const {
+        advertisement: { manufacturerDataList, serviceUuidsList },
+      } = bleDevice;
+      logWarn(
+        '[Richmat] Device not supported, please contact me on Discord',
+        name,
+        JSON.stringify({ name, address, manufacturerDataList, serviceUuidsList })
+      );
       await disconnect();
       continue;
     }

@@ -39,11 +39,15 @@ const commandPayload = (id: number, command: number) => {
 };
 
 export class Controller implements IController<number> {
-  cache: Dictionary<Object> = {};
+  cache: Dictionary<object> = {};
   private timer?: Timer;
   private lastCommands?: number[];
 
-  constructor(public deviceData: IDeviceData, public device: Device, public user: Credentials) {}
+  constructor(
+    public deviceData: IDeviceData,
+    public device: Device,
+    public user: Credentials
+  ) {}
 
   writeCommand = async (command: number, count: number = 1, waitTime?: number) =>
     this.writeCommands([command], count, waitTime);

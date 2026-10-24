@@ -9,14 +9,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Set the correct Node version using nvm
-        shell: bash -l {0}
-        run: nvm install
-      - name: Install Yarn
-        run: npm install --global yarn
+      - uses: actions/checkout@v4
+      - name: Set the correct Node version
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
       - name: Install Dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint
       - name: Build
         run: yarn build:ci
       - name: Test

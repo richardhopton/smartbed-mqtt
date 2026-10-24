@@ -25,7 +25,7 @@ describe(Button.name, () => {
     it('on construction', () => {
       buildSubject();
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/button/device_topic_button/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/button/device_topic_button/config', {
         availability_topic: 'device_topic/button/status',
         device: { ...testDevice.device },
         name: 'Button',
@@ -39,7 +39,7 @@ describe(Button.name, () => {
     it('on construction with config entity category', () => {
       buildSubject('config');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/button/device_topic_button/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/button/device_topic_button/config', {
         availability_topic: 'device_topic/button/status',
         device: { ...testDevice.device },
         name: 'Button',
@@ -61,7 +61,7 @@ describe(Button.name, () => {
       jest.resetAllMocks();
       await onFunc('online');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/button/device_topic_button/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/button/device_topic_button/config', {
         availability_topic: 'device_topic/button/status',
         device: { ...testDevice.device },
         name: 'Button',
@@ -75,7 +75,7 @@ describe(Button.name, () => {
 
   it('subscribes to command on construction', () => {
     buildSubject();
-    expect(mqtt.subscribe).toBeCalledWith('device_topic/button/command');
+    expect(mqtt.subscribe).toHaveBeenCalledWith('device_topic/button/command');
   });
 
   it('attaches event emitter on construction', () => {
@@ -83,7 +83,7 @@ describe(Button.name, () => {
       // noop
     });
     buildSubject();
-    expect(mqtt.on).toBeCalledWith('device_topic/button/command', expect.anything());
+    expect(mqtt.on).toHaveBeenCalledWith('device_topic/button/command', expect.anything());
   });
 
   describe('command handling', () => {
@@ -103,7 +103,7 @@ describe(Button.name, () => {
 
       jest.resetAllMocks();
       onFunc('PRESS');
-      expect(onPress).toBeCalled();
+      expect(onPress).toHaveBeenCalled();
     });
 
     it('ignores unexpected payloads', () => {
@@ -113,7 +113,7 @@ describe(Button.name, () => {
 
       jest.resetAllMocks();
       onFunc('UNSUPPORTED');
-      expect(onPress).not.toBeCalled();
+      expect(onPress).not.toHaveBeenCalled();
     });
   });
 });

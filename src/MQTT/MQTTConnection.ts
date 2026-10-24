@@ -11,14 +11,15 @@ export class MQTTConnection extends EventEmitter implements IMQTTConnection {
 
     client.on('connect', () => {
       logInfo('[MQTT] Connected');
+      for (const topic of this.subscribedTopics) {
+        this.client.subscribe(topic);
+      }
       this.emit('connect');
     });
 
     client.on('reconnect', () => {
       logInfo('[MQTT] Reconnecting...');
     });
-
-    client.on('disconnect', client.removeAllListeners);
 
     client.on('error', (error) => {
       logError('[MQTT] Error', error);
@@ -34,7 +35,7 @@ export class MQTTConnection extends EventEmitter implements IMQTTConnection {
     if (message instanceof Object) {
       message = JSON.stringify(message);
     }
-    this.client.publish(topic, message, { qos: 1 });
+    this.client.publish(topic, message, { qos: 1, retain: true });
   }
 
   subscribe(topic: string) {

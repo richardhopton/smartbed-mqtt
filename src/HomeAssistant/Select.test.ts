@@ -29,7 +29,7 @@ describe(Select.name, () => {
     it('on construction', () => {
       buildSubject();
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/select/device_topic_select/config', {
         availability_topic: 'device_topic/select/status',
         device: { ...testDevice.device },
         name: 'Select',
@@ -45,7 +45,7 @@ describe(Select.name, () => {
     it('on construction with entity category', () => {
       buildSubject('config');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/select/device_topic_select/config', {
         availability_topic: 'device_topic/select/status',
         device: { ...testDevice.device },
         name: 'Select',
@@ -68,7 +68,7 @@ describe(Select.name, () => {
       jest.resetAllMocks();
       await onFunc('online');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/select/device_topic_select/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/select/device_topic_select/config', {
         availability_topic: 'device_topic/select/status',
         device: { ...testDevice.device },
         name: 'Select',
@@ -84,7 +84,7 @@ describe(Select.name, () => {
 
   it('subscribes to command on construction', () => {
     buildSubject();
-    expect(mqtt.subscribe).toBeCalledWith('device_topic/select/command');
+    expect(mqtt.subscribe).toHaveBeenCalledWith('device_topic/select/command');
   });
 
   it('attaches event emitter on construction', () => {
@@ -92,7 +92,7 @@ describe(Select.name, () => {
       // noop
     });
     buildSubject();
-    expect(mqtt.on).toBeCalledWith('device_topic/select/command', expect.anything());
+    expect(mqtt.on).toHaveBeenCalledWith('device_topic/select/command', expect.anything());
   });
 
   describe('command handling', () => {
@@ -107,29 +107,29 @@ describe(Select.name, () => {
 
     it.each(options)('published state %s when event handler is called', async (option) => {
       buildSubject();
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/select/state');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/select/state');
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
       onChange.mockImplementation(() => {});
       await onFunc(option);
-      expect(onChange).toBeCalledWith(option);
+      expect(onChange).toHaveBeenCalledWith(option);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/select/state', option);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/select/state', option);
     });
 
     it('ignores unexpected payloads', async () => {
       buildSubject();
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/select/state');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/select/state');
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
       await onFunc('UNSUPPORTED');
-      expect(onChange).not.toBeCalled();
+      expect(onChange).not.toHaveBeenCalled();
       jest.runAllTimers();
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/select/state', expect.anything());
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/select/state', expect.anything());
     });
   });
 });

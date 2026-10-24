@@ -28,7 +28,7 @@ describe(NumberSlider.name, () => {
     it('on construction', () => {
       buildSubject();
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/number/device_topic_number_slider/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/number/device_topic_number_slider/config', {
         availability_topic: 'device_topic/number_slider/status',
         device: { ...testDevice.device },
         min: 0,
@@ -46,7 +46,7 @@ describe(NumberSlider.name, () => {
     it('on construction with entity category', () => {
       buildSubject({ category: 'config' });
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/number/device_topic_number_slider/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/number/device_topic_number_slider/config', {
         availability_topic: 'device_topic/number_slider/status',
         device: { ...testDevice.device },
         min: 0,
@@ -65,7 +65,7 @@ describe(NumberSlider.name, () => {
     it('on construction with config', () => {
       buildSubject({ min: 1, max: 64, icon: 'mdi:waves-arrow-right' });
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/number/device_topic_number_slider/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/number/device_topic_number_slider/config', {
         availability_topic: 'device_topic/number_slider/status',
         device: { ...testDevice.device },
         icon: 'mdi:waves-arrow-right',
@@ -90,7 +90,7 @@ describe(NumberSlider.name, () => {
       jest.resetAllMocks();
       await onFunc('online');
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('homeassistant/number/device_topic_number_slider/config', {
+      expect(mqtt.publish).toHaveBeenCalledWith('homeassistant/number/device_topic_number_slider/config', {
         availability_topic: 'device_topic/number_slider/status',
         device: { ...testDevice.device },
         min: 0,
@@ -108,7 +108,7 @@ describe(NumberSlider.name, () => {
 
   it('subscribes to command on construction', () => {
     buildSubject();
-    expect(mqtt.subscribe).toBeCalledWith('device_topic/number_slider/command');
+    expect(mqtt.subscribe).toHaveBeenCalledWith('device_topic/number_slider/command');
   });
 
   it('attaches event emitter on construction', () => {
@@ -116,7 +116,7 @@ describe(NumberSlider.name, () => {
       // noop
     });
     buildSubject();
-    expect(mqtt.on).toBeCalledWith('device_topic/number_slider/command', expect.anything());
+    expect(mqtt.on).toHaveBeenCalledWith('device_topic/number_slider/command', expect.anything());
   });
 
   describe('command handling', () => {
@@ -134,29 +134,29 @@ describe(NumberSlider.name, () => {
       ['20', 20, '20'],
     ])('published state %s when event handler is called', async (payload, state, expectedPublish) => {
       buildSubject();
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/number_slider/state');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/number_slider/state');
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
       onChange.mockImplementation(() => {});
       await onFunc(payload);
-      expect(onChange).toBeCalledWith(state);
+      expect(onChange).toHaveBeenCalledWith(state);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/number_slider/state', expectedPublish);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/number_slider/state', expectedPublish);
     });
 
     it('ignores unexpected payloads', async () => {
       buildSubject();
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/number_slider/state');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/number_slider/state');
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
 
       jest.resetAllMocks();
       await onFunc('UNSUPPORTED');
-      expect(onChange).not.toBeCalled();
+      expect(onChange).not.toHaveBeenCalled();
       jest.runAllTimers();
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/number_slider/state', expect.anything());
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/number_slider/state', expect.anything());
     });
   });
   describe('call setState', () => {
@@ -168,14 +168,14 @@ describe(NumberSlider.name, () => {
     ])('publishes state %s when setState called with %s', (expected, state) => {
       entity.setState(state);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/number_slider/state', expected);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/number_slider/state', expected);
     });
 
     it('publishes available offline when setState called with null', () => {
       entity.setState(null);
       jest.runAllTimers();
-      expect(mqtt.publish).toBeCalledWith('device_topic/number_slider/status', 'offline');
-      expect(mqtt.publish).not.toBeCalledWith('device_topic/number_slider/state', null);
+      expect(mqtt.publish).toHaveBeenCalledWith('device_topic/number_slider/status', 'offline');
+      expect(mqtt.publish).not.toHaveBeenCalledWith('device_topic/number_slider/state', null);
     });
   });
 });

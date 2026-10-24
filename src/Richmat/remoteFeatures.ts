@@ -10,8 +10,8 @@ export const remoteFeatures: Dictionary<number> = {
     Features.PresetTV |
     Features.PresetZeroG |
     Features.ProgramAntiSnore |
-    Features.ProgramLounge |
     Features.ProgramMemory1 |
+    Features.ProgramMemory2 |
     Features.ProgramTV |
     Features.ProgramZeroG |
     Features.MotorHead |
@@ -29,6 +29,42 @@ export const remoteFeatures: Dictionary<number> = {
     Features.ProgramMemory2 |
     Features.ProgramTV |
     Features.ProgramZeroG |
+    Features.MassageHeadStep |
+    Features.MassageFootStep |
+    Features.MassageMode |
+    Features.MassageToggle |
+    Features.MotorHead |
+    Features.MotorFeet,
+  I7RM:
+    Features.PresetFlat |
+    Features.PresetAntiSnore |
+    Features.PresetMemory1 |
+    Features.PresetZeroG |
+    Features.ProgramAntiSnore |
+    Features.ProgramMemory1 |
+    Features.ProgramZeroG |
+    Features.UnderBedLightsToggle |
+    Features.MassageHeadStep |
+    Features.MassageFootStep |
+    Features.MassageMode |
+    Features.MassageToggle |
+    Features.MotorHead |
+    Features.MotorFeet,
+  U4RM:
+    Features.PresetFlat |
+    Features.PresetAntiSnore |
+    Features.PresetLounge |
+    Features.PresetMemory1 |
+    Features.PresetMemory2 |
+    Features.PresetTV |
+    Features.PresetZeroG |
+    Features.ProgramAntiSnore |
+    Features.ProgramLounge |
+    Features.ProgramMemory1 |
+    Features.ProgramMemory2 |
+    Features.ProgramTV |
+    Features.ProgramZeroG |
+    Features.UnderBedLightsToggle |
     Features.MassageHeadStep |
     Features.MassageFootStep |
     Features.MassageMode |
@@ -114,5 +150,21 @@ export const remoteFeatures: Dictionary<number> = {
     Features.ProgramMemory1 |
     Features.UnderBedLightsToggle |
     Features.MotorHead |
+    Features.MotorFeet,
+  '190-0055':
+    Features.PresetFlat |
+    Features.PresetAntiSnore |
+    Features.PresetMemory1 |
+    Features.PresetZeroG |
+    Features.ProgramAntiSnore |
+    Features.ProgramMemory1 |
+    Features.ProgramZeroG |
+    Features.UnderBedLightsToggle |
+    Features.MassageHeadStep |
+    Features.MassageFootStep |
+    Features.MassageMode |
+    Features.MassageToggle |
+    Features.MotorHead |
+    Features.MotorPillow |
     Features.MotorFeet,
 };

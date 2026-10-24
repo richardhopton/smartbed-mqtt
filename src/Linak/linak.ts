@@ -76,7 +76,8 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
       bleDevice,
       characteristic.handle,
       (bytes: number[]) => bytes,
-      notifyHandles
+      notifyHandles,
+      device.stayConnected
     );
     logInfo('[Linak] Setting up entities for device:', name);
     setupLightEntities(mqtt, controller);
@@ -87,6 +88,10 @@ export const linak = async (mqtt: IMQTTConnection, esphome: IESPConnection) => {
 
     const deviceInfo = await bleDevice.getDeviceInfo();
     if (deviceInfo) setupDeviceInfoSensor(mqtt, controller, deviceInfo);
+
+    if (device.stayConnected === false || (!isAdvanced && !device.stayConnected)) {
+      await disconnect();
+    }
 
     if (!isAdvanced) continue;
     setupPresetButtons(mqtt, controller);
