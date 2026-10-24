@@ -1,7 +1,15 @@
-// @ts-check
-
+import Module from 'module';
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+
+const origResolveFilename = Module._resolveFilename;
+Module._resolveFilename = function (request, parent, isMain, options) {
+  if (request === 'typescript') {
+    return origResolveFilename.call(this, '@typescript/typescript6', parent, isMain, options);
+  }
+  return origResolveFilename.call(this, request, parent, isMain, options);
+};
+
+const { default: tseslint } = await import('typescript-eslint');
 
 export default tseslint.config(
   eslint.configs.recommended,

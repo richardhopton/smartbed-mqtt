@@ -2,8 +2,6 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "ignoreDeprecations": "6.0",
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -25,11 +23,11 @@
     "rootDir": "./src",
     "types": ["node", "jest"],
     "lib": ["ES2022"],
-    "baseUrl": "./src",
     "paths": {
-      "@ha/*": ["HomeAssistant/*"],
-      "@mqtt/*": ["MQTT/*"],
-      "@utils/*": ["Utils/*"]
+      "@ha/*": ["./src/HomeAssistant/*"],
+      "@mqtt/*": ["./src/MQTT/*"],
+      "@utils/*": ["./src/Utils/*"],
+      "*": ["./src/*"]
     }
   },
   "include": ["src/**/*.ts"],

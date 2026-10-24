@@ -33,7 +33,7 @@ export const getConnection = async (onNewConnection: (connection: IConnection) =
     });
     const deferred = new Deferred<Buffer>();
     socket.once('data', (data) => {
-      deferred.resolve(data);
+      deferred.resolve(typeof data === 'string' ? Buffer.from(data) : data);
     });
     await onNewConnection(wrapper);
     await deferred;
