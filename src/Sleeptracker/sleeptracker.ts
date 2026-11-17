@@ -5,6 +5,7 @@ import { logError, logInfo } from '@utils/logger';
 import { minutes } from '@utils/minutes';
 import { buildEntityConfig } from 'Sleeptracker/buildEntityConfig';
 import { buildMQTTDeviceData } from './buildMQTTDeviceData';
+import { BinarySensor } from '@ha/BinarySensor';
 import { DeviceInfoSensor } from './entities/DeviceInfoSensor';
 import { HelloDataSensor } from './entities/InfoSensor';
 import { SleepSensorInfoSensor } from './entities/SensorMapInfoSensor';
@@ -67,6 +68,11 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
           entities: {
             deviceInfo: new DeviceInfoSensor(mqtt, deviceData).setState(device),
             helloData: new HelloDataSensor(mqtt, deviceData).setState(helloData),
+            connected: new BinarySensor(mqtt, deviceData, {
+              description: 'Cloud Connected',
+              category: 'diagnostic',
+              deviceClass: 'connectivity',
+            }).setState(true),
           },
         };
       }
@@ -138,6 +144,10 @@ const setControllerAvailability = (controller: Controller, online: boolean) => {
       if (smartBedControls) {
         const snapshots = await sendAdjustableBaseCommand(Commands.Status, bed.primaryUser);
         const isConnected = snapshots.length > 0;
+        const connectedSensor = bed.entities.connected as BinarySensor;
+        if (connectedSensor) {
+          connectedSensor.setState(isConnected);
+        }
         for (const controller of bed.controllers) {
           await setupPresetButtons(mqtt, bed, controller);
           await setupMassageButtons(mqtt, bed, controller);

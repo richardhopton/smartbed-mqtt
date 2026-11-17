@@ -14,6 +14,7 @@ export type EntityConfig = {
   description: string;
   category?: string;
   icon?: string;
+  deviceClass?: string;
 };
 
 export class Entity implements IAvailable {
@@ -63,6 +64,7 @@ export class Entity implements IAvailable {
       payload_not_available: OFFLINE,
       ...(this.entityConfig.category ? { entity_category: this.entityConfig.category } : {}),
       ...(this.entityConfig.icon ? { icon: this.entityConfig.icon } : {}),
+      ...(this.entityConfig.deviceClass ? { device_class: this.entityConfig.deviceClass } : {}),
     };
   }
 
