@@ -81,5 +81,22 @@ describe(Entity.name, () => {
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('device_topic/binary_sensor/status', 'offline');
     });
+
+    it('again when status online is received', async () => {
+      let onFunc = null as ((state: string) => Promise<void>) | null;
+      mocked(mqtt.on).mockImplementation((topic, func) => {
+        if (topic === 'homeassistant/status') onFunc = func;
+      });
+      const subject = buildSubject();
+      subject.setOnline();
+      jest.runAllTimers();
+      expect(onFunc).not.toBeNull();
+      if (!onFunc) return;
+
+      jest.resetAllMocks();
+      await onFunc('online');
+      jest.runAllTimers();
+      expect(mqtt.publish).toBeCalledWith('device_topic/binary_sensor/status', 'online');
+    });
   });
 });

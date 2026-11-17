@@ -22,6 +22,7 @@ import { getSleepSensors } from './requests/getSleepSensors';
 import { sendAdjustableBaseCommand } from './requests/sendAdjustableBaseCommand';
 import { Bed } from './types/Bed';
 import { Commands } from './types/Commands';
+import { Controller } from './types/Controller';
 import { setupMotorEntities } from './processors/motorEntities';
 
 const beds: Dictionary<Bed> = {};
@@ -108,18 +109,48 @@ export const sleeptracker = async (mqtt: IMQTTConnection) => {
     }
   }
 
+const setControllerAvailability = (controller: Controller, online: boolean) => {
+  for (const entity of Object.values(controller.entities)) {
+    if (!entity) continue;
+    const target = entity as any;
+    if (typeof target.setOnline === 'function' && online) {
+      target.setOnline();
+    } else if (typeof target.setOffline === 'function' && !online) {
+      target.setOffline();
+    } else if (typeof target === 'object') {
+      for (const subEntity of Object.values(target)) {
+        if (!subEntity) continue;
+        const sub = subEntity as any;
+        if (typeof sub.setOnline === 'function' && online) {
+          sub.setOnline();
+        } else if (typeof sub.setOffline === 'function' && !online) {
+          sub.setOffline();
+        }
+      }
+    }
+  }
+};
+
   const refreshDeviceData = async () => {
     for (const bed of Object.values(beds)) {
       logInfo('[Sleeptracker] Fetching data for bed', bed.processorId);
       const { smartBedControls, environmentSensors, motors } = bed.supportedFeatures;
       if (smartBedControls) {
         const snapshots = await sendAdjustableBaseCommand(Commands.Status, bed.primaryUser);
+        const isConnected = snapshots.length > 0;
         for (const controller of bed.controllers) {
           await setupPresetButtons(mqtt, bed, controller);
           await setupMassageButtons(mqtt, bed, controller);
           if (motors) await setupMotorEntities(mqtt, bed, controller);
 
           await processSnoreReliefSwitches(mqtt, bed, controller);
+
+          if (!isConnected) {
+            setControllerAvailability(controller, false);
+            continue;
+          }
+
+          setControllerAvailability(controller, true);
 
           const snapshot = snapshots.find((s) => s.side === controller.side);
           if (!snapshot) continue;
