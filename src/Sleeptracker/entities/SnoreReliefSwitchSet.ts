@@ -42,4 +42,14 @@ export class SnoreReliefSwitchSet implements IStateful<SnoreRelief> {
 
     return { snoreReliefTilt, snoreReliefVibration };
   }
+
+  setOffline(): void {
+    this.tilt.setOffline();
+    this.vibration.setOffline();
+  }
+
+  setOnline(): void {
+    this.tilt.setOnline();
+    this.vibration.setOnline();
+  }
 }

@@ -9,7 +9,7 @@ import defaultHeaders from './shared/defaultHeaders';
 import { buildDefaultPayload } from './shared/defaultPayload';
 import { urls } from './shared/urls';
 
-type Response = { statusCode: number; statusMessage: string; body: { snapshots: Snapshot[] } };
+type Response = { statusCode: number; statusMessage: string; body?: { snapshots: Snapshot[] } | null };
 
 export const sendAdjustableBaseCommand = async (
   bedControlCommand: Commands,
@@ -46,7 +46,7 @@ export const sendAdjustableBaseCommand = async (
     if (shouldLogError(statusCode, statusMessage)) {
       logError('[Sleeptracker]', JSON.stringify(response.data));
     }
-    return body.snapshots || [];
+    return body?.snapshots || [];
   } catch (err) {
     logError(err);
     return [];

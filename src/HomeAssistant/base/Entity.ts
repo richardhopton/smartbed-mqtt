@@ -14,6 +14,7 @@ export type EntityConfig = {
   description: string;
   category?: string;
   icon?: string;
+  deviceClass?: string;
 };
 
 export class Entity implements IAvailable {
@@ -21,6 +22,7 @@ export class Entity implements IAvailable {
   private availabilityTopic: string;
   private entityTag: string;
   private uniqueId: string;
+  private availability?: string;
 
   constructor(
     protected mqtt: IMQTTConnection,
@@ -34,7 +36,11 @@ export class Entity implements IAvailable {
     this.availabilityTopic = `${this.baseTopic}/status`;
     this.mqtt.subscribe('homeassistant/status');
     this.mqtt.on('homeassistant/status', (message) => {
-      if (message === ONLINE) setTimeout(() => this.publishDiscovery(), seconds(15));
+      if (message !== ONLINE) return;
+      setTimeout(() => {
+        this.publishDiscovery();
+        if (this.availability) this.sendAvailability(this.availability);
+      }, seconds(15));
     });
     setTimeout(() => this.publishDiscovery(), 50);
   }
@@ -58,6 +64,7 @@ export class Entity implements IAvailable {
       payload_not_available: OFFLINE,
       ...(this.entityConfig.category ? { entity_category: this.entityConfig.category } : {}),
       ...(this.entityConfig.icon ? { icon: this.entityConfig.icon } : {}),
+      ...(this.entityConfig.deviceClass ? { device_class: this.entityConfig.deviceClass } : {}),
     };
   }
 
@@ -72,6 +79,7 @@ export class Entity implements IAvailable {
   }
 
   private sendAvailability(availability: string) {
+    this.availability = availability;
     setTimeout(() => this.mqtt.publish(this.availabilityTopic, availability), 500);
   }
 }

@@ -11,6 +11,7 @@ export class MQTTConnection extends EventEmitter implements IMQTTConnection {
 
     client.on('connect', () => {
       logInfo('[MQTT] Connected');
+      this.client.publish('smartbed-mqtt/status', 'online', { qos: 1, retain: true });
       this.emit('connect');
     });
 

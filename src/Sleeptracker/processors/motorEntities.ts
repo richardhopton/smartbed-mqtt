@@ -1,4 +1,5 @@
 import { IMQTTConnection } from '@mqtt/IMQTTConnection';
+import { Dictionary } from '@utils/Dictionary';
 import { StringsKey } from '@utils/getString';
 import { Cover } from '@ha/Cover';
 import { buildEntityConfig } from 'Common/buildEntityConfig';
@@ -14,6 +15,7 @@ interface MotorState {
 
 interface Cache {
   motorState?: MotorState;
+  covers?: Dictionary<Cover>;
 }
 
 type Command = { name: StringsKey; up: Commands; down: Commands; stop: Commands };
@@ -34,9 +36,10 @@ export const setupMotorEntities = async (
 ) => {
   const cache = entities as Cache;
 
-  if (cache.motorState) return;
+  if (cache.motorState && cache.covers) return;
 
   cache.motorState = {};
+  if (!cache.covers) cache.covers = {};
   const commands = [
     buildCommand(head, 'MotorHead', Commands.MotorHeadUp, Commands.MotorHeadDown, Commands.MotorHeadStop),
     buildCommand(foot, 'MotorFeet', Commands.MotorFeetUp, Commands.MotorFeetDown, Commands.MotorFeetStop),
@@ -45,15 +48,18 @@ export const setupMotorEntities = async (
   ].filter(notEmpty);
 
   for (const { name, up, down, stop } of commands) {
-    const coverCommand = async (command: string) => {
-      const motorState = cache.motorState!;
-      const originalCommand = motorState.command || [];
-      motorState.command = command === 'OPEN' ? up : command === 'CLOSE' ? down : stop;
-      const newCommand = motorState.command;
-      if (newCommand === originalCommand) return;
-      await sendAdjustableBaseCommand(newCommand, user);
-      cache.motorState = {};
-    };
-    new Cover(mqtt, deviceData, buildEntityConfig(name), coverCommand).setOnline();
+    if (!cache.covers[name]) {
+      const coverCommand = async (command: string) => {
+        const motorState = cache.motorState!;
+        const originalCommand = motorState.command || [];
+        motorState.command = command === 'OPEN' ? up : command === 'CLOSE' ? down : stop;
+        const newCommand = motorState.command;
+        if (newCommand === originalCommand) return;
+        await sendAdjustableBaseCommand(newCommand, user);
+        cache.motorState = {};
+      };
+      cache.covers[name] = new Cover(mqtt, deviceData, buildEntityConfig(name), coverCommand);
+    }
+    cache.covers[name].setOnline();
   }
 };

@@ -4,8 +4,8 @@ import { mock } from 'jest-mock-extended';
 import { Entity } from './Entity';
 
 const mqtt: IMQTTConnection = mock<IMQTTConnection>();
-const buildSubject = (category?: string) =>
-  new Entity(mqtt, testDevice, { description: 'Binary Sensor', category }, 'binary_sensor');
+const buildSubject = (category?: string, deviceClass?: string) =>
+  new Entity(mqtt, testDevice, { description: 'Binary Sensor', category, deviceClass }, 'binary_sensor');
 
 describe(Entity.name, () => {
   beforeAll(() => jest.useFakeTimers());
@@ -49,6 +49,20 @@ describe(Entity.name, () => {
         entity_category: 'config',
       });
     });
+
+    it('on construction with device class', () => {
+      buildSubject(undefined, 'connectivity');
+      jest.runAllTimers();
+      expect(mqtt.publish).toBeCalledWith('homeassistant/binary_sensor/device_topic_binary_sensor/config', {
+        availability_topic: 'device_topic/binary_sensor/status',
+        device: { ...testDevice.device },
+        name: 'Binary Sensor',
+        payload_available: 'online',
+        payload_not_available: 'offline',
+        unique_id: 'test_name_binary_sensor',
+        device_class: 'connectivity',
+      });
+    });
     it('when status online is receieved', async () => {
       expect(onFunc).not.toBeNull();
       if (!onFunc) return;
@@ -80,6 +94,23 @@ describe(Entity.name, () => {
       entity.setOffline();
       jest.runAllTimers();
       expect(mqtt.publish).toBeCalledWith('device_topic/binary_sensor/status', 'offline');
+    });
+
+    it('again when status online is received', async () => {
+      let onFunc = null as ((state: string) => Promise<void>) | null;
+      mocked(mqtt.on).mockImplementation((topic, func) => {
+        if (topic === 'homeassistant/status') onFunc = func;
+      });
+      const subject = buildSubject();
+      subject.setOnline();
+      jest.runAllTimers();
+      expect(onFunc).not.toBeNull();
+      if (!onFunc) return;
+
+      jest.resetAllMocks();
+      await onFunc('online');
+      jest.runAllTimers();
+      expect(mqtt.publish).toBeCalledWith('device_topic/binary_sensor/status', 'online');
     });
   });
 });
